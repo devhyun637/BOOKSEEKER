@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './Login.css';
+import {withRouter} from 'react-router-dom';
 
 class LoginPage extends Component {
   state = {
@@ -28,7 +29,6 @@ class LoginPage extends Component {
 
   buttonClick(event, data) {
     event.preventDefault();
-    console.log(data);
     axios.post('/api/users/login', data)
       .then(res => {
         if (res.data.loginSuccess) {
@@ -151,4 +151,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);
