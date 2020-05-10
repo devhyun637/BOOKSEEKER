@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from "react-router-dom";
 import axios from 'axios';
 import '../LoginPage/Login.css';
-import { useStateMachine } from "little-state-machine";
 //import updateAction from '../../../_actions/updateActions';
 
 class RegisterPage extends Component {
@@ -17,9 +15,17 @@ class RegisterPage extends Component {
         ageEntered: '',
         isAgeValid: 'false',
         gender: '',
-        test: "데이터가 보내질까"
+        typedEmail: '',
+        isDuplicateUser: false
     };
 
+
+    emailInputClassName() {
+        if (this.state.emailEntered) {
+            return this.state.isDuplicateUser ? 'is-invalid' : 'is-valid';
+        }
+        return '';
+    }
 
     handleOnPasswordInput(passwordInput) {
         this.setState({ password: passwordInput });
@@ -42,7 +48,19 @@ class RegisterPage extends Component {
         }
     }
 
-    renderFeedbackMessage() {
+    renderEmailFeedbackMessage() {
+
+
+        if (this.state.emailEntered) {
+            return this.state.isDuplicateUser ? (
+                <div className="invalid-feedback">이미 등록되어 있는 이메일입니다</div>
+            ) : (
+                    <div className="valid-feedback">사용할 수 있는 이메일입니다</div>
+                );
+        }
+    }
+
+    renderPasswordFeedbackMessage() {
         const { confirmPassword } = this.state;
 
         if (confirmPassword) {
@@ -53,6 +71,8 @@ class RegisterPage extends Component {
             }
         }
     }
+
+
 
     inputClassNameHelper = boolean => {
         switch (boolean) {
@@ -128,18 +148,38 @@ class RegisterPage extends Component {
     validateEmail = emailEntered => {
         const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
 
-        if (emailEntered.match(emailRegExp)) {
-            this.setState({
-                isEmailValid: true,
-                emailEntered
-            });
-        } else {
-            this.setState({
-                isEmailValid: false,
-                emailEntered
-            });
-        }
-    };
+        axios.get('/api/users').then(response => {
+            const users = response.data;
+            const isUserFound = users.filter(user => user.email.toLowerCase() === emailEntered.toLowerCase())
+                .length;
+
+
+            if (emailEntered.match(emailRegExp) && !isUserFound) {
+                this.setState({
+                    isEmailValid: true,
+                    emailEntered,
+                    isDuplicateUser: false
+                });
+            } else if (emailEntered.match(emailRegExp) && isUserFound) {
+                this.setState({
+                    isEmailValid: false,
+                    emailEntered,
+                    isDuplicateUser: true
+                });
+            } else if (!emailEntered.match(emailRegExp) && isUserFound) {
+                this.setState({
+                    isEmailValid: false,
+                    emailEntered
+
+                });
+            } else if (!emailEntered.match(emailRegExp) && !isUserFound) {
+                this.setState({
+                    isEmailValid: false,
+                    emailEntered
+                });
+            };
+        })
+    }
 
     isEnteredEmailValid = () => {
         const { emailEntered, isEmailValid } = this.state;
@@ -216,9 +256,8 @@ class RegisterPage extends Component {
 
 
 
-    //입력하는 폼~
+    //입력하는 폼
     render() {
-        let nick = 'please.....ohmygod';
         return (
             <div className="App">
                 <form className="myForm">
@@ -227,15 +266,16 @@ class RegisterPage extends Component {
                         <label htmlFor="emailInput">이메일</label>
                         <input
                             type="email"
-                            className={`form-control ${this.inputClassNameHelper(
-                                this.isEnteredEmailValid()
-                            )}`}
+                            className={`form-control ${this.inputClassNameHelper(this.isEnteredEmailValid())
+
+                                }`}
                             id="emailInput"
                             aria-describedby="emailHelp"
                             placeholder="abc@gmail.com"
                             onChange={e => this.validateEmail(e.target.value)}
                             required
                         />
+                        {this.renderEmailFeedbackMessage()}
                     </div>
 
                     <div className="form-group">
@@ -251,7 +291,6 @@ class RegisterPage extends Component {
                             onChange={e => this.validateName(e.target.value)}
                             required
                         />
-                        <p>{this.state.nameEntered}</p>
                     </div>
 
                     <div className="form-group">
@@ -267,8 +306,8 @@ class RegisterPage extends Component {
                         />
                     </div>
 
-                    <div className="col-md-12 mb-3">
-                        <label htmlFor="confirmPasswordInput">패스워드 확인</label>
+                    <div className="form-group">
+                        <label htmlFor="confirmPasswordInput">비밀번호 확인</label>
                         <input
                             type="password"
                             className={`form-control ${this.confirmPasswordClassName()}`}
@@ -277,7 +316,7 @@ class RegisterPage extends Component {
                                 this.handleOnConfirmPasswordInput(e.target.value)
                             }
                         />
-                        {this.renderFeedbackMessage()}
+                        {this.renderPasswordFeedbackMessage()}
                     </div>
 
                     <div className="form-group">

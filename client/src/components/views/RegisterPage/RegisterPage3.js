@@ -6,7 +6,6 @@ import RegisterPage2 from '../RegisterPage/RegisterPage2';
 function RegisterPage3(props) {
 
     const componentDidMount = () => {
-        console.log("this is componentLifeCycle")
         const info = props.history.location.state
 
         let body = {
@@ -15,16 +14,10 @@ function RegisterPage3(props) {
             password: info.password,
             confirmpassword: info.confirmpassword,
             age: info.age,
-            gender: info.gender
+            gender: info.gender,
+            categoryIds: ChooseCategory
         }
-        console.log(body)
-
-
-    }
-
-    const testFun = (data) => {
-        console.log("hahahaha why?")
-        console.log(data)
+        return body
 
     }
 
@@ -39,14 +32,37 @@ function RegisterPage3(props) {
 
     const sendCategory = (e) => {
         e.preventDefault()
-        componentDidMount()
+        //componentDidMount()
+
+        let data = componentDidMount()
         let body = ChooseCategory
+
+
+        console.log(data)
+
+        /*
+                for (const value of ChooseCategory) { 
+                    let test = {
+                        container: value
+                    }
+                    console.log("과연...", test)
+                }
+        */
 
         axios.post('/api/categories/select', body)
             .then(res => {
                 if (!res.data.categorySelectSuccess) {
                     alert(res.data.message);
                 } else {
+                    //register+register3 보내기
+                    axios.post('/api/users/register', data)
+                        .then(res => {
+                            if (res.data.isRegisterSuccess) {
+                                console.log("회원가입 성공!")
+                            } else {
+                                alert(res.data.message)
+                            }
+                        })
                     console.log(res.data.message);
                     console.log(body)
                     props.history.push('/');
@@ -54,6 +70,9 @@ function RegisterPage3(props) {
             }).catch(e => {
                 console.log('카테고리 선택에 실패', e)
             })
+
+
+
     }
 
     return (
