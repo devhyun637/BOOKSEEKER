@@ -6,6 +6,11 @@ const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 const crypto = require('crypto');
 
+const {auth} = require('../middleware/auth');
+
+
+
+
 
 //=================================
 //             Users
@@ -128,6 +133,8 @@ router.post('/login', async function (req, res) {
     }
 });
 
+
+
 // =========================== 로그아웃 하기 ===========================
 router.get('/logout', (req, res) => {
     if (req.cookies.user) {
@@ -140,5 +147,17 @@ router.get('/logout', (req, res) => {
         console.log('not logined');
     }
 });
+
+// =========================== 페이지 인증 ===========================
+router.get('/auth', (req, res) => {
+    let token = req.cookies.user;
+
+    let decode = jwt.verify(token, secretObj.secret)
+    if(decode){
+       res.send("로그인된상태")
+    }else{
+        res.send("권한이 없음")
+    }
+})
 
 module.exports = router;
