@@ -141,4 +141,16 @@ router.get('/logout', (req, res) => {
     }
 });
 
+// =========================== 페이지 인증 ===========================
+router.get('/auth', (req, res) => {
+    let token = req.cookies.user;
+
+    let decode = jwt.verify(token, secretObj.secret)
+    if(decode){
+       res.send("로그인된상태")
+    }else{
+        res.send("권한이 없음")
+    }
+})
+
 module.exports = router;

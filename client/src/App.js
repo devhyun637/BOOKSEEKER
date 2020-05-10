@@ -23,8 +23,8 @@ function App() {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/" component={Auth(LandingPage, null)} />
+          <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/register3" component={RegisterPage3} />
           <Route exact path="/search" component={SearchPage} />
