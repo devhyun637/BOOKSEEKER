@@ -13,13 +13,14 @@ import RegisterPage3 from './components/views/RegisterPage/RegisterPage3';
 import SearchPage from './components/views/SearchPage/SearchPage';
 import SearchedPage from './components/views/SearchPage/SearchedPage';
 import Navigation from './components/views/Navigation/Navigation';
+import RecommendPage from './components/views/RecommendPage/RecommendPage';
 
 function App() {
   return (
     <Router>
       <div className="bigScreen">
         <div className="errorMassage">
-            화면사이즈 줄여주세요
+          화면사이즈 줄여주세요
         </div>
         <Switch>
           <Route exact path="/" component={LandingPage} />
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/register3" component={RegisterPage3} />
           <Route exact path="/search" component={SearchPage} />
           <Route exact path="/searched" component={SearchedPage} />
+          <Route exact path="/recommend" component={RecommendPage} />
         </Switch>
 
         <Navigation />

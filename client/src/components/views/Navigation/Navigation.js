@@ -17,7 +17,7 @@ function Navigation() {
                 </li>
 
                 <li className="nav__list-items">
-                    <a href="/search" className="nav__list-link">
+                    <a href="/recommend" className="nav__list-link">
                         <div className="nav__list-icon">
                             <i className="fas fa-search fa-lg"></i>
                         </div>
