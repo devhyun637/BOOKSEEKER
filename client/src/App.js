@@ -17,8 +17,10 @@ import Navigation from './components/views/Navigation/Navigation';
 function App() {
   return (
     <Router>
-      <div>
-
+      <div className="bigScreen">
+        <div className="errorMassage">
+            화면사이즈 줄여주세요
+        </div>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/login" component={LoginPage} />

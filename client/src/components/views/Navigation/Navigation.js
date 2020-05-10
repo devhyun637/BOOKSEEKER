@@ -39,9 +39,9 @@ function Navigation() {
                 </li>
 
                 <li className="nav__list-items">
-                    <a href="/" className="nav__list-link">
+                    <a href="/login" className="nav__list-link">
                         <div className="nav__list-icon">
-                            <i className="fas fa-ellipsis-h fa-lg"></i>
+                            <i className="fas fa-user fa-lg"></i>
                         </div>
                         <div className="nav__list-name">
                             마이페이지
