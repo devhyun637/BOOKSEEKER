@@ -12,7 +12,7 @@ import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import RegisterPage3 from './components/views/RegisterPage/RegisterPage3';
 import SearchPage from './components/views/SearchPage/SearchPage';
 import SearchedPage from './components/views/SearchPage/SearchedPage';
-import Footer from './components/views/Footer/Footer';
+import Navigation from './components/views/Navigation/Navigation';
 
 function App() {
   return (
@@ -27,7 +27,8 @@ function App() {
           <Route exact path="/search" component={SearchPage} />
           <Route exact path="/searched" component={SearchedPage} />
         </Switch>
-        <Footer />
+
+        <Navigation />
       </div>
     </Router>
   );

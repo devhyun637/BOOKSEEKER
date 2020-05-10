@@ -47,7 +47,6 @@ function RegisterPage3(props) {
                 if (!res.data.categorySelectSuccess) {
                     alert(res.data.message);
                 } else {
-
                     console.log(res.data.message);
                     console.log(body)
                     props.history.push('/');

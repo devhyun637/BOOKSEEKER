@@ -6,9 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 
 // CSS
-import './index.css';
 import 'antd/dist/antd.css';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
 
 // Redux
 import { applyMiddleware, createStore } from 'redux';

@@ -24,6 +24,7 @@
     "redux": "^4.0.5",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
+    "reset-css": "^5.0.1",
     "styled-components": "^5.1.0",
     "yup": "^0.28.5"
   },
@@ -47,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "style-loader": "^1.2.1"
   }
 }
