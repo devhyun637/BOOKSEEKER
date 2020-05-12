@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeartOutlined, UserOutlined, SearchOutlined, HomeOutlined } from '@ant-design/icons'
+import { BsFillPersonPlusFill } from 'react-icons/bs'
 
 const Nav = styled.div`
     position: fixed;
@@ -38,10 +39,6 @@ const NavListLink = styled(Link)`
 `;
 
 const NavListIcon = styled.div``;
-
-const NavListI = styled.i`
-    height: 20px;
-`;
 
 const NavListName = styled.div`
     color: inherit;
@@ -105,6 +102,48 @@ function Navigation() {
                 </NavListItems>
             </NavList>
         </Nav>
+        // <Nav>
+        //     <NavList>
+        //         <NavListItems>
+        //             <NavListLink to="/recommend">
+        //                 <NavListIcon>
+        //                     <SearchOutlined style={{
+        //                         fontSize: '25px'
+        //                     }} />
+        //                 </NavListIcon>
+        //                 <NavListName>
+        //                     추천페이지
+        //                 </NavListName>
+        //             </NavListLink>
+        //         </NavListItems>
+
+        //         <NavListItems>
+        //             <NavListLink to="/login">
+        //                 <NavListIcon>
+        //                     <UserOutlined style={{
+        //                         fontSize: '25px'
+        //                     }} />
+        //                 </NavListIcon>
+        //                 <NavListName>
+        //                     로그인
+        //                 </NavListName>
+        //             </NavListLink>
+        //         </NavListItems>
+
+        //         <NavListItems>
+        //             <NavListLink to="/register">
+        //                 <NavListIcon>
+        //                     <BsFillPersonPlusFill style={{
+        //                         fontSize: '25px'
+        //                     }} />
+        //                 </NavListIcon>
+        //                 <NavListName>
+        //                     회원가입
+        //                 </NavListName>
+        //             </NavListLink>
+        //         </NavListItems>
+        //     </NavList>
+        // </Nav>
     )
 }
 
