@@ -25,13 +25,13 @@ function App() {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          <Route exact path="/" exact component={Auth(LandingPage, null)} />
-          <Route exact path="/login" exact component={Auth(LoginPage, false)} />
-          <Route exact path="/register" exact component={RegisterPage} />
+          <Route exact path="/" component={Auth(LandingPage, null)} />
+          <Route exact path="/login" component={Auth(LoginPage, false)} />
+          <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/register/3" component={RegisterPage3} />
-          <Route exact path="/search" exact component={SearchPage} />
-          <Route exact path="/search/results" exact component={SearchedPage} />
-          <Route exact path="/recommend" exact component={RecommendPage} />
+          <Route exact path="/search" component={SearchPage} />
+          <Route exact path="/search/results" component={SearchedPage} />
+          <Route exact path="/recommend" component={RecommendPage} />
           <Redirect from="*" to="/" />
         </Switch>
 

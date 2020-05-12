@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = styled.div`
@@ -26,7 +27,7 @@ const NavListItems = styled.li`
 `;
 
 
-const NavListLink = styled.a`
+const NavListLink = styled(Link)`
     color: #717171;
 `;
 
@@ -46,7 +47,7 @@ function Navigation() {
         <Nav>
             <NavList>
                 <NavListItems>
-                    <NavListLink href="/">
+                    <NavListLink to="/">
                         <NavListIcon>
                             <NavListI className="fas fa-home fa-lg"></NavListI>
                         </NavListIcon>
@@ -57,7 +58,7 @@ function Navigation() {
                 </NavListItems>
 
                 <NavListItems>
-                    <NavListLink href="/recommend">
+                    <NavListLink to="/recommend">
                         <NavListIcon>
                             <NavListI className="fas fa-search fa-lg"></NavListI>
                         </NavListIcon>
@@ -68,7 +69,7 @@ function Navigation() {
                 </NavListItems>
 
                 <NavListItems>
-                    <NavListLink href="/">
+                    <NavListLink to="/">
                         <NavListIcon>
                             <NavListI className="far fa-heart fa-lg"></NavListI>
                         </NavListIcon>
@@ -79,7 +80,7 @@ function Navigation() {
                 </NavListItems>
 
                 <NavListItems>
-                    <NavListLink href="/login">
+                    <NavListLink to="/login">
                         <NavListIcon>
                             <NavListI className="fas fa-user fa-lg"></NavListI>
                         </NavListIcon>
