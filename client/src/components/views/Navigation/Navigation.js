@@ -52,7 +52,7 @@ function Navigation() {
         <Nav>
             <NavList>
                 <NavListItems>
-                    <NavListLink to="/">
+                    <NavListLink to="/community">
                         <NavListIcon>
                             <NavListI className="fas fa-home fa-lg"></NavListI>
                         </NavListIcon>
@@ -74,7 +74,7 @@ function Navigation() {
                 </NavListItems>
 
                 <NavListItems>
-                    <NavListLink to="/">
+                    <NavListLink to="/timeline">
                         <NavListIcon>
                             <NavListI className="far fa-heart fa-lg"></NavListI>
                         </NavListIcon>
