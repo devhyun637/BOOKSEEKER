@@ -17,6 +17,7 @@ const NavList = styled.ul`
     padding-left: 0px;
     list-style-type: none;
     display: flex;
+    align-itmes:center;
     justify-content: space-between;
     width: 100%;
     text-align: center;
@@ -27,8 +28,12 @@ const NavListItems = styled.li`
 `;
 
 
-const NavListLink = styled(Link)`
+const NavListLink = styled(Link)`  
     color: #717171;
+    &:hover {
+        text-decoration: none;
+        color: rgb(4, 146, 194);
+    } 
 `;
 
 const NavListIcon = styled.div``;
@@ -38,7 +43,7 @@ const NavListI = styled.i`
 `;
 
 const NavListName = styled.div`
-    color: #222222;
+    color: inherit;
     font-size: 13px;
 `;
 
