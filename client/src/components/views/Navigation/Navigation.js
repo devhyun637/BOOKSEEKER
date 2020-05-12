@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { HeartOutlined, UserOutlined, SearchOutlined, HomeOutlined } from '@ant-design/icons'
 
 const Nav = styled.div`
     position: fixed;
@@ -54,7 +55,9 @@ function Navigation() {
                 <NavListItems>
                     <NavListLink to="/community">
                         <NavListIcon>
-                            <NavListI className="fas fa-home fa-lg"></NavListI>
+                            <HomeOutlined style={{
+                                fontSize: '25px'
+                            }} />
                         </NavListIcon>
                         <NavListName>
                             커뮤니티
@@ -65,10 +68,12 @@ function Navigation() {
                 <NavListItems>
                     <NavListLink to="/recommend">
                         <NavListIcon>
-                            <NavListI className="fas fa-search fa-lg"></NavListI>
+                            <SearchOutlined style={{
+                                fontSize: '25px'
+                            }} />
                         </NavListIcon>
                         <NavListName>
-                            추천
+                            추천페이지
                         </NavListName>
                     </NavListLink>
                 </NavListItems>
@@ -76,7 +81,9 @@ function Navigation() {
                 <NavListItems>
                     <NavListLink to="/timeline">
                         <NavListIcon>
-                            <NavListI className="far fa-heart fa-lg"></NavListI>
+                            <HeartOutlined style={{
+                                fontSize: '25px'
+                            }} />
                         </NavListIcon>
                         <NavListName>
                             타임라인
@@ -87,7 +94,9 @@ function Navigation() {
                 <NavListItems>
                     <NavListLink to="/login">
                         <NavListIcon>
-                            <NavListI className="fas fa-user fa-lg"></NavListI>
+                            <UserOutlined style={{
+                                fontSize: '25px'
+                            }} />
                         </NavListIcon>
                         <NavListName>
                             마이페이지
