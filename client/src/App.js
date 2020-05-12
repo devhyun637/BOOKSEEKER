@@ -30,8 +30,8 @@ function App() {
           <Route exact path="/" component={LandingPage} />
 
           <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={Auth(RegisterPage, false)} />
-          <Route path="/register/3" component={Auth(RegisterPage3, false)} />
+          <Route exact path="/register" component={Auth(RegisterPage,false)} />
+          <Route path="/register/3" component={Auth(RegisterPage3,false)} />
 
           {/* 검색관련페이지 */}
           <Route exact path="/search" component={Auth(SearchPage, null)} />

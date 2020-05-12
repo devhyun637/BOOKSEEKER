@@ -48,24 +48,21 @@ const NavListName = styled.div`
 function Navigation() {
 
     const [hiddenNav, sethiddenNav] = useState({
-        transition: 'all 200ms ease-in'
+        visibility: 'visible'
     })
 
+    //스크롤 움직이면 Navigation 숨기기
     useScrollPosition(
         ({ prevPos, currPos }) => {
             const isVisible = currPos.y > prevPos.y
 
             const shouldBeStyle = {
-                visibility: isVisible ? 'visible' : 'hidden',
-                transition: `all 200ms ${isVisible ? 'ease-in' : 'ease-out'}`,
-                transform: isVisible ? 'none' : 'translate(0, -100%)'
+                visibility: isVisible ? 'visible' : 'hidden'
             }
 
             if (JSON.stringify(shouldBeStyle) === JSON.stringify(hiddenNav)) return
-
             sethiddenNav(shouldBeStyle)
-        },
-        [hiddenNav]
+        }, [hiddenNav]
     )
 
 
