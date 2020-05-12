@@ -1,5 +1,19 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
+
+const RecommandCard = styled.div`
+    margin: 30px 0;
+`;
+
+const RecommandName = styled.h3`
+    margin: 10px 20px;
+`;
+
+const RecommandList = styled.ul`
+    list-style-type: none;
+    display: flex;
+`;
 
 
 function RecommendPage() {
@@ -21,6 +35,93 @@ function RecommendPage() {
                     검색
                     </Button>
             </form>
+
+            {/* 북트레일러 추천페이지 */}
+            <RecommandCard>
+                <RecommandName>오늘의 북트레일러</RecommandName>
+                <RecommandList>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                </RecommandList>
+            </RecommandCard>
+            <RecommandCard>
+                <RecommandName>오늘의 북트레일러</RecommandName>
+                <RecommandList>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                </RecommandList>
+            </RecommandCard>
+            <RecommandCard>
+                <RecommandName>오늘의 북트레일러</RecommandName>
+                <RecommandList>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                </RecommandList>
+            </RecommandCard>
+            <RecommandCard>
+                <RecommandName>오늘의 북트레일러</RecommandName>
+                <RecommandList>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                </RecommandList>
+            </RecommandCard>
+            <RecommandCard>
+                <RecommandName>오늘의 북트레일러</RecommandName>
+                <RecommandList>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                    <li>
+                        <div>북트레일러 이미지</div>
+                        <div>북트레일러 제목</div>
+                    </li>
+                </RecommandList>
+            </RecommandCard>
         </div>
     )
 }

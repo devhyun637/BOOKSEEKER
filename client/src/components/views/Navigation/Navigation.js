@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeartOutlined, UserOutlined, SearchOutlined, HomeOutlined } from '@ant-design/icons'
@@ -29,7 +30,6 @@ const NavListItems = styled.li`
     width: 25%;
 `;
 
-
 const NavListLink = styled(Link)`  
     color: #717171;
     &:hover {
@@ -46,62 +46,87 @@ const NavListName = styled.div`
 `;
 
 function Navigation() {
+
+    const [hiddenNav, sethiddenNav] = useState({
+        transition: 'all 200ms ease-in'
+    })
+
+    useScrollPosition(
+        ({ prevPos, currPos }) => {
+            const isVisible = currPos.y > prevPos.y
+
+            const shouldBeStyle = {
+                visibility: isVisible ? 'visible' : 'hidden',
+                transition: `all 200ms ${isVisible ? 'ease-in' : 'ease-out'}`,
+                transform: isVisible ? 'none' : 'translate(0, -100%)'
+            }
+
+            if (JSON.stringify(shouldBeStyle) === JSON.stringify(hiddenNav)) return
+
+            sethiddenNav(shouldBeStyle)
+        },
+        [hiddenNav]
+    )
+
+
     return (
-        <Nav>
-            <NavList>
-                <NavListItems>
-                    <NavListLink to="/community">
-                        <NavListIcon>
-                            <HomeOutlined style={{
-                                fontSize: '25px'
-                            }} />
-                        </NavListIcon>
-                        <NavListName>
-                            커뮤니티
+        <div style={{ ...hiddenNav }}>
+            <Nav>
+                <NavList>
+                    <NavListItems>
+                        <NavListLink to="/community">
+                            <NavListIcon>
+                                <HomeOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                커뮤니티
                         </NavListName>
-                    </NavListLink>
-                </NavListItems>
+                        </NavListLink>
+                    </NavListItems>
 
-                <NavListItems>
-                    <NavListLink to="/recommend">
-                        <NavListIcon>
-                            <SearchOutlined style={{
-                                fontSize: '25px'
-                            }} />
-                        </NavListIcon>
-                        <NavListName>
-                            추천페이지
+                    <NavListItems>
+                        <NavListLink to="/recommend">
+                            <NavListIcon>
+                                <SearchOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                추천페이지
                         </NavListName>
-                    </NavListLink>
-                </NavListItems>
+                        </NavListLink>
+                    </NavListItems>
 
-                <NavListItems>
-                    <NavListLink to="/timeline">
-                        <NavListIcon>
-                            <HeartOutlined style={{
-                                fontSize: '25px'
-                            }} />
-                        </NavListIcon>
-                        <NavListName>
-                            타임라인
+                    <NavListItems>
+                        <NavListLink to="/timeline">
+                            <NavListIcon>
+                                <HeartOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                타임라인
                         </NavListName>
-                    </NavListLink>
-                </NavListItems>
+                        </NavListLink>
+                    </NavListItems>
 
-                <NavListItems>
-                    <NavListLink to="/login">
-                        <NavListIcon>
-                            <UserOutlined style={{
-                                fontSize: '25px'
-                            }} />
-                        </NavListIcon>
-                        <NavListName>
-                            마이페이지
+                    <NavListItems>
+                        <NavListLink to="/login">
+                            <NavListIcon>
+                                <UserOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                마이페이지
                         </NavListName>
-                    </NavListLink>
-                </NavListItems>
-            </NavList>
-        </Nav>
+                        </NavListLink>
+                    </NavListItems>
+                </NavList>
+            </Nav>
+        </div>
         // <Nav>
         //     <NavList>
         //         <NavListItems>
