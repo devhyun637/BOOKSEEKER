@@ -27,24 +27,24 @@ function App() {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)} />
+          <Route exact path="/" component={LandingPage} />
 
           <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={RegisterPage} />
-          <Route path="/register/3" component={RegisterPage3} />
+          <Route exact path="/register" component={Auth(RegisterPage,false)} />
+          <Route path="/register/3" component={Auth(RegisterPage,false)} />
 
           {/* 검색관련페이지 */}
-          <Route exact path="/search" component={SearchPage} />
-          <Route exact path="/search/results" component={SearchedPage} />
+          <Route exact path="/search" component={Auth(SearchPage,null)} />
+          <Route exact path="/search/results" component={Auth(SearchedPage,null)} />
 
           {/* 추천관련 페이지 */}
-          <Route exact path="/recommend" component={RecommendPage} />
+          <Route exact path="/recommend" component={Auth(RecommendPage,null)} />
 
           {/* 커뮤니티 페이지 */}
-          <Route exact path="/community" component={CommunityPage} />
+          <Route exact path="/community" component={Auth(CommunityPage,true)} />
 
           {/* 타임라인 페이지 */}
-          <Route exact path="/timeline" component={TimeLinePage} />
+          <Route exact path="/timeline" component={Auth(TimeLinePage,true)} />
 
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />

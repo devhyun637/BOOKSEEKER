@@ -145,11 +145,21 @@ router.get('/logout', (req, res) => {
 router.get('/auth', (req, res) => {
     let token = req.cookies.user;
 
-    let decode = jwt.verify(token, secretObj.secret)
-    if(decode){
-       res.send("로그인된상태")
+    if(token){
+        let decode = jwt.verify(token, secretObj.secret)
+        if(decode){
+        res.send({
+            verify: true
+        });
+        }else{
+            res.send({
+                verify: false
+            });
+        }
     }else{
-        res.send("권한이 없음")
+        res.send({
+            verify: false
+        })
     }
 })
 
