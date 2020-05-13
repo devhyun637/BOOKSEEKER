@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 import '../LoginPage/Login.css';
 
@@ -358,4 +359,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
