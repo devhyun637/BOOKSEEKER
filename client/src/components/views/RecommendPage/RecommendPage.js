@@ -37,91 +37,25 @@ function RecommendPage() {
             </form>
 
             {/* 북트레일러 추천페이지 */}
-            <RecommandCard>
-                <RecommandName>오늘의 북트레일러</RecommandName>
-                <RecommandList>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                </RecommandList>
-            </RecommandCard>
-            <RecommandCard>
-                <RecommandName>오늘의 북트레일러</RecommandName>
-                <RecommandList>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                </RecommandList>
-            </RecommandCard>
-            <RecommandCard>
-                <RecommandName>오늘의 북트레일러</RecommandName>
-                <RecommandList>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                </RecommandList>
-            </RecommandCard>
-            <RecommandCard>
-                <RecommandName>오늘의 북트레일러</RecommandName>
-                <RecommandList>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                </RecommandList>
-            </RecommandCard>
-            <RecommandCard>
-                <RecommandName>오늘의 북트레일러</RecommandName>
-                <RecommandList>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                    <li>
-                        <div>북트레일러 이미지</div>
-                        <div>북트레일러 제목</div>
-                    </li>
-                </RecommandList>
-            </RecommandCard>
+            <div>
+                <RecommandCard>
+                    <RecommandName>오늘의 북트레일러</RecommandName>
+                    <RecommandList>
+                        <li>
+                            <div>북트레일러 이미지</div>
+                            <div>북트레일러 제목</div>
+                        </li>
+                        <li>
+                            <div>북트레일러 이미지</div>
+                            <div>북트레일러 제목</div>
+                        </li>
+                        <li>
+                            <div>북트레일러 이미지</div>
+                            <div>북트레일러 제목</div>
+                        </li>
+                    </RecommandList>
+                </RecommandCard>
+            </div>
         </div>
     )
 }

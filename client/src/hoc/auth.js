@@ -7,11 +7,6 @@ import { useState } from 'react';
 
 export default function(SpecificComponent, option, adminRoute = null){
 
-    //null -> 아무나 출입이 가능
-    //true -> 로그인한 유저만 출입이 가능
-    //false -> 로그인한 유저는 출입 불가능
-
-
     function AuthenticationCheck(props){
         
         const [verify, setVerify] = useState(false);
@@ -26,7 +21,7 @@ export default function(SpecificComponent, option, adminRoute = null){
                setVerify(res.payload.verify);
            })
            
-        }, []);
+        });
 
         if(option == null){
             return (
