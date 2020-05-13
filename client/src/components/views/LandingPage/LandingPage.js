@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import {auth} from '../../../_actions/user_action';
 import {useEffect} from 'react';
 
-function LandingPage(props) {
+function LandingPage() {
 
     const [verify, setVerify] = useState(false);
 
@@ -17,7 +17,7 @@ function LandingPage(props) {
             setVerify(res.payload.verify);
         })
         
-     }, []);
+     });
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')

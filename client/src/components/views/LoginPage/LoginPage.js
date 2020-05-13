@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './Login.css';
-import {withRouter, Redirect} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 
 class LoginPage extends Component {
@@ -108,7 +108,6 @@ class LoginPage extends Component {
 
   isEnteredPasswordValid = () => {
     const { passwordEntered, isPasswordValid } = this.state;
-
     if (passwordEntered) return isPasswordValid;
   };
 
