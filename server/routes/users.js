@@ -144,7 +144,6 @@ router.get('/logout', (req, res) => {
 // =========================== 페이지 인증 ===========================
 router.get('/auth', (req, res) => {
     let token = req.cookies.user;
-    console.log(token);
     if(token!=null){
         let decode = false;
         jwt.verify(token, secretObj.secret, (err,decoded) => {

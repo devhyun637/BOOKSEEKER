@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../LoginPage/Login.css';
+import { withRouter } from 'react-router-dom';
 
 class RegisterPage extends Component {
 
@@ -106,6 +107,7 @@ class RegisterPage extends Component {
                 }
             })
         */
+        console.log(this.props);
         this.props.history.push('/register/3', data)
     }
 
@@ -355,4 +357,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

@@ -22,7 +22,6 @@ function LandingPage(props) {
     const onClickHandler = () => {
         axios.get('/api/users/logout')
             .then(res => {
-                console.log(res.data);
                 if (res.data.isLogoutSuccess) {
                     document.location.href = "/";
                 } else {
