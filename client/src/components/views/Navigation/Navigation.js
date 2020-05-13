@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeartOutlined, UserOutlined, SearchOutlined, HomeOutlined } from '@ant-design/icons'
 import { BsFillPersonPlusFill } from 'react-icons/bs'
+import {useDispatch} from 'react-redux';
+import {auth} from '../../../_actions/user_action';
+import {useEffect} from 'react';
+
 
 const Nav = styled.div`
     position: fixed;
@@ -45,11 +49,15 @@ const NavListName = styled.div`
     font-size: 13px;
 `;
 
-function Navigation() {
+function Navigation(props) {
 
     const [hiddenNav, sethiddenNav] = useState({
         visibility: 'visible'
-    })
+    });
+
+    const [verify, setVerify] = useState(false);
+
+    const dispatch = useDispatch();
 
     //스크롤 움직이면 Navigation 숨기기
     useScrollPosition(
@@ -65,9 +73,18 @@ function Navigation() {
         }, [hiddenNav]
     )
 
+    //back에 req날리기
+    useEffect(() => {
+        dispatch(auth()).then(res => {
+            setVerify(res.payload.verify);
+        })
+        
+     }, []);
+    
 
-    return (
-        <div style={{ ...hiddenNav }}>
+    if(verify){
+        return (
+            <div style={{ ...hiddenNav }}>
             <Nav>
                 <NavList>
                     <NavListItems>
@@ -124,49 +141,57 @@ function Navigation() {
                 </NavList>
             </Nav>
         </div>
-        // <Nav>
-        //     <NavList>
-        //         <NavListItems>
-        //             <NavListLink to="/recommend">
-        //                 <NavListIcon>
-        //                     <SearchOutlined style={{
-        //                         fontSize: '25px'
-        //                     }} />
-        //                 </NavListIcon>
-        //                 <NavListName>
-        //                     추천페이지
-        //                 </NavListName>
-        //             </NavListLink>
-        //         </NavListItems>
+        )
+    }else{
+        return (
+            <div style={{ ...hiddenNav }}>
+            <Nav>
+                <NavList>
+                    <NavListItems>
+                        <NavListLink to="/recommend">
+                            <NavListIcon>
+                                <SearchOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                추천페이지
+                            </NavListName>
+                        </NavListLink>
+                    </NavListItems>
+    
+                    <NavListItems>
+                        <NavListLink to="/login">
+                            <NavListIcon>
+                                <UserOutlined style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                로그인
+                            </NavListName>
+                        </NavListLink>
+                    </NavListItems>
+    
+                    <NavListItems>
+                        <NavListLink to="/register">
+                            <NavListIcon>
+                                <BsFillPersonPlusFill style={{
+                                    fontSize: '25px'
+                                }} />
+                            </NavListIcon>
+                            <NavListName>
+                                회원가입
+                            </NavListName>
+                        </NavListLink>
+                    </NavListItems>
+                </NavList>
+            </Nav>
+            </div>
+        )
+    }
 
-        //         <NavListItems>
-        //             <NavListLink to="/login">
-        //                 <NavListIcon>
-        //                     <UserOutlined style={{
-        //                         fontSize: '25px'
-        //                     }} />
-        //                 </NavListIcon>
-        //                 <NavListName>
-        //                     로그인
-        //                 </NavListName>
-        //             </NavListLink>
-        //         </NavListItems>
-
-        //         <NavListItems>
-        //             <NavListLink to="/register">
-        //                 <NavListIcon>
-        //                     <BsFillPersonPlusFill style={{
-        //                         fontSize: '25px'
-        //                     }} />
-        //                 </NavListIcon>
-        //                 <NavListName>
-        //                     회원가입
-        //                 </NavListName>
-        //             </NavListLink>
-        //         </NavListItems>
-        //     </NavList>
-        // </Nav>
-    )
+    
 }
 
 export default Navigation;

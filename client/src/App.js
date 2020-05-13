@@ -49,7 +49,6 @@ function App() {
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />
         </Switch>
-
         <Navigation />
       </div>
     </Router>

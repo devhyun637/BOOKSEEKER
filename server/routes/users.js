@@ -134,7 +134,7 @@ router.get('/logout', (req, res) => {
         res.clearCookie('user');
         console.log("token remove success");
         return res.status(200).send({
-            success: true
+            isLogoutSuccess: true
         });
     } else {
         console.log('not logined');
