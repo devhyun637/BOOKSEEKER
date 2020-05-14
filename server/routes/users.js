@@ -26,6 +26,16 @@ router.get('/', async (req, res) => {
     })
 })
 
+// =========================== 회원 이름 불러오기 ===========================
+router.get('/name', async (req, res) => {
+    //Where절 추가?(관리자 1, 회원2)
+    models.User.findAll({
+        attributes: ['name']
+    }).then(result => {
+        return res.json(result);
+    })
+})
+
 // =========================== 회원가입 ===========================
 router.post('/register', (req, res) => {
     userInfo = req.body;

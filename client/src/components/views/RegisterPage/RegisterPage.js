@@ -10,49 +10,18 @@ class RegisterPage extends Component {
         isEmailValid: false,
         passwordEntered: '',
         isPasswordValid: false,
-        password: '',
         confirmPassword: '',
         ageEntered: '',
         isAgeValid: 'false',
         gender: '',
         typedEmail: '',
-        isDuplicateUser: false
+        isDuplicateEmail: false,
+        isDuplicateName: false
     };
 
-
-    emailInputClassName() {
-        if (this.state.emailEntered) {
-            return this.state.isDuplicateUser ? 'is-invalid' : 'is-valid';
-        }
-        return '';
-    }
-
-    handleOnPasswordInput(passwordInput) {
-        this.setState({ password: passwordInput });
-    }
-
-    handleOnConfirmPasswordInput(confirmPasswordInput) {
-        this.setState({ confirmPassword: confirmPasswordInput });
-    }
-
-    doesPasswordMatch() {
-        const { password, confirmPassword } = this.state;
-        return password === confirmPassword;
-    }
-
-    confirmPasswordClassName() {
-        const { confirmPassword } = this.state;
-
-        if (confirmPassword) {
-            return this.doesPasswordMatch() ? 'is-valid' : 'is-invalid';
-        }
-    }
-
     renderEmailFeedbackMessage() {
-
-
         if (this.state.emailEntered) {
-            return this.state.isDuplicateUser ? (
+            return this.state.isDuplicateEmail ? (
                 <div className="invalid-feedback">이미 등록되어 있는 이메일입니다</div>
             ) : (
                     <div className="valid-feedback">사용할 수 있는 이메일입니다</div>
@@ -60,6 +29,15 @@ class RegisterPage extends Component {
         }
     }
 
+    renderNameFeedbackMessage(){
+        if (this.state.nameEntered) {
+            return this.state.isDuplicateName ? (
+                <div className="invalid-feedback">이미 등록되어 있는 이름입니다</div>
+            ) : (
+                    <div className="valid-feedback">사용할 수 있는 이름입니다</div>
+                );
+        }
+    }
     renderPasswordFeedbackMessage() {
         const { confirmPassword } = this.state;
 
@@ -94,26 +72,12 @@ class RegisterPage extends Component {
 
     buttonClick(event, data) {
         event.preventDefault();
-        //console.log(data);
-        /*
-        axios.post('/api/users/register',data)
-            .then(res => {
-                if(res.data.isRegisterSuccess){
-                   //alert(data)
-                   this.props.history.push('/');
-                }else{
-                    alert(res.data.message);
-                   
-                }
-            })
-        */
         this.props.history.push('/register/3', data)
     }
 
 
     renderSubmitBtn = (email, name, password, cpassword, age, gender) => {
         if (this.isEveryFieldValid()) {
-
             const body = {
                 email: email,
                 name: name,
@@ -121,9 +85,7 @@ class RegisterPage extends Component {
                 confirmpassword: cpassword,
                 age: age,
                 gender: gender
-
             }
-
 
             return (
                 <button
@@ -152,19 +114,18 @@ class RegisterPage extends Component {
             const users = response.data;
             const isUserFound = users.filter(user => user.email.toLowerCase() === emailEntered.toLowerCase())
                 .length;
-
-
+            
             if (emailEntered.match(emailRegExp) && !isUserFound) {
                 this.setState({
                     isEmailValid: true,
                     emailEntered,
-                    isDuplicateUser: false
+                    isDuplicateEmail: false
                 });
             } else if (emailEntered.match(emailRegExp) && isUserFound) {
                 this.setState({
                     isEmailValid: false,
                     emailEntered,
-                    isDuplicateUser: true
+                    isDuplicateEmail: true
                 });
             } else if (!emailEntered.match(emailRegExp) && isUserFound) {
                 this.setState({
@@ -187,20 +148,41 @@ class RegisterPage extends Component {
         if (emailEntered) return isEmailValid;
     };
 
-    //이름 유효성 확인 후 setState()
+    //이름 중복검사 & 유효성 확인 후 setState()
     validateName = nameEntered => {
-        if (nameEntered.length > 1) {
+        axios.get('/api/users/name').then(response => {
+            const users = response.data;
+            const isUserFound = users.filter(user => user.name === nameEntered)
+                .length;
+                
+        if (nameEntered.length > 1 && !isUserFound) {
             this.setState({
                 isNameValid: true,
-                nameEntered
-            });
-        } else {
+                nameEntered,
+                isDuplicateName: false
+            })
+        } else if(nameEntered.length > 1 && isUserFound){
             this.setState({
                 isNameValid: false,
-                nameEntered
-            });
+                nameEntered,
+                isDuplicateName: true
+            })
+        } else if(nameEntered.length <= 1 && isUserFound){
+            this.setState({
+                isNameValid: false,
+                nameEntered,
+                isDuplicateName: true
+            })
+        } else if(nameEntered.length <= 1 && !isUserFound){
+            this.setState({
+                isNameValid: false,
+                nameEntered,
+                isDuplicateName: false
+            })
         }
-    };
+        })
+    }
+
 
     isEnteredNameValid = () => {
         const { nameEntered, isNameValid } = this.state;
@@ -230,6 +212,30 @@ class RegisterPage extends Component {
 
         if (passwordEntered) return isPasswordValid;
     };
+
+    //패스워드 확인 setState
+    handleOnConfirmPasswordInput(confirmPasswordInput) {
+        this.setState({ confirmPassword: confirmPasswordInput });
+    }
+
+    //패스워드 & 패스워드 확인 비교. 같으면 true
+    doesPasswordMatch() {
+        const { passwordEntered, confirmPassword } = this.state;
+        return passwordEntered === confirmPassword;
+
+       
+    }
+
+    
+    confirmPasswordClassName() {
+        const { confirmPassword } = this.state;
+
+        if (confirmPassword) {
+            return this.doesPasswordMatch() ? 'is-valid' : 'is-invalid';
+        }
+    
+   
+    }
 
 
     //나이
@@ -266,9 +272,9 @@ class RegisterPage extends Component {
                         <label htmlFor="emailInput">이메일</label>
                         <input
                             type="email"
-                            className={`form-control ${this.inputClassNameHelper(this.isEnteredEmailValid())
-
-                                }`}
+                            className={`form-control ${this.inputClassNameHelper(
+                                this.isEnteredEmailValid()
+                                )}`}
                             id="emailInput"
                             aria-describedby="emailHelp"
                             placeholder="abc@gmail.com"
@@ -292,6 +298,7 @@ class RegisterPage extends Component {
                             onChange={e => this.validateName(e.target.value)}
                             required
                         />
+                        {this.renderNameFeedbackMessage()}
                     </div>
 
                     <div className="form-group">
@@ -303,7 +310,7 @@ class RegisterPage extends Component {
                             )}`}
                             id="passwordInput"
                             autoComplete="new-password"
-                            onChange={e => this.handleOnPasswordInput(e.target.value)}
+                            onChange={e => this.validatePassword(e.target.value)}
                             required
                         />
                     </div>
@@ -347,7 +354,7 @@ class RegisterPage extends Component {
                     {this.renderSubmitBtn(
                         this.state.emailEntered,
                         this.state.nameEntered,
-                        this.state.password,
+                        this.state.passwordEntered,
                         this.state.confirmPassword,
                         this.state.ageEntered,
                         this.state.gender)}
