@@ -86,7 +86,7 @@ router.post('/register', (req, res) => {
 router.post('/login', async function (req, res) {
     //토큰 생성하기
     let token = jwt.sign({
-        email: req.body.email
+        email: req.body.email+Date.now()
     },
         secretObj.secret,
         {
@@ -141,7 +141,7 @@ router.get('/logout', (req, res) => {
         res.clearCookie('user');
         console.log("token remove success");
         return res.status(200).send({
-            success: true
+            isLogoutSuccess: true
         });
     } else {
         console.log('not logined');
@@ -151,22 +151,29 @@ router.get('/logout', (req, res) => {
 // =========================== 페이지 인증 ===========================
 router.get('/auth', (req, res) => {
     let token = req.cookies.user;
-
-    if(token){
-        let decode = jwt.verify(token, secretObj.secret)
-        if(decode){
-        res.send({
-            verify: true
+    console.log(token);
+    if(token!=null){
+        let decode = false;
+        jwt.verify(token, secretObj.secret, (err,decoded) => {
+            if(err){
+                decode = false;
+            }else{
+                decode = decoded;
+            }
         });
+        if(decode){
+            return res.send({
+                verify: true
+            });
         }else{
-            res.send({
+            return res.send({
                 verify: false
             });
         }
     }else{
-        res.send({
+        return res.send({
             verify: false
-        })
+        });
     }
 })
 

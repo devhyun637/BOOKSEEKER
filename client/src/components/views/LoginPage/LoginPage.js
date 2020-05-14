@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './Login.css';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+
 
 class LoginPage extends Component {
   state = {
@@ -32,7 +33,7 @@ class LoginPage extends Component {
     axios.post('/api/users/login', data)
       .then(res => {
         if (res.data.loginSuccess) {
-          this.props.history.push('/');
+          document.location.href = "/";
         } else {
           alert(res.data.message);
         }
@@ -107,7 +108,6 @@ class LoginPage extends Component {
 
   isEnteredPasswordValid = () => {
     const { passwordEntered, isPasswordValid } = this.state;
-
     if (passwordEntered) return isPasswordValid;
   };
 

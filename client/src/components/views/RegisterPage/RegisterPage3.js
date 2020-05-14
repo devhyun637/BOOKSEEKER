@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { Button } from 'antd';
+import { withRouter } from 'react-router';
 import RegisterPage2 from '../RegisterPage/RegisterPage2';
 
 function RegisterPage3(props) {
@@ -104,4 +105,4 @@ function RegisterPage3(props) {
     )
 }
 
-export default RegisterPage3
+export default withRouter(RegisterPage3)

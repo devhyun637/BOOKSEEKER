@@ -31,25 +31,24 @@ function App() {
 
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage,false)} />
-          <Route path="/register/3" component={Auth(RegisterPage,false)} />
+          <Route path="/register/3" component={Auth(RegisterPage3,false)} />
 
           {/* 검색관련페이지 */}
-          <Route exact path="/search" component={Auth(SearchPage,null)} />
-          <Route exact path="/search/results" component={Auth(SearchedPage,null)} />
+          <Route exact path="/search" component={Auth(SearchPage, null)} />
+          <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
 
           {/* 추천관련 페이지 */}
-          <Route exact path="/recommend" component={Auth(RecommendPage,null)} />
+          <Route exact path="/recommend" component={Auth(RecommendPage, null)} />
 
           {/* 커뮤니티 페이지 */}
-          <Route exact path="/community" component={Auth(CommunityPage,null)} />
+          <Route exact path="/community" component={Auth(CommunityPage, true)} />
 
           {/* 타임라인 페이지 */}
-          <Route exact path="/timeline" component={Auth(TimeLinePage,true)} />
+          <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
 
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />
         </Switch>
-
         <Navigation />
       </div>
     </Router>

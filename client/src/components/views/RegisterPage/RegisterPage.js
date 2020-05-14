@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 import '../LoginPage/Login.css';
 
@@ -285,8 +286,9 @@ class RegisterPage extends Component {
                                 this.isEnteredNameValid()
                             )}`}
                             id="nameInput"
+                            autoComplete="username"
                             aria-describedby="nameHelp"
-                            placeholder="박보검"
+                            placeholder="닉네임을 입력해주세요"
                             onChange={e => this.validateName(e.target.value)}
                             required
                         />
@@ -300,6 +302,7 @@ class RegisterPage extends Component {
                                 this.isEnteredPasswordValid()
                             )}`}
                             id="passwordInput"
+                            autoComplete="new-password"
                             onChange={e => this.handleOnPasswordInput(e.target.value)}
                             required
                         />
@@ -311,6 +314,7 @@ class RegisterPage extends Component {
                             type="password"
                             className={`form-control ${this.confirmPasswordClassName()}`}
                             id="confirmPasswordInput"
+                            autoComplete="new-password"
                             onChange={e =>
                                 this.handleOnConfirmPasswordInput(e.target.value)
                             }
@@ -355,4 +359,4 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);
