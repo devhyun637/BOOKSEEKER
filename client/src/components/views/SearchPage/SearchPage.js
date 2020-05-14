@@ -17,7 +17,7 @@ function SearchPage(props) {
         axios.get('/api/booktrailer/search/' + Search)
             .then(res => {
                 if (res.data.isSearchSuccess) {
-                    props.history.push("/searched", res.data.data);
+                    props.history.push("/results", res.data.data);
                 } else {
                     alert(res.data.message);
                 }

@@ -1,10 +1,12 @@
 .Post {
-    border-radius: px;
+    width: 95%;
+    height: 350px;
     border: 1px solid #e6e6e6;
     background-color: #fff;
-    margin-bottom: 60px;
-    margin-left : 20%;
-    margin-right: 20%;
+    margin: 0 auto;
+    border-radius: 10%;
+    box-shadow: 5px 5px 10px grey;
+    
   }
   .Post-user {
     display: flex;
@@ -20,20 +22,48 @@
     height: 100%;
     border-radius: 50%;
   }
-  .Post-user-nickname {
+  .Post-user-name {
     margin-left: 12px;
     font-family: 'PT Sans', sans-serif;
     font-weight: bold;
   }
+  .detailButton {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: #555;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    box-sizing: border-box;  
+  }
+  
   .Post-image-bg {
-    background-color: #efefef;
+    background-color: #fff;
   }
-  .Post-image img {
-    display: block;
-    width: 100%;
+ .Post-caption{
+   margin: 10px;
+ }
+  .Like-about{
+    display: flex;
+    
+    align-items: center;
   }
-  .Post-caption {
-    padding: 16px 16px;
+  .Like-button{
+   
+  }
+  .Like-count{
+    margin-left: 12px;
+    font-family: 'PT Sans', sans-serif;
+    
   }
   .Post-caption strong {
     font-family: 'PT Sans', sans-serif;

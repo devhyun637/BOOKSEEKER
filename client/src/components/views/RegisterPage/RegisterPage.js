@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../LoginPage/Login.css';
-//import updateAction from '../../../_actions/updateActions';
 
 class RegisterPage extends Component {
 
@@ -107,7 +106,7 @@ class RegisterPage extends Component {
                 }
             })
         */
-        this.props.history.push('/register3', data)
+        this.props.history.push('/register/3', data)
     }
 
 
