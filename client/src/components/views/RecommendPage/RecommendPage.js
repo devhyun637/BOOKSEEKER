@@ -1,20 +1,79 @@
 import React from 'react'
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+const sampleImage1 = '/images/booktrailer.jpg';
+const sampleImage2 = '/images/booktrailer2.jpeg';
+const sampleImage3 = '/images/booktrailer3.jpeg';
+
+//스타일 component
 const RecommandCard = styled.div`
     margin: 30px 0;
 `;
 
 const RecommandName = styled.h3`
-    margin: 10px 20px;
+    margin: 10px 30px;
 `;
 
 const RecommandList = styled.ul`
-    list-style-type: none;
-    display: flex;
+    white-space: nowrap;
+    overflow-x: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
+const RecommandListLi = styled.li`
+    list-style: none;
+    display: inline-block;
+    margin: 10px;
+    width: 214px;
+`;
+
+const Image1 = styled.img.attrs({
+    src: `${sampleImage1}`
+})`
+    width: 214px;
+    height: 130px;
+    background-size: cover;
+    background-position: center;
+`;
+
+const Image2 = styled.img.attrs({
+    src: `${sampleImage2}`
+})`
+    width: 214px;
+    height: 130px;
+    background-size:cover;
+    background-position: center;
+`;
+
+const Image3 = styled.img.attrs({
+    src: `${sampleImage3}`
+})`
+    width: 214px;
+    height: 130px;
+    background-size:cover;
+    background-position: center;
+`;
+
+const RecommandLink = styled(Link)`  
+    color: black;
+    &:hover {
+        text-decoration: none;
+} 
+`;
+
+const Name = styled.p`
+    font-weight: bold;
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 0;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    width: inherit;
+`;
 
 function RecommendPage() {
     return (
@@ -22,13 +81,14 @@ function RecommendPage() {
             <form>
                 <Button style={{
                     display: 'block',
-                    border: "0.001px solid #222222",
+                    border: "0px",
                     background: "f7f7f7",
                     color: "#222222",
                     width: '90%',
-                    fontSize: '14px',
-                    margin: '20px auto',
-                    boxShadow: '0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.19)'
+                    height: '40px',
+                    fontSize: '20px',
+                    margin: '30px auto',
+                    boxShadow: '0 4px 12px 0 rgba(0,0,0,0.1), 0 3px 10px 0 rgba(0,0,0,0.19)'
                 }}
                     href="/search"
                     variant="outline-secondary">
@@ -41,18 +101,72 @@ function RecommendPage() {
                 <RecommandCard>
                     <RecommandName>오늘의 북트레일러</RecommandName>
                     <RecommandList>
-                        <li>
-                            <div>북트레일러 이미지</div>
-                            <div>북트레일러 제목</div>
-                        </li>
-                        <li>
-                            <div>북트레일러 이미지</div>
-                            <div>북트레일러 제목</div>
-                        </li>
-                        <li>
-                            <div>북트레일러 이미지</div>
-                            <div>북트레일러 제목</div>
-                        </li>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image1 />
+                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image2 />
+                                <Name>홍남권 작가의 역사소설, 안시성</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image3 />
+                                <Name>몽실이 몽실이 몽실언니</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>00 관련 북트레일러1</RecommandName>
+                    <RecommandList>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image1 />
+                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image2 />
+                                <Name>홍남권 작가의 역사소설, 안시성</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image3 />
+                                <Name>몽실이 몽실이 몽실언니</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>00 관련 북트레일러2</RecommandName>
+                    <RecommandList>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image1 />
+                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image2 />
+                                <Name>홍남권 작가의 역사소설, 안시성</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                        <RecommandListLi>
+                            <RecommandLink to="">
+                                <Image3 />
+                                <Name>몽실이 몽실이 몽실언니</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
                     </RecommandList>
                 </RecommandCard>
             </div>
