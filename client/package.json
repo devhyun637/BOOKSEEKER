@@ -13,6 +13,7 @@
     "bootstrap": "^4.4.1",
     "http-proxy-middleware": "^1.0.3",
     "little-state-machine": "^3.0.0",
+    "moment": "^2.25.3",
     "node-gyp": "^6.1.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",

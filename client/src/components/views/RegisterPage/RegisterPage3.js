@@ -19,7 +19,6 @@ function RegisterPage3(props) {
             categoryIds: ChooseCategory
         }
         return body
-
     }
 
     const [ChooseCategory, setChooseCategory] = useState([]);
@@ -32,23 +31,11 @@ function RegisterPage3(props) {
     }
 
     const sendCategory = (e) => {
-        e.preventDefault()
-        //componentDidMount()
 
         let data = componentDidMount()
         let body = ChooseCategory
 
-
         console.log(data)
-
-        /*
-                for (const value of ChooseCategory) { 
-                    let test = {
-                        container: value
-                    }
-                    console.log("과연...", test)
-                }
-        */
 
         axios.post('/api/categories/select', body)
             .then(res => {
@@ -66,25 +53,22 @@ function RegisterPage3(props) {
                         })
                     console.log(res.data.message);
                     console.log(body)
-                    props.history.push('/');
+                    props.history.push('/login');
                 }
             }).catch(e => {
                 console.log('카테고리 선택에 실패', e)
             })
-
-
-
     }
 
     return (
         <form style={{ position: 'relative', padding: '20px', textAlign: 'center' }} onSubmit={sendCategory}>
             <RegisterPage2 handleCategory={filter => handleCategory(filter)} />
             <Button style={{
-                background: 'white',
-                color: 'blue',
-                border: '1px solid blue',
+                background: 'black',
+                color: 'white',
                 padding: '0',
-                width: '20%'
+                height: '40px',
+                width: '30%'
             }}
                 htmlType="submit"
                 type="button">
@@ -93,14 +77,14 @@ function RegisterPage3(props) {
                     marginRight: '0px',
                     paddingRight: '0px',
                     letterSpacing: '-1px',
-                    fontSize: '14px',
                     fontWeight: 'normal',
+                    fontSize: '16px',
                     textJustify: 'justify'
-                }}
-
-                > 회원가입</span>
+                }}> 회원가입</span>
             </Button>
-
+            <br />
+            <br />
+            <br />
         </form>
     )
 }
