@@ -6,6 +6,11 @@ const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 const crypto = require('crypto');
 
+const {auth} = require('../middleware/auth');
+
+
+
+
 
 //=================================
 //             Users
@@ -16,6 +21,16 @@ router.get('/', async (req, res) => {
     //Where절 추가?(관리자 1, 회원2)
     models.User.findAll({
         attributes: ['email']
+    }).then(result => {
+        return res.json(result);
+    })
+})
+
+// =========================== 회원 이름 불러오기 ===========================
+router.get('/name', async (req, res) => {
+    //Where절 추가?(관리자 1, 회원2)
+    models.User.findAll({
+        attributes: ['name']
     }).then(result => {
         return res.json(result);
     })
@@ -127,6 +142,8 @@ router.post('/login', async function (req, res) {
         });
     }
 });
+
+
 
 // =========================== 로그아웃 하기 ===========================
 router.get('/logout', (req, res) => {

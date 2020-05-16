@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
-import '../LoginPage/Login.css';
+
+import { DatePicker, Radio } from 'antd';
+import moment from 'moment';
+
+const RadioGroup = Radio.Group;
+const dateFormat = 'YYYY/MM/DD';
 
 class RegisterPage extends Component {
 
@@ -10,52 +15,32 @@ class RegisterPage extends Component {
         isEmailValid: false,
         passwordEntered: '',
         isPasswordValid: false,
-        password: '',
         confirmPassword: '',
-        ageEntered: '',
-        isAgeValid: 'false',
-        gender: '',
+        pickerOpen: false,
+        birthDate: null,
+        // isAgeValid: 'false',
+        gender: 1,
         typedEmail: '',
-        isDuplicateUser: false
+        isDuplicateEmail: false,
+        isDuplicateName: false
     };
 
-
-    emailInputClassName() {
-        if (this.state.emailEntered) {
-            return this.state.isDuplicateUser ? 'is-invalid' : 'is-valid';
-        }
-        return '';
-    }
-
-    handleOnPasswordInput(passwordInput) {
-        this.setState({ password: passwordInput });
-    }
-
-    handleOnConfirmPasswordInput(confirmPasswordInput) {
-        this.setState({ confirmPassword: confirmPasswordInput });
-    }
-
-    doesPasswordMatch() {
-        const { password, confirmPassword } = this.state;
-        return password === confirmPassword;
-    }
-
-    confirmPasswordClassName() {
-        const { confirmPassword } = this.state;
-
-        if (confirmPassword) {
-            return this.doesPasswordMatch() ? 'is-valid' : 'is-invalid';
-        }
-    }
-
     renderEmailFeedbackMessage() {
-
-
         if (this.state.emailEntered) {
-            return this.state.isDuplicateUser ? (
+            return this.state.isDuplicateEmail ? (
                 <div className="invalid-feedback">이미 등록되어 있는 이메일입니다</div>
             ) : (
                     <div className="valid-feedback">사용할 수 있는 이메일입니다</div>
+                );
+        }
+    }
+
+    renderNameFeedbackMessage() {
+        if (this.state.nameEntered) {
+            return this.state.isDuplicateName ? (
+                <div className="invalid-feedback">이미 등록되어 있는 이름입니다</div>
+            ) : (
+                    <div className="valid-feedback">사용할 수 있는 이름입니다</div>
                 );
         }
     }
@@ -72,8 +57,6 @@ class RegisterPage extends Component {
         }
     }
 
-
-
     inputClassNameHelper = boolean => {
         switch (boolean) {
             case true:
@@ -86,14 +69,13 @@ class RegisterPage extends Component {
     };
 
     isEveryFieldValid = () => {
-        const { isEmailValid, isNameValid, isAgeValid } = this.state;
-        return isEmailValid && isNameValid && isAgeValid;
+        const { isEmailValid, isNameValid} = this.state;
+        return isEmailValid && isNameValid;
     };
-
-
 
     buttonClick(event, data) {
         event.preventDefault();
+<<<<<<< HEAD
         //console.log(data);
         /*
         axios.post('/api/users/register',data)
@@ -108,39 +90,40 @@ class RegisterPage extends Component {
             })
         */
         console.log(this.props);
+=======
+        console.log(data)
+>>>>>>> fac4539b9866b47ec547a88a34b674ccbbe94aba
         this.props.history.push('/register/3', data)
     }
 
-
-    renderSubmitBtn = (email, name, password, cpassword, age, gender) => {
+    renderSubmitBtn = (email, name, password, cpassword, birthDate, gender) => {
         if (this.isEveryFieldValid()) {
-
             const body = {
                 email: email,
                 name: name,
                 password: password,
                 confirmpassword: cpassword,
-                age: age,
+                birthDate: birthDate,
                 gender: gender
-
             }
-
+            
 
             return (
+                
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
                     onClick={(event) =>
                         this.buttonClick(event, body)}
                 >
-                    Submit
+                    다음
         </button>
             );
         }
 
         return (
             <button type="submit" className="btn btn-primary btn-block" disabled>
-                Submit
+                다음
       </button>
         );
     };
@@ -154,18 +137,17 @@ class RegisterPage extends Component {
             const isUserFound = users.filter(user => user.email.toLowerCase() === emailEntered.toLowerCase())
                 .length;
 
-
             if (emailEntered.match(emailRegExp) && !isUserFound) {
                 this.setState({
                     isEmailValid: true,
                     emailEntered,
-                    isDuplicateUser: false
+                    isDuplicateEmail: false
                 });
             } else if (emailEntered.match(emailRegExp) && isUserFound) {
                 this.setState({
                     isEmailValid: false,
                     emailEntered,
-                    isDuplicateUser: true
+                    isDuplicateEmail: true
                 });
             } else if (!emailEntered.match(emailRegExp) && isUserFound) {
                 this.setState({
@@ -188,27 +170,46 @@ class RegisterPage extends Component {
         if (emailEntered) return isEmailValid;
     };
 
-    //이름 유효성 확인 후 setState()
+    //이름 중복검사 & 유효성 확인 후 setState()
     validateName = nameEntered => {
-        if (nameEntered.length > 1) {
-            this.setState({
-                isNameValid: true,
-                nameEntered
-            });
-        } else {
-            this.setState({
-                isNameValid: false,
-                nameEntered
-            });
-        }
-    };
+        axios.get('/api/users/name').then(response => {
+            const users = response.data;
+            const isUserFound = users.filter(user => user.name === nameEntered)
+                .length;
+
+            if (nameEntered.length > 1 && !isUserFound) {
+                this.setState({
+                    isNameValid: true,
+                    nameEntered,
+                    isDuplicateName: false
+                })
+            } else if (nameEntered.length > 1 && isUserFound) {
+                this.setState({
+                    isNameValid: false,
+                    nameEntered,
+                    isDuplicateName: true
+                })
+            } else if (nameEntered.length <= 1 && isUserFound) {
+                this.setState({
+                    isNameValid: false,
+                    nameEntered,
+                    isDuplicateName: true
+                })
+            } else if (nameEntered.length <= 1 && !isUserFound) {
+                this.setState({
+                    isNameValid: false,
+                    nameEntered,
+                    isDuplicateName: false
+                })
+            }
+        })
+    }
 
     isEnteredNameValid = () => {
         const { nameEntered, isNameValid } = this.state;
 
         if (nameEntered) return isNameValid;
     };
-
 
     //패스워드 유효성 확인 후 setState()
     validatePassword = passwordEntered => {
@@ -232,33 +233,66 @@ class RegisterPage extends Component {
         if (passwordEntered) return isPasswordValid;
     };
 
+    //패스워드 확인 setState
+    handleOnConfirmPasswordInput(confirmPasswordInput) {
+        this.setState({ confirmPassword: confirmPasswordInput });
+    }
+
+    //패스워드 & 패스워드 확인 비교. 같으면 true
+    doesPasswordMatch() {
+        const { passwordEntered, confirmPassword } = this.state;
+        return passwordEntered === confirmPassword;
+    }
+
+    confirmPasswordClassName() {
+        const { confirmPassword } = this.state;
+
+        if (confirmPassword) {
+            return this.doesPasswordMatch() ? 'is-valid' : 'is-invalid';
+        }
+    }
 
     //나이
-    validateAge = ageEntered => {
+    // validateAge = ageEntered => {
 
-        if (ageEntered.length > 0) {
-            this.setState({
-                isAgeValid: true,
-                ageEntered
-            });
-        } else {
-            this.setState({
-                isAgeValid: true,
-                ageEntered
-            });
-        }
-    };
+    //     if (ageEntered.length > 0) {
+    //         this.setState({
+    //             isAgeValid: true,
+    //             ageEntered
+    //         });
+    //     } else {
+    //         this.setState({
+    //             isAgeValid: true,
+    //             ageEntered
+    //         });
+    //     }
+    // };
 
-    isEnteredAgeValid = () => {
-        const { ageEntered, isAgeValid } = this.state;
+    // isEnteredAgeValid = () => {
+    //     const { ageEntered, isAgeValid } = this.state;
+    //     if (ageEntered) return isAgeValid;
+    // };
 
-        if (ageEntered) return isAgeValid;
-    };
+    handleChange = birthDate => {
+        const birthday = moment(birthDate).format(dateFormat);
+        this.setState({ pickerOpen: !this.state.pickerOpen });
+        this.setState({ birthDate: birthday });
+        console.log(birthday);
+        console.log({birthDate});
+        console.log(birthDate);
+    }
 
+    //성별체크
+    onGenderChange = (e) => {
+        console.log('radio checked', e.target.value);
+        this.setState({
+            gender: e.target.value,
+        });
+    }
 
-
-    //입력하는 폼
     render() {
+        const { pickerOpen } = this.state;
+
         return (
             <div className="App">
                 <form className="myForm">
@@ -267,9 +301,9 @@ class RegisterPage extends Component {
                         <label htmlFor="emailInput">이메일</label>
                         <input
                             type="email"
-                            className={`form-control ${this.inputClassNameHelper(this.isEnteredEmailValid())
-
-                                }`}
+                            className={`form-control ${this.inputClassNameHelper(
+                                this.isEnteredEmailValid()
+                            )}`}
                             id="emailInput"
                             aria-describedby="emailHelp"
                             placeholder="abc@gmail.com"
@@ -293,6 +327,7 @@ class RegisterPage extends Component {
                             onChange={e => this.validateName(e.target.value)}
                             required
                         />
+                        {this.renderNameFeedbackMessage()}
                     </div>
 
                     <div className="form-group">
@@ -304,7 +339,8 @@ class RegisterPage extends Component {
                             )}`}
                             id="passwordInput"
                             autoComplete="new-password"
-                            onChange={e => this.handleOnPasswordInput(e.target.value)}
+                            placeholder="6자리 이상입력해주세요"
+                            onChange={e => this.validatePassword(e.target.value)}
                             required
                         />
                     </div>
@@ -323,7 +359,7 @@ class RegisterPage extends Component {
                         {this.renderPasswordFeedbackMessage()}
                     </div>
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label htmlFor="nameInput">나이</label>
                         <input
                             type="number"
@@ -333,24 +369,54 @@ class RegisterPage extends Component {
                             onChange={e => this.validateAge(e.target.value)}
                             required
                         />
-                    </div>
+                    </div> */}
+
                     <div className="form-group">
-                        <label htmlFor="nameInput">성별</label>
-                        <input
-                            type="number"
-                            className={`form-control `}
-                            id="genderInput"
-                            onChange={e => this.setState({ gender: e.target.value })}
-                            placeholder="남자"
+                        <label htmlFor="nameInput"
+                            style={{
+                                marginRight: '10px',
+                                marginTop: '15px'
+                            }}>생년월일</label>
+                        <DatePicker
+                            defaultValue={moment('2020/02/02', dateFormat)}
+                            open={pickerOpen}
+                            onChange={this.handleChange}
+                            format={dateFormat}
+                            size="large"
                             required
                         />
                     </div>
+
+                    <div className="form-group">
+                        <label htmlFor="nameInput"
+                            style={{
+                                marginRight: '10px',
+                                marginTop: '10px'
+                            }}>
+                            성별</label>
+                        {/* <input
+                                type="number"
+                                className={`form-control `}
+                                id="genderInput"
+                                onChange={e => this.setState({ gender: e.target.value })}
+                                placeholder="남자"
+                                required
+                            /> */}
+                        <RadioGroup
+                            onChange={this.onGenderChange}
+                            value={this.state.gender}
+                            size="large">
+                            <Radio value={1}>남자</Radio>
+                            <Radio value={2}>여자</Radio>
+                        </RadioGroup>
+                    </div>
+
                     {this.renderSubmitBtn(
                         this.state.emailEntered,
                         this.state.nameEntered,
-                        this.state.password,
+                        this.state.passwordEntered,
                         this.state.confirmPassword,
-                        this.state.ageEntered,
+                        this.state.birthDate,
                         this.state.gender)}
                 </form>
 
