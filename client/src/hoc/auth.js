@@ -9,17 +9,17 @@ export default function(SpecificComponent, option, adminRoute = null){
 
     function AuthenticationCheck(props){
         
-        const [verify, setVerify] = useState(false);
+        const [verify, setVerify] = useState(true);
         
         const dispatch = useDispatch();
 
-
+        
         //back에 req날리기
         useEffect(() => {
            dispatch(auth()).then(res => {
                //console.log("hoc에서 묻는다", res);
                setVerify(res.payload.verify);
-           })
+           });
            
         });
 

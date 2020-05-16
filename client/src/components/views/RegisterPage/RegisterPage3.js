@@ -3,7 +3,6 @@ import axios from 'axios'
 import { Button } from 'antd';
 import { withRouter } from 'react-router';
 import RegisterPage2 from '../RegisterPage/RegisterPage2';
-import { withRouter } from 'react-router-dom';
 
 function RegisterPage3(props) {
 

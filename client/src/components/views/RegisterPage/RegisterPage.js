@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
 import '../LoginPage/Login.css';
-import { withRouter } from 'react-router-dom';
 
 class RegisterPage extends Component {
 
