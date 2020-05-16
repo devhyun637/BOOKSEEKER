@@ -14,7 +14,7 @@ function RegisterPage3(props) {
             name: info.name,
             password: info.password,
             confirmpassword: info.confirmpassword,
-            age: info.age,
+            birthDate: info.birthDate,
             gender: info.gender,
             categoryIds: ChooseCategory
         }

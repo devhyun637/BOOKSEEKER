@@ -69,27 +69,30 @@ class RegisterPage extends Component {
     };
 
     isEveryFieldValid = () => {
-        const { isEmailValid, isNameValid, isAgeValid } = this.state;
-        return isEmailValid && isNameValid && isAgeValid;
+        const { isEmailValid, isNameValid} = this.state;
+        return isEmailValid && isNameValid;
     };
 
     buttonClick(event, data) {
         event.preventDefault();
+        console.log(data)
         this.props.history.push('/register/3', data)
     }
 
-    renderSubmitBtn = (email, name, password, cpassword, age, gender) => {
+    renderSubmitBtn = (email, name, password, cpassword, birthDate, gender) => {
         if (this.isEveryFieldValid()) {
             const body = {
                 email: email,
                 name: name,
                 password: password,
                 confirmpassword: cpassword,
-                age: age,
+                birthDate: birthDate,
                 gender: gender
             }
+            
 
             return (
+                
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
