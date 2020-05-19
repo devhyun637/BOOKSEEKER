@@ -75,7 +75,6 @@ class RegisterPage extends Component {
 
     buttonClick(event, data) {
         event.preventDefault();
-<<<<<<< HEAD
         //console.log(data);
         /*
         axios.post('/api/users/register',data)
@@ -90,9 +89,6 @@ class RegisterPage extends Component {
             })
         */
         console.log(this.props);
-=======
-        console.log(data)
->>>>>>> fac4539b9866b47ec547a88a34b674ccbbe94aba
         this.props.history.push('/register/3', data)
     }
 
@@ -280,6 +276,7 @@ class RegisterPage extends Component {
         console.log(birthday);
         console.log({birthDate});
         console.log(birthDate);
+        alert(birthDate);
     }
 
     //성별체크

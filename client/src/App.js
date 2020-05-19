@@ -20,6 +20,7 @@ import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 
 function App() {
+
   return (
     <Router>
       <div className="bigScreen">
