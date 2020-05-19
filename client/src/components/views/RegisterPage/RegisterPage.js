@@ -18,7 +18,6 @@ class RegisterPage extends Component {
         confirmPassword: '',
         pickerOpen: false,
         birthDate: null,
-        // isAgeValid: 'false',
         gender: 1,
         typedEmail: '',
         isDuplicateEmail: false,
@@ -69,30 +68,13 @@ class RegisterPage extends Component {
     };
 
     isEveryFieldValid = () => {
-        const { isEmailValid, isNameValid} = this.state;
+        const { isEmailValid, isNameValid } = this.state;
         return isEmailValid && isNameValid;
     };
 
     buttonClick(event, data) {
         event.preventDefault();
-<<<<<<< HEAD
-        //console.log(data);
-        /*
-        axios.post('/api/users/register',data)
-            .then(res => {
-                if(res.data.isRegisterSuccess){
-                   //alert(data)
-                   this.props.history.push('/');
-                }else{
-                    alert(res.data.message);
-                   
-                }
-            })
-        */
-        console.log(this.props);
-=======
         console.log(data)
->>>>>>> fac4539b9866b47ec547a88a34b674ccbbe94aba
         this.props.history.push('/register/3', data)
     }
 
@@ -106,10 +88,10 @@ class RegisterPage extends Component {
                 birthDate: birthDate,
                 gender: gender
             }
-            
+
 
             return (
-                
+
                 <button
                     type="submit"
                     className="btn btn-primary btn-block"
@@ -132,7 +114,7 @@ class RegisterPage extends Component {
     validateEmail = emailEntered => {
         const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
 
-        axios.get('/api/users').then(response => {
+        axios.get('/api/users/emails').then(response => {
             const users = response.data;
             const isUserFound = users.filter(user => user.email.toLowerCase() === emailEntered.toLowerCase())
                 .length;
@@ -252,39 +234,15 @@ class RegisterPage extends Component {
         }
     }
 
-    //나이
-    // validateAge = ageEntered => {
-
-    //     if (ageEntered.length > 0) {
-    //         this.setState({
-    //             isAgeValid: true,
-    //             ageEntered
-    //         });
-    //     } else {
-    //         this.setState({
-    //             isAgeValid: true,
-    //             ageEntered
-    //         });
-    //     }
-    // };
-
-    // isEnteredAgeValid = () => {
-    //     const { ageEntered, isAgeValid } = this.state;
-    //     if (ageEntered) return isAgeValid;
-    // };
-
     handleChange = birthDate => {
         const birthday = moment(birthDate).format(dateFormat);
         this.setState({ pickerOpen: !this.state.pickerOpen });
         this.setState({ birthDate: birthday });
-        console.log(birthday);
-        console.log({birthDate});
-        console.log(birthDate);
     }
 
     //성별체크
     onGenderChange = (e) => {
-        console.log('radio checked', e.target.value);
+        // console.log('radio checked', e.target.value);
         this.setState({
             gender: e.target.value,
         });
@@ -359,18 +317,6 @@ class RegisterPage extends Component {
                         {this.renderPasswordFeedbackMessage()}
                     </div>
 
-                    {/* <div className="form-group">
-                        <label htmlFor="nameInput">나이</label>
-                        <input
-                            type="number"
-                            className={`form-control ${this.inputClassNameHelper(
-                                this.isEnteredAgeValid())}`}
-                            id="ageInput"
-                            onChange={e => this.validateAge(e.target.value)}
-                            required
-                        />
-                    </div> */}
-
                     <div className="form-group">
                         <label htmlFor="nameInput"
                             style={{
@@ -394,14 +340,6 @@ class RegisterPage extends Component {
                                 marginTop: '10px'
                             }}>
                             성별</label>
-                        {/* <input
-                                type="number"
-                                className={`form-control `}
-                                id="genderInput"
-                                onChange={e => this.setState({ gender: e.target.value })}
-                                placeholder="남자"
-                                required
-                            /> */}
                         <RadioGroup
                             onChange={this.onGenderChange}
                             value={this.state.gender}
