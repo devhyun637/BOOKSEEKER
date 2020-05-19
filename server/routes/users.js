@@ -39,6 +39,9 @@ router.get('/name', async (req, res) => {
 // =========================== 회원가입 ===========================
 router.post('/register', (req, res) => {
     userInfo = req.body;
+    birthDateInfo = userInfo.birthDate.split('/');
+    userBirth = new Date(birthDateInfo[0],birthDateInfo[1]-1,birthDateInfo[2]);
+    userAge = new Date().getFullYear() - userBirth.getFullYear();
     //비밀번호 일치 여부 확인하기
     if (userInfo.password !== userInfo.confirmpassword) {
         return res.json({
@@ -60,7 +63,7 @@ router.post('/register', (req, res) => {
         image_profile: userInfo.profile_image,
         created_at: new Date(),
         updated_at: new Date(),
-        age: userInfo.age,
+        age: userAge,
         gender: userInfo.gender,
         roleId: 2
     }).then(result => {

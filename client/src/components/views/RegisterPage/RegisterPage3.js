@@ -45,6 +45,7 @@ function RegisterPage3(props) {
                     //register+register3 보내기
                     axios.post('/api/users/register', data)
                         .then(res => {
+                            console.log("뭐시당가");
                             if (res.data.isRegisterSuccess) {
                                 console.log("회원가입 성공!")
                             } else {
