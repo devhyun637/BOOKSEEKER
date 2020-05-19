@@ -6,21 +6,30 @@ import {
   Redirect
 } from "react-router-dom";
 
-//======================== 페이지 가져오기 ========================
+//======================== 회원관련 페이지 및 기타 페이지 ========================
 import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import RegisterPage3 from './components/views/RegisterPage/RegisterPage3';
-import SearchPage from './components/views/SearchPage/SearchPage';
-import SearchedPage from './components/views/SearchPage/SearchedPage';
 import Navigation from './components/views/Navigation/Navigation';
 import Auth from '../src/hoc/auth';
+
+//======================== 검색페이지 ========================
+import SearchPage from './components/views/SearchPage/SearchPage';
+import SearchedPage from './components/views/SearchPage/SearchedPage';
+
+//======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
+
+//======================== 공유관련 페이지 ========================
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 
-function App() {
+//======================== Mypage 페이지 ========================
+import Mypage from './components/views/Mypage/Mypage';
 
+
+function App() {
   return (
     <Router>
       <div className="bigScreen">
@@ -31,8 +40,8 @@ function App() {
           <Route exact path="/" component={LandingPage} />
 
           <Route exact path="/login" component={Auth(LoginPage, false)} />
-          <Route exact path="/register" component={Auth(RegisterPage,false)} />
-          <Route path="/register/3" component={Auth(RegisterPage3,false)} />
+          <Route exact path="/register" component={Auth(RegisterPage, false)} />
+          <Route path="/register/3" component={Auth(RegisterPage3, false)} />
 
           {/* 검색관련페이지 */}
           <Route exact path="/search" component={Auth(SearchPage, null)} />
@@ -46,6 +55,9 @@ function App() {
 
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
+
+          {/* 마이페이지 */}
+          <Route exact path="/mypage" component={Auth(Mypage, true)} />
 
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />

@@ -23,6 +23,7 @@ function SearchPage(props) {
                 }
             })
     }
+
     return (
         <div style={{
             position: 'relative',

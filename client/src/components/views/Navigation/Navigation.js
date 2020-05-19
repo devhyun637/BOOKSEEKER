@@ -77,7 +77,6 @@ function Navigation() {
         dispatch(auth()).then(res => {
             setVerify(res.payload.verify);
         })
-
     });
 
 
@@ -126,7 +125,7 @@ function Navigation() {
                         </NavListItems>
 
                         <NavListItems>
-                            <NavListLink to="/login">
+                            <NavListLink to="/mypage">
                                 <NavListIcon>
                                     <UserOutlined style={{
                                         fontSize: '25px'

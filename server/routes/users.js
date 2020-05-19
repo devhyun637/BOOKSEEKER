@@ -17,7 +17,7 @@ const {auth} = require('../middleware/auth');
 //=================================
 
 // =========================== 회원 이메일 불러오기 ===========================
-router.get('/', async (req, res) => {
+router.get('/emails', async (req, res) => {
     //Where절 추가?(관리자 1, 회원2)
     models.User.findAll({
         attributes: ['email']
