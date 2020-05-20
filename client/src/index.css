@@ -46,3 +46,7 @@ code {
     display: flex;
   }
 }
+
+.anticon .anticon-close {
+  margin-bottom: 5px;
+}

@@ -28,6 +28,8 @@ app.use(cookieParser());
 // =========================== 라우터 ===========================
 // 카테고리 관련
 app.use('/api/categories', require('./routes/category'));
+//해시태그 관련
+app.use('/api/hashtags', require('./routes/hashtag'));
 // 회원 관련
 app.use('/api/users', require('./routes/users'));
 // 검색 

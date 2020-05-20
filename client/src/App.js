@@ -11,6 +11,7 @@ import LandingPage from './components/views/LandingPage/LandingPage';
 import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import RegisterPage3 from './components/views/RegisterPage/RegisterPage3';
+import RegisterPage4 from './components/views/RegisterPage/RegisterPage4';
 import Navigation from './components/views/Navigation/Navigation';
 import Auth from '../src/hoc/auth';
 
@@ -39,9 +40,11 @@ function App() {
         <Switch>
           <Route exact path="/" component={LandingPage} />
 
+          {/* 로그인/회원가입 관련 */}
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/register/3" component={Auth(RegisterPage3, false)} />
+          <Route exact path="/register/4" component={Auth(RegisterPage4, false)} />
 
           {/* 검색관련페이지 */}
           <Route exact path="/search" component={Auth(SearchPage, null)} />
