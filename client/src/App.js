@@ -18,6 +18,8 @@ import Auth from '../src/hoc/auth';
 //======================== 검색페이지 ========================
 import SearchPage from './components/views/SearchPage/SearchPage';
 import SearchedPage from './components/views/SearchPage/SearchedPage';
+import APISearch from './components/views/SearchPage/APISearch';
+import APISearched from './components/views/SearchPage/APISearched';
 
 //======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
@@ -49,6 +51,8 @@ function App() {
           {/* 검색관련페이지 */}
           <Route exact path="/search" component={Auth(SearchPage, null)} />
           <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
+          <Route exact path="/search/APISearch" component={Auth(APISearch,null)} />
+          <Route exact path="/search/APISearch/APIresults" component={Auth(APISearched,null)} />
 
           {/* 추천관련 페이지 */}
           <Route exact path="/recommend" component={Auth(RecommendPage, null)} />
