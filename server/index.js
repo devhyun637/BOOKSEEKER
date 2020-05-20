@@ -33,5 +33,4 @@ app.use('/api/users', require('./routes/users'));
 // 검색 
 app.use('/api/booktrailer/search', require('./routes/search'));
 
-app.listen(port, () => console.log(`
-=========================== port on ${port} ==========================`));
+app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

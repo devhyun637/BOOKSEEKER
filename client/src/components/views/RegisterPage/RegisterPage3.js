@@ -31,6 +31,7 @@ function RegisterPage3(props) {
     }
 
     const sendCategory = (e) => {
+        e.preventDefault()
 
         let data = componentDidMount()
         let body = ChooseCategory
@@ -40,7 +41,7 @@ function RegisterPage3(props) {
                 if (!res.data.categorySelectSuccess) {
                     alert(res.data.message);
                 } else {
-                    //register+register3 보내기
+                    // register+register3 보내기
                     axios.post('/api/users/register', data)
                         .then(res => {
                             if (res.data.isRegisterSuccess) {
@@ -50,7 +51,7 @@ function RegisterPage3(props) {
                             }
                         })
                     console.log(res.data.message);
-                    console.log(body)
+                    console.log(body);
                     props.history.push('/login');
                 }
             }).catch(e => {

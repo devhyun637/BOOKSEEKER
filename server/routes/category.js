@@ -22,6 +22,7 @@ router.post('/select', (req, res) => {
             message: "카테고리를 선택해주세요"
         });
     } else {
+        console.log("카테고리 동작 확인");
         return res.json({
             categorySelectSuccess: true,
             message: "선택 성공"
