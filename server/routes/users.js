@@ -39,6 +39,7 @@ router.get('/name', async (req, res) => {
 // =========================== 회원가입 ===========================
 router.post('/register', (req, res) => {
     userInfo = req.body;
+    console.log(userInfo);
     birthDateInfo = userInfo.birthDate.split('/');
     userBirth = new Date(birthDateInfo[0],birthDateInfo[1]-1,birthDateInfo[2]);
     userAge = new Date().getFullYear() - userBirth.getFullYear();

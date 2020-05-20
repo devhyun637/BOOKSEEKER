@@ -4,6 +4,7 @@ const models = require('../models/index');
 
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
+const axios = require('axios');
 
 
 //=================================
@@ -48,5 +49,25 @@ router.get('/:searchWord',(req,res) => {
         });
     });
 });
+
+router.get('/APISearch/:searchWord',(req,res) => {
+    var searchWord = req.params.searchWord;
+    console.log(searchWord);
+    
+    axios.get('https://openapi.naver.com/v1/search/book_adv',{
+        params:{
+            d_titl: searchWord
+        },
+        headers: {
+            'X-Naver-Client-Id': 'qNsHwGwnktVQ4C6fb2MB',
+            'X-Naver-Client-Secret': 'H8P4T6tx_D'
+        }
+    }).then(result => {
+        return res.json({
+            isSearchSuccess: true,
+            data: result.data.items
+        });
+    })
+})
 
 module.exports = router;
