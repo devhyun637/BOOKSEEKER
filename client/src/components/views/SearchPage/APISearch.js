@@ -1,8 +1,7 @@
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Tag } from 'antd';
-
+import { withRouter } from 'react-router-dom';
 
 function APISearch(props) {
     const [Search, setSearch] = useState("");
@@ -15,14 +14,15 @@ function APISearch(props) {
         evnet.preventDefault();
         console.log(Search);
 
-        axios.get('/api/booktrailer/search/APISearch/'+Search).then(res => {
-            if (res.data.isSearchSuccess) {
-                console.log(res.data);
-                props.history.push("/APIresults", res.data.data);
-            } else {
-                alert(res.data.message);
-            }
-        })
+        axios.get('/api/booktrailer/search/APISearch/' + Search)
+            .then(res => {
+                if (res.data.isSearchSuccess) {
+                    console.log(res.data);
+                    props.history.push("/APIresults", res.data.data);
+                } else {
+                    alert(res.data.message);
+                }
+            })
     }
 
     return (
@@ -65,4 +65,4 @@ function APISearch(props) {
     )
 }
 
-export default APISearch;
+export default withRouter(APISearch)

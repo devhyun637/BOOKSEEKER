@@ -2,6 +2,7 @@ import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Tag } from 'antd';
+import { withRouter } from 'react-router-dom';
 
 
 function SearchPage(props) {
@@ -129,4 +130,4 @@ function SearchPage(props) {
     )
 }
 
-export default SearchPage
+export default withRouter(SearchPage)
