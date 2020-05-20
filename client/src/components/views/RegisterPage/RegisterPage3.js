@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import axios from 'axios'
 import { Button } from 'antd';
 import { withRouter } from 'react-router';
@@ -35,17 +35,14 @@ function RegisterPage3(props) {
         let data = componentDidMount()
         let body = ChooseCategory
 
-        console.log(data)
-
         axios.post('/api/categories/select', body)
-            .then(res => {
+            .then((res) => {
                 if (!res.data.categorySelectSuccess) {
                     alert(res.data.message);
                 } else {
                     //register+register3 보내기
                     axios.post('/api/users/register', data)
                         .then(res => {
-                            console.log("뭐시당가");
                             if (res.data.isRegisterSuccess) {
                                 console.log("회원가입 성공!")
                             } else {

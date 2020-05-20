@@ -25,6 +25,7 @@ class CommunityPage extends Component {
                     <div className="Post-image-bg">
                         <p align="middle">
                             <iframe
+                                title="first"
                                 width="90%" height="100%" src="https://www.youtube.com/embed/HmBJDuPbFa4"
                                 frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen>

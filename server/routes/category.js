@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
 
 // =========================== 카테고리 선택한 거 가져오기 ===========================
 router.post('/select', (req, res) => {
-
     if (req.body.length === 0) {
         return res.json({
             categorySelectSuccess: false,
