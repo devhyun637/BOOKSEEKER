@@ -83,9 +83,9 @@ function APISearch(props) {
                             title
                             <p>{data.title.replace(/(<([^>]+)>)/ig , ' ' )}</p>
                             author
-                            <p className="author">{data.author}</p>
+                            <p className="author">{data.author.replace(/(<([^>]+)>)/ig , ' ' )}</p>
                             publish
-                            <p className="publisher">{data.publisher}</p>
+                            <p className="publisher">{data.publisher.replace(/(<([^>]+)>)/ig , ' ' )}</p>
                             <input type="radio" id={i} name="gener" className='radioBox' onChange={handleCheck}/>
                             <br/>
                         </li>
