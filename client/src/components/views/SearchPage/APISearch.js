@@ -59,7 +59,11 @@ function APISearch(props) {
 
     const handleCheck = (event) =>{
         setSelected(event.currentTarget.id);
-        console.log(event.currentTarget.id);
+        var parent = event.currentTarget.parentNode
+        var params = []
+        params.push(parent.querySelector('.author').innerHTML);
+        params.push(parent.querySelector('.publisher').innerHTML);
+        console.log(params);
     }
 
     const onSubmitHandler = (evnet) => {
@@ -76,9 +80,12 @@ function APISearch(props) {
                             width:'100%'
                         }}>
                             <img src={data.image} />
-                            <p>title:{data.title.replace(/(<([^>]+)>)/ig , ' ' )}</p>
-                            <p>author:{data.author}</p>
-                            <p>{data.publisher}</p>
+                            title
+                            <p>{data.title.replace(/(<([^>]+)>)/ig , ' ' )}</p>
+                            author
+                            <p className="author">{data.author}</p>
+                            publish
+                            <p className="publisher">{data.publisher}</p>
                             <input type="radio" id={i} name="gener" className='radioBox' onChange={handleCheck}/>
                             <br/>
                         </li>

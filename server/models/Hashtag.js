@@ -7,6 +7,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             unique: true,
             allowNull: false
+        },
+        counting: {
+            field: "counting",
+            type: DataTypes.INTEGER,
+            allowNull: null
         }
     }, {
             underscored: true,
