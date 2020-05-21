@@ -53,7 +53,7 @@ function App() {
           <Route exact path="/search" component={Auth(SearchPage, null)} />
           <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
           <Route exact path="/search/APISearch" component={Auth(APISearch, null)} />
-          <Route exact path="/search/APISearch/APIresults" component={Auth(APISearched, null)} />
+          <Route exact path="/APIresults" component={Auth(APISearched, null)} />
 
           {/* 추천관련 페이지 */}
           <Route exact path="/recommend" component={Auth(RecommendPage, null)} />

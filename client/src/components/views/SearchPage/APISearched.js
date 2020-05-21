@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 function APISearched(props) {
     const bookTrailers = props.location.state.map(
@@ -26,4 +27,4 @@ function APISearched(props) {
     )
 }
 
-export default APISearched;
+export default withRouter(APISearched);

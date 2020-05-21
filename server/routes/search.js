@@ -52,11 +52,11 @@ router.get('/:searchWord',(req,res) => {
 
 router.get('/APISearch/:searchWord',(req,res) => {
     var searchWord = req.params.searchWord;
-    console.log(searchWord);
     
     axios.get('https://openapi.naver.com/v1/search/book_adv',{
         params:{
-            d_titl: searchWord
+            d_titl: searchWord,
+            display: 25
         },
         headers: {
             'X-Naver-Client-Id': 'qNsHwGwnktVQ4C6fb2MB',
