@@ -47,6 +47,7 @@ code {
   }
 }
 
-.anticon .anticon-close {
-  margin-bottom: 5px;
+.ant-tag .anticon-close > svg {
+  margin-bottom: 7px;
+  color: gray;
 }
