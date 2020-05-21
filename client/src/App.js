@@ -12,14 +12,13 @@ import LoginPage from './components/views/LoginPage/LoginPage';
 import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import RegisterPage3 from './components/views/RegisterPage/RegisterPage3';
 import RegisterPage4 from './components/views/RegisterPage/RegisterPage4';
+import RegisterPage5 from './components/views/RegisterPage/RegisterPage5';
 import Navigation from './components/views/Navigation/Navigation';
 import Auth from '../src/hoc/auth';
 
 //======================== 검색페이지 ========================
 import SearchPage from './components/views/SearchPage/SearchPage';
 import SearchedPage from './components/views/SearchPage/SearchedPage';
-import APISearch from './components/views/SearchPage/APISearch';
-import APISearched from './components/views/SearchPage/APISearched';
 
 //======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
@@ -48,12 +47,11 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/register/3" component={Auth(RegisterPage3, false)} />
           <Route exact path="/register/4" component={Auth(RegisterPage4, false)} />
+          <Route exact path="/register/5" component={Auth(RegisterPage5, false)} />
 
           {/* 검색관련페이지 */}
           <Route exact path="/search" component={Auth(SearchPage, null)} />
           <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
-          <Route exact path="/search/APISearch" component={Auth(APISearch, null)} />
-          <Route exact path="/APIresults" component={Auth(APISearched, null)} />
 
           {/* 추천관련 페이지 */}
           <Route exact path="/recommend" component={Auth(RecommendPage, null)} />

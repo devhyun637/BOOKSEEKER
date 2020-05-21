@@ -4,35 +4,76 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import styled from 'styled-components';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+//스타일 component
+const BookLi = styled.li`
+    // border: 0.5px solid #717171;
+    margin: 10px auto;
+    padding-top: 10px;
+`
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+const Checkbox = styled.input`
+    margin-right: 10px;
+    display: inline;
+    width: 20px;
+    height: 20px;
+    &:checked {
+        background: #0DFF92;
+`
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
+const Thumbnail = styled.img`
+    width: 40%;
+    margin-bottom: 10px;
+`;
+
+const Name = styled.h3`
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 10px;
+    // border: 1px solid red;
+`;
+
+const Contents = styled.p`
+    font-size: 16px;
+    margin: 3px;
+`
+
+const ModalBox = styled.div`
+    text-align: center;
+`
+
+const Text = styled.p`
+    font-size: 20px;
+    line-height: 20px;
+    margin: 10px;
+    font-weight: bold;
+`
+
+const Hr = styled.hr`
+    padding: 0;
+`
+
+const getModalStyle = () => {
+    return {
+        width: '80%',
+        positon: 'absolute',
+        left: '10%',
+        top: '10%'
+    };
 }
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 300,
-    height: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: '2%',
-    overflow: 'scroll'
-  },
+    paper: {
+        position: 'absolute',
+        height: '70%',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #717171',
+        boxShadow: theme.shadows[4],
+        padding: '2%',
+        overflow: 'scroll'
+    },
 }));
-
 
 
 function APISearch(props) {
@@ -41,14 +82,13 @@ function APISearch(props) {
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [Search, setSearch] = useState("");
-    const [selected, setSelected] = useState('');
-
+    const [selected, setSelected] = useState([]);
     const [body, setBody] = useState('');
 
     const handleOpen = () => {
         setOpen(true);
     };
-    
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -57,13 +97,23 @@ function APISearch(props) {
         setSearch(event.currentTarget.value);
     }
 
-    const handleCheck = (event) =>{
-        setSelected(event.currentTarget.id);
-        var parent = event.currentTarget.parentNode
-        var params = []
+    const cancle = () => {
+        setOpen(false);
+    };
+
+    const handleCheck = (event) => {
+        let params = [];
+        let parent = event.currentTarget.parentNode;
         params.push(parent.querySelector('.author').innerHTML);
         params.push(parent.querySelector('.publisher').innerHTML);
-        console.log(params);
+
+        selecting(params);
+    }
+
+    const selecting = (filter) => {
+        let newHashtag = [...selected];
+        newHashtag = filter;
+        setSelected(newHashtag)
     }
 
     const onSubmitHandler = (evnet) => {
@@ -73,59 +123,61 @@ function APISearch(props) {
             .then(res => {
                 if (res.data.isSearchSuccess) {
                     const element = []
-                    for(var i=0;i<res.data.data.length;i++){
-                        var data = res.data.data[i];
+                    for (let i = 0; i < res.data.data.length; i++) {
+                        let data = res.data.data[i];
                         element.push(
-                        <li key={i} style={{
-                            width:'100%'
-                        }}>
-                            <img src={data.image} />
-                            title
-                            <p>{data.title.replace(/(<([^>]+)>)/ig , ' ' )}</p>
-                            author
-                            <p className="author">{data.author.replace(/(<([^>]+)>)/ig , ' ' )}</p>
-                            publish
-                            <p className="publisher">{data.publisher.replace(/(<([^>]+)>)/ig , ' ' )}</p>
-                            <input type="radio" id={i} name="gener" className='radioBox' onChange={handleCheck}/>
-                            <br/>
-                        </li>
+                            <BookLi key={i}>
+                                <Checkbox type="radio" id={i} name="gener" className='radioBox' onChange={handleCheck} />
+                                <Thumbnail src={data.image} alt={data.title} />
+                                <Name>{data.title.replace(/(<([^>]+)>)/ig, '')}</Name>
+                                <br />
+                                <Contents className="author">{data.author.replace(/(<([^>]+)>)/ig, '')}</Contents>
+                                <Contents className="publisher">{data.publisher.replace(/(<([^>]+)>)/ig, '')}</Contents>
+                                <Hr />
+                            </BookLi>
                         );
                     }
                     setBody(element);
-                    
+
                     handleOpen();
                 } else {
                     alert(res.data.message);
                 }
-        })
+            })
+    }
+
+    const sendHashtag = (e) => {
+        e.preventDefault();
+        console.log(selected);
+
+        // 여기를 채워주면 됩니당
     }
 
     return (
-        <div style={{
-            position: 'relative',
-            textAlign: 'center',
-            margin: '20px',
-        }}>
-            <br />
+        <div>
             <form onSubmit={onSubmitHandler}>
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3"
+                    style={{
+                        width: "90%",
+                        margin: "0 auto"
+                    }}>
                     <FormControl
                         style={{
                             padding: "22px",
-                            border: "0.5px solid #0f4c81",
+                            border: "1px solid #171717",
                             color: "#0f4c81",
                             fontSize: '14px'
                         }}
-                        placeholder="검색어를 입력하세요"
-                        aria-label="검색어를 입력하세요"
+                        placeholder="책제목을 입력하세요"
+                        aria-label="책제목을 입력하세요"
                         aria-describedby="basic-addon2"
                         value={Search}
                         onChange={onSearchHandler}
                     />
                     <InputGroup.Append>
                         <Button style={{
-                            border: "0.5px solid #0f4c81",
-                            background: "#0f4c81",
+                            border: "0.5px solid #171717",
+                            background: "#171717",
                             color: "white",
                             fontSize: '14px'
                         }}
@@ -136,19 +188,40 @@ function APISearch(props) {
                     </InputGroup.Append>
                 </InputGroup>
             </form>
-            <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <form style={modalStyle} className={classes.paper}>
-                    <ul style={{
-                        'listStyle': 'none'
-                    }}>
-                        {body}
-                    </ul>
-                    <button className="notSelect">
-                        건너뛰기
-                    </button>
+
+
+            <Modal open={open} onClose={handleClose}>
+                <form style={modalStyle} className={classes.paper} onSubmit={sendHashtag}>
+                    <ModalBox>
+                        <Text>책 검색 결과</Text>
+                        <Hr style={{ border: "1px solid black" }} />
+                        <ul style={{
+                            listStyle: 'none',
+                            padding: '0',
+                            textAlign: 'center'
+                        }}>
+                            {body}
+                        </ul>
+                        <Button
+                            onClick={cancle}
+                            style={{
+                                margin: "5px",
+                                backgroundColor: "white",
+                                border: "1px solid gray",
+                                color: "gray"
+                            }}>
+                            취소
+                        </Button>
+                        <Button
+                            type="submit"
+                            style={{
+                                margin: "5px",
+                                backgroundColor: "#171717",
+                                border: "1px solid #171717",
+                            }}>
+                            선택
+                        </Button>
+                    </ModalBox>
                 </form>
             </Modal>
         </div>
