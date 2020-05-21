@@ -13,6 +13,23 @@ class RegisterPage4 extends React.Component {
         inputValue: '',
     };
 
+    componentDidMount = () => {
+        const info = this.props.history.location.state
+        console.log("데이터 보낸거 register4에서", info)
+        let body = {
+            email: info.email,
+            name: info.name,
+            password: info.password,
+            confirmpassword: info.confirmpassword,
+            birthDate: info.birthDate,
+            gender: info.gender,
+            categoryIds: info.categoryIds,
+            hashtags: this.state.tags
+        }
+        return body
+        
+    }
+
     handleClose = removedTag => {
         const tags = this.state.tags.filter(tag => tag !== removedTag);
         // console.log(tags);
@@ -74,6 +91,7 @@ class RegisterPage4 extends React.Component {
 
     sendHashtag = e => {
         e.preventDefault()
+        const data = this.componentDidMount()
 
         let { tags } = this.state;
         console.log(tags);
@@ -85,18 +103,19 @@ class RegisterPage4 extends React.Component {
                     console.log("선택해줘");
                 } else {
                     console.log("뭐라도 선택했군");
-                    // // register+register3+regist4 보내기
-                    // axios.post('/api/users/register', data)
-                    //     .then(res => {
-                    //         if (res.data.isRegisterSuccess) {
-                    //             console.log("회원가입 성공!")
-                    //         } else {
-                    //             alert(res.data.message)
-                    //         }
-                    //     })
-                    // console.log(res.data.message);
-                    // console.log(body);
-                    // props.history.push('/login');
+
+                    // register+register3+regist4 보내기
+                    axios.post('/api/users/register', data)
+                   .then(res => {
+                        if (res.data.isRegisterSuccess) {
+                            console.log("회원가입 성공!")
+                        } else {
+                              alert(res.data.message)
+                         }
+                         })
+                    console.log(res.data.message);
+                    console.log(data);
+                    this.props.history.push('/login');
                 }
             }).catch(e => {
                 console.log('해시태그 선택에 실패', e)

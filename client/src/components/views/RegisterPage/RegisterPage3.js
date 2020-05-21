@@ -42,17 +42,11 @@ function RegisterPage3(props) {
                     alert(res.data.message);
                 } else {
                     // register+register3 보내기
-                    axios.post('/api/users/register', data)
-                        .then(res => {
-                            if (res.data.isRegisterSuccess) {
-                                console.log("회원가입 성공!")
-                            } else {
-                                alert(res.data.message)
-                            }
-                        })
+                   
+                    props.history.push('/register/4', data)
                     console.log(res.data.message);
                     console.log(body);
-                    props.history.push('/login');
+                   
                 }
             }).catch(e => {
                 console.log('카테고리 선택에 실패', e)
@@ -79,7 +73,7 @@ function RegisterPage3(props) {
                     fontWeight: 'normal',
                     fontSize: '16px',
                     textJustify: 'justify'
-                }}> 회원가입</span>
+                }}>다음</span>
             </Button>
             <br />
             <br />
