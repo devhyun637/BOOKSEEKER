@@ -74,7 +74,7 @@ class RegisterPage extends Component {
 
     buttonClick(event, data) {
         event.preventDefault();
-        console.log(data)
+        // console.log(data)
         this.props.history.push('/register/3', data)
     }
 

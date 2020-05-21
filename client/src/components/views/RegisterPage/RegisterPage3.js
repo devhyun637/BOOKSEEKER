@@ -44,8 +44,8 @@ function RegisterPage3(props) {
                     // register+register3 보내기
                    
                     props.history.push('/register/4', data)
-                    console.log(res.data.message);
-                    console.log(body);
+                    // console.log(res.data.message);
+                    // console.log(body);
                    
                 }
             }).catch(e => {

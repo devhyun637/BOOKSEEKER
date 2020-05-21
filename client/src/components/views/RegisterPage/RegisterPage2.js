@@ -15,7 +15,7 @@ function RegisterPage2(props) {
         try {
             const res = await axios.get('/api/categories');
             setCategory(res.data);
-            console.log("카테고리 불러오기");
+            // console.log("카테고리 불러오기");
             setShow('none');
         } catch (e) {
             console.log(e)

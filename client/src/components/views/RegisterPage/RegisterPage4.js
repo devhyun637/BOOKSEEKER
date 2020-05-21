@@ -15,7 +15,7 @@ class RegisterPage4 extends React.Component {
 
     componentDidMount = () => {
         const info = this.props.history.location.state
-        console.log("데이터 보낸거 register4에서", info)
+        // console.log("데이터 보낸거 register4에서", info)
         let body = {
             email: info.email,
             name: info.name,
@@ -50,7 +50,7 @@ class RegisterPage4 extends React.Component {
         if (inputValue && tags.indexOf(inputValue) === -1) {
             tags = [...tags, inputValue];
         }
-        console.log(tags);
+        // console.log(tags);
         this.setState({
             tags,
             inputVisible: false,
@@ -94,15 +94,15 @@ class RegisterPage4 extends React.Component {
         const data = this.componentDidMount()
 
         let { tags } = this.state;
-        console.log(tags);
+        // console.log(tags);
 
         axios.post('/api/hashtags/select', tags)
             .then((res) => {
                 if (!res.data.categorySelectSuccess) {
                     alert(res.data.message);
-                    console.log("선택해줘");
+                    // console.log("선택해줘");
                 } else {
-                    console.log("뭐라도 선택했군");
+                    // console.log("뭐라도 선택했군");
 
                     // register+register3+regist4 보내기
                     axios.post('/api/users/register', data)
@@ -113,7 +113,7 @@ class RegisterPage4 extends React.Component {
                               alert(res.data.message)
                          }
                          })
-                    console.log(res.data.message);
+                    // console.log(res.data.message);
                     console.log(data);
                     this.props.history.push('/login');
                 }
