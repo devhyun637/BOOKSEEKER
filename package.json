@@ -12,6 +12,7 @@
   "author": "yoon",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.9.14",
     "@n8tb1t/use-scroll-position": "^1.0.43",
     "axios": "^0.19.2",
     "axois": "0.0.1-security",
