@@ -34,5 +34,7 @@ app.use('/api/hashtags', require('./routes/hashtag'));
 app.use('/api/users', require('./routes/users'));
 // 검색 
 app.use('/api/booktrailer/search', require('./routes/search'));
+// URL 검색(업로드영상확인)
+app.use('/api/booktrailer', require('./routes/URLsearch'));
 
 app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

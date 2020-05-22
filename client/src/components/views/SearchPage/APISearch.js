@@ -63,7 +63,7 @@ function APISearch(props) {
         var params = []
         params.push(parent.querySelector('.author').innerHTML);
         params.push(parent.querySelector('.publisher').innerHTML);
-        console.log(params);
+        console.log("여기서 찍힌다",params);
     }
 
     const onSubmitHandler = (evnet) => {

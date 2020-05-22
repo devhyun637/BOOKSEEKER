@@ -66,7 +66,7 @@ function App() {
 
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
-          <Route exact path="/video/upload" component={Auth(VideoUploadPage, true)} />
+          <Route exact path="/video/upload" component={Auth(VideoUploadPage, null)} />
 
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />
