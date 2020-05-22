@@ -47,7 +47,7 @@ router.post('/register', (req, res) => {
     if (userInfo.password !== userInfo.confirmpassword) {
         return res.json({
             isRegisterSuccess: false,
-            message: "passwordMissmatch"
+            message: "비밀번호가 일치하지 않습니다."
         });
     }
     //비밀번호 암호화
@@ -91,7 +91,7 @@ router.post('/register', (req, res) => {
         console.log(err);
         return res.json({
             isRegisterSuccess: false,
-            message: "duplicated Email"
+            message: "중복된 이메일입니다."
         });
     });
 });
@@ -119,7 +119,7 @@ router.post('/login', async function (req, res) {
     if (result == null) {
         return res.json({
             loginSuccess: false,
-            message: "Wrong Email"
+            message: "해당 이메일로 가입된 아이디가 없습니다."
         });
     }
 
@@ -133,7 +133,7 @@ router.post('/login', async function (req, res) {
     if (dbPassword != hashPassword) {
         return res.json({
             loginSuccess: false,
-            message: "Wrong Password"
+            message: "비밀번호가 일치하지 않습니다."
         })
     } else {
         //비밀번호가 맞으면 토큰 Cookie에 저장하기

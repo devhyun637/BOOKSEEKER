@@ -105,17 +105,17 @@ class RegisterPage4 extends React.Component {
                     // console.log("뭐라도 선택했군");
 
                     // register+register3+regist4 보내기
-                    axios.post('/api/users/register', data)
-                   .then(res => {
-                        if (res.data.isRegisterSuccess) {
-                            console.log("회원가입 성공!")
-                        } else {
-                              alert(res.data.message)
-                         }
-                         })
-                    // console.log(res.data.message);
-                    console.log(data);
-                    this.props.history.push('/login');
+                //     axios.post('/api/users/register/5', data)
+                //    .then(res => {
+                //         if (res.data.isRegisterSuccess) {
+                //             console.log("회원가입 성공!")
+                //         } else {
+                //               alert(res.data.message)
+                //          }
+                //          })
+                //     // console.log(res.data.message);
+                    console.log("register4에서 찍어본다:", data);
+                  this.props.history.push('/register/5', data)
                 }
             }).catch(e => {
                 console.log('해시태그 선택에 실패', e)
@@ -232,7 +232,7 @@ class RegisterPage4 extends React.Component {
                         fontWeight: 'normal',
                         fontSize: '16px',
                         textJustify: 'justify'
-                    }}> 회원가입</span>
+                    }}> 다음 </span>
                 </Button>
             </form>
         );
