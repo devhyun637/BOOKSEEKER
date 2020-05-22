@@ -232,7 +232,7 @@ class RegisterPage4 extends React.Component {
                         fontWeight: 'normal',
                         fontSize: '16px',
                         textJustify: 'justify'
-                    }}> 회원가입</span>
+                    }}> 다음 </span>
                 </Button>
             </form>
         );

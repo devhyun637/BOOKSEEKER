@@ -57,11 +57,13 @@ function RegisterPage3(props) {
         <form style={{ position: 'relative', padding: '20px', textAlign: 'center' }} onSubmit={sendCategory}>
             <RegisterPage2 handleCategory={filter => handleCategory(filter)} />
             <Button style={{
-                background: 'black',
-                color: 'white',
-                padding: '0',
+                border: '1px solid black',
+                color: 'black',
+                paddingTop: '0',
                 height: '40px',
-                width: '30%'
+                width: '30%',
+                lineHeight: '40px',
+                margin: '20px'
             }}
                 htmlType="submit"
                 type="button">

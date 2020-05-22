@@ -57,14 +57,14 @@ class LoginPage extends Component {
           onClick={(event) =>
             this.buttonClick(event, body)}
         >
-          Submit
+          로그인
         </button>
       );
     }
 
     return (
       <button type="submit" className="btn btn-primary btn-block" disabled>
-        Submit
+        로그인
       </button>
     );
   };
