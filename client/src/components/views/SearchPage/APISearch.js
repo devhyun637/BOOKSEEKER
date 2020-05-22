@@ -104,7 +104,10 @@ function APISearch(props) {
     const handleCheck = (event) => {
         let params = [];
         let parent = event.currentTarget.parentNode;
-        params.push(parent.querySelector('.author').innerHTML);
+        var authors = parent.querySelector('.author').innerHTML.split('|');
+        for(var i=0;i<authors.length;i++){
+            params.push(authors[i]);
+        }
         params.push(parent.querySelector('.publisher').innerHTML);
 
         selecting(params);
@@ -148,10 +151,8 @@ function APISearch(props) {
 
     const sendHashtag = (e) => {
         e.preventDefault();
-        // console.log(selected);
-        props.onSubmit(selected);
-
-        // 여기를 채워주면 됩니당
+        props.handleHashtag(selected)
+        setOpen(false);
     }
 
     return (

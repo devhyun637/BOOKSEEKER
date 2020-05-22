@@ -39,7 +39,6 @@ router.get('/name', async (req, res) => {
 // =========================== 회원가입 ===========================
 router.post('/register', (req, res) => {
     userInfo = req.body;
-    console.log(userInfo);
     birthDateInfo = userInfo.birthDate.split('/');
     userBirth = new Date(birthDateInfo[0],birthDateInfo[1]-1,birthDateInfo[2]);
     userAge = new Date().getFullYear() - userBirth.getFullYear();
@@ -67,20 +66,59 @@ router.post('/register', (req, res) => {
         age: userAge,
         gender: userInfo.gender,
         roleId: 2
-    }).then(result => {
+    }).then(async result => {
         for (var i = 0; i < userInfo.categoryIds.length; i++) {
             //유저-카테고리 관계 추가
             models.User_Category.create({
                 userId: result.dataValues.id,
                 categoryId: userInfo.categoryIds[i]
             });
-
             //카테고리 count증가(*)
             models.sequelize.query("UPDATE category_id SET counting=counting+1 WHERE id = :id", {
                 replacements: { id: userInfo.categoryIds[i] }
             });
         }
         console.log("================== user_info insert success ==================");
+         
+        for(var i=0;i<userInfo.book.length;i++){
+            var tagName = userInfo.book[i];
+            await models.Hashtag.findOne({ where: {hashtagName: tagName} })
+            .then(tagResult => {
+                var hashtagId = 0;
+                if(tagResult!=null){
+                    models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
+                        replacements: { id: tagResult.dataValues.id }
+                    });
+                    hashtagId = tagResult.dataValues.id;
+                    //유저-해시태그 관계 추가
+                    models.User_Hashtag.create({
+                        userId: result.dataValues.id,
+                        hashtagId: hashtagId
+                    });
+                }else{
+                    models.Hashtag.create({
+                        hashtagName: tagName,
+                        counting: 1,
+                        created_at: new Date(),
+                        updated_at: new Date()
+                    }).then(res=>{
+                        hashtagId = res.dataValues.id;
+                        //유저-해시태그 관계 추가
+                        models.User_Hashtag.create({
+                            userId: result.dataValues.id,
+                            hashtagId: hashtagId,
+                            created_at: new Date(),
+                            updated_at: new Date()
+                        });
+                    }).catch(err=>{
+                        console.log(err);
+                    });
+                }
+            }).catch(err=>{
+                console.log("find 에러");
+            });
+        }
+        
         return res.json({
             isRegisterSuccess: true,
             user: result,
