@@ -18,7 +18,7 @@ class RegisterPage extends Component {
         confirmPassword: '',
         pickerOpen: false,
         birthDate: null,
-        isBirthday: false,
+        isBirthdayValid: false,
         gender: 1,
         typedEmail: '',
         isDuplicateEmail: false,
@@ -69,8 +69,8 @@ class RegisterPage extends Component {
     };
 
     isEveryFieldValid = () => {
-        const { isEmailValid, isNameValid } = this.state;
-        return isEmailValid && isNameValid;
+        const { isEmailValid, isNameValid, isBirthdayValid } = this.state;
+        return isEmailValid && isNameValid && isBirthdayValid;
     };
 
     buttonClick(event, data) {
@@ -240,7 +240,7 @@ class RegisterPage extends Component {
         this.setState({ pickerOpen: !this.state.pickerOpen });
         this.setState({ birthDate: birthday });
         if(this.state.birthDate!==null){
-            this.setState({isBirthday: true});
+            this.setState({isBirthdayValid: true});
         }
     }
 
