@@ -33,7 +33,7 @@ class LoginPage extends Component {
     axios.post('/api/users/login', data)
       .then(res => {
         if (res.data.loginSuccess) {
-          document.location.href = "/";
+          document.location.href = "/recommend";
         } else {
           alert(res.data.message);
         }

@@ -63,6 +63,7 @@ function RegisterPage5(props) {
             .then((res) => {
                 if (res.data.isRegisterSuccess) {
                     console.log("회원가입 성공!")
+                    props.history.push('/login');
                 } else {
                     alert(res.data.message)
                 }

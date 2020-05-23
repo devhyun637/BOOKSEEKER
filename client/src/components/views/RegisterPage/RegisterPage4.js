@@ -114,7 +114,7 @@ class RegisterPage4 extends React.Component {
                 //          }
                 //          })
                 //     // console.log(res.data.message);
-                    console.log("register4에서 찍어본다:", data);
+                    //console.log("register4에서 찍어본다:", data);
                   this.props.history.push('/register/5', data)
                 }
             }).catch(e => {
