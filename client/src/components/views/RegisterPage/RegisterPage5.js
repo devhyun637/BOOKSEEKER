@@ -4,7 +4,6 @@ import APISearch from '../SearchPage/APISearch';
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import { SecurityScanTwoTone } from '@ant-design/icons';
 
 //스타일 component
 const Box = styled.div`
@@ -26,26 +25,22 @@ const Title = styled.h2`
 function RegisterPage5(props) {
     const [skipButtonShow, setSkipButtonShow] = useState('');
     const [registerButtonShow, setRegisterButtonShow] = useState('none');
-    const [book, setbook] = useState([])
     const [Hashtags, setHashtags] = useState([])
 
     const componentDidMount = () => {
         const info = props.history.location.state
-        console.log("책씨바", book)
-        
+
         let body = {
-             email: info.email,
-             name: info.name,
-             password: info.password,
-             confirmpassword: info.confirmpassword,
-             birthDate: info.birthDate,
-             gender: info.gender, 
-             categoryIds: info.categoryIds,
-             hashtags: info.hashtags,
-             book: book
-    
-         }
-       
+            email: info.email,
+            name: info.name,
+            password: info.password,
+            confirmpassword: info.confirmpassword,
+            birthDate: info.birthDate,
+            gender: info.gender,
+            categoryIds: info.categoryIds,
+            hashtags: info.hashtags,
+            book: Hashtags
+        }
 
         return body
     }
@@ -62,30 +57,31 @@ function RegisterPage5(props) {
     const sendRegister = (e) => {
         e.preventDefault();
         let data = componentDidMount()
+        console.log(data);
 
-        // console.log("책정보", bookinfo)
-        console.log("바로 회원가입?",data)
-        // console.log("한번찍어보자 해시태그", data.hashtags)
-       
         axios.post('/api/users/register', data)
-                    .then((res) => {
-                         if (res.data.isRegisterSuccess) {
-                             console.log("회원가입 성공!")
-                         } else {
-                               alert(res.data.message)
-                          }
-                          })
-                     
-        
-        //회원가입 코드 여기서 넣어주기
+            .then((res) => {
+                if (res.data.isRegisterSuccess) {
+                    console.log("회원가입 성공!")
+                } else {
+                    alert(res.data.message)
+                }
+            })
+
     }
 
-
     //APISearch에서 받아온 책정보 book state에 저장
-    const onSearchSubmit = (book)  => {
-        console.log("API에서 받아온 책 정보: ", book);
-        setbook(book)
-        
+    const handleHashtag = (filter) => {
+        // console.log("API에서 받아온 책 정보: ", filter);
+        let data = componentDidMount().hashtags;
+        let newHashtag = [...data];
+
+        for (let i = 0; i < filter.length; i++) {
+            newHashtag.push(filter[i]);
+        }
+
+        setHashtags(newHashtag);
+        setRegisterButtonShow('');
     }
 
     return (
@@ -95,11 +91,11 @@ function RegisterPage5(props) {
                 책을 알려주세요.
             </Title>
             <br />
-            <APISearch onSubmit={onSearchSubmit} />
+            <APISearch handleHashtag={filter => handleHashtag(filter)} />
             <br />
             <form onSubmit={sendOnNull}>
                 <Button style={{
-                    margin: "20px",
+                    margin: "10px",
                     border: "0.5px solid #717171",
                     backgroundColor: "white",
                     color: "gray",
@@ -111,7 +107,7 @@ function RegisterPage5(props) {
 
             <form onSubmit={sendRegister}>
                 <Button style={{
-                    margin: "20px",
+                    margin: "10px",
                     border: "0.5px solid #717171",
                     backgroundColor: "black",
                     color: "white",
@@ -120,7 +116,7 @@ function RegisterPage5(props) {
                     type="submit"
                 >회원가입</Button>
             </form>
-            
+
         </Box>
     )
 }

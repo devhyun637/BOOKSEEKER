@@ -148,10 +148,8 @@ function APISearch(props) {
 
     const sendHashtag = (e) => {
         e.preventDefault();
-        // console.log(selected);
-        props.onSubmit(selected);
-
-        // 여기를 채워주면 됩니당
+        props.handleHashtag(selected)
+        setOpen(false);
     }
 
     return (
