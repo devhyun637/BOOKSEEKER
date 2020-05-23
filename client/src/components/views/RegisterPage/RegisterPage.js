@@ -18,6 +18,7 @@ class RegisterPage extends Component {
         confirmPassword: '',
         pickerOpen: false,
         birthDate: null,
+        isBirthday: false,
         gender: 1,
         typedEmail: '',
         isDuplicateEmail: false,
@@ -238,6 +239,9 @@ class RegisterPage extends Component {
         const birthday = moment(birthDate).format(dateFormat);
         this.setState({ pickerOpen: !this.state.pickerOpen });
         this.setState({ birthDate: birthday });
+        if(this.state.birthDate!==null){
+            this.setState({isBirthday: true});
+        }
     }
 
     //성별체크
