@@ -29,8 +29,8 @@ import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
-import VideoUploadPage from './components/views/VideoUploadPage/VideoUploadPage'
-
+import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
+import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
 
 function App() {
   return (
@@ -64,7 +64,8 @@ function App() {
 
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
-          <Route exact path="/video/upload" component={Auth(VideoUploadPage, null)} />
+          <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
+          <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
 
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />
