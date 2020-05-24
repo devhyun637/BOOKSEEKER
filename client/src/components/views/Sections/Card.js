@@ -1,21 +1,22 @@
 import React, { Component } from "react";
-import "./Post.css";
+import PropTypes from "prop-types";
+import "./Card.css";
 import LikeButton from '../Sections/LikeButton'
 
 
 
-class CommunityPage extends Component {
+function Card({profile_image, userName, url, likecount, hashtags, comments}) {
      
-    render() {
+    
         return (
         <article className="Post" ref="Post">
             <header>
               <div className="Post-user">
                 <div className="Post-user-profile">
-                  <img src="/Images/pengsu.jpg" alt="user_image" />
+                  <img src={profile_image} alt="user_image" />
                 </div>
                 <div className="Post-user-name">
-                  <span>pengsu</span>
+                    <span>{userName}</span>
                 </div>
                 <div className="Post-detail">
                    <button className="detail-button">
@@ -28,7 +29,7 @@ class CommunityPage extends Component {
               <div className="Post-image-bg">
              <p align = "middle">   
               <iframe 
-                width="90%" height="100%" src="https://www.youtube.com/embed/HmBJDuPbFa4" 
+                width="90%" height="100%" src={url} 
                 frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
               </iframe>
@@ -43,7 +44,7 @@ class CommunityPage extends Component {
                   </button>
                </div>
                <div className="Like-count">
-                좋아요수
+                  <p>{likecount}명이좋아합니다.</p>
               </div>
               <div className="share-button">
                 <button>
@@ -52,10 +53,12 @@ class CommunityPage extends Component {
               </div>
               </div>
               <div className="hashtags">
-                #해쉬태그 #감성 #고양이...
+                #해쉬태그 #감성 #고양이...{hashtags.map((hashtag, index) => (
+                  <li key={index} className="hashtags_hashtag">{hashtag}</li>
+                ))}
               </div>
               <div className="comments">
-                댓글보기
+                댓글보기{comments}
                 </div>
             </div>
           </article>
@@ -63,6 +66,17 @@ class CommunityPage extends Component {
           )
         }
 
+        Card.propTypes = {
+          id: PropTypes.number.isRequired,
+          profile_image: PropTypes.string.isRequired,
+          userName: PropTypes.string.isRequired,
+          url: PropTypes.string.isRequired,
+          likecount: PropTypes.number.isRequired,
+          hashtags: PropTypes.arrayOf(PropTypes.string).isRequired,
+          comments: PropTypes.string.isRequired
+
+        }
+
         
-    }
-    export default CommunityPage;
+    
+    export default Card;

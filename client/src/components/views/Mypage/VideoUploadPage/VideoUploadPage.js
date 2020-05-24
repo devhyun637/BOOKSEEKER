@@ -8,8 +8,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 var url = require('url');
+
 
 
 const { TextArea } = Input;
@@ -30,11 +32,15 @@ const styles = theme => ({
 
 function VideoUploadPage(props) {
 
-    const [URL, setURL] = useState('');
+    const [URL, setURL] = useState("");
     const [VideoTitle, setVideoTitle] = useState("")
     const [Description, setDescription] = useState("")
     const [Private, setPrivate] = useState(0)
     const [Open, setOpen] = useState(false)
+    const [ValidURL, setValidURL] = useState("")
+    const [startThumbnail, setstartThumbnail] = useState("img.youtube.com/vi/")
+    const [endThumbnail, setendThumbnail] = useState("/0.jpg");
+    const [thumbnailId, setthumbnailId] = useState([])
 
     const handleOpen = () => {
         setOpen(true);
@@ -56,22 +62,35 @@ function VideoUploadPage(props) {
         setDescription(e.currentTarget.value)
     }
 
+     const onThumbnailChange = ( url) => {
+       
+        let videoId = url.split("=");
+        console.log("꺅",videoId[1])
+        setthumbnailId(...videoId)
+        console.log("제발", thumbnailId)
+        console.log("스테잇", startThumbnail+thumbnailId+endThumbnail)
+    }
+
     const onSubmitURL = (e, URL) => {
         e.preventDefault();
         
-        let Url={
-            URL: URL
-        }
-        console.log("잘가나?",Url)
+        let url = {URL: URL}
+        console.log("잘가나?", url)
         
-        axios.post('/api/booktrailer/urlsearch', Url)
+        axios.post('/api/booktrailer/urlsearch', url)
                    .then(res => {
-                        if (!res.data.isSearchSuccess) {
+                        if (res.data.isSearchSuccess) {
                             console.log(res.data.message)
-                            console.log("영상 찾기 실패~!")
+                            setValidURL(url.URL)
+                            onThumbnailChange(url.URL);
+                            setOpen(false)
+                            
+
                         } else {
+                            alert("영상없음");
                             console.log(res.data.message)
-                            console.log('영상차즘~')
+                            console.log('영상못차즘~')    
+                            onThumbnailChange(url.URL);                        
                          }
             })
         }
@@ -87,6 +106,16 @@ function VideoUploadPage(props) {
                 <Button variant="contained" color="primary" onClick={handleOpen}>
                     영상검색하기
                 </Button>
+                <br/>
+                <br/>
+                <div>
+                    <label>URL: 
+                        <a href={ValidURL}>  {ValidURL}</a>
+                        </label>
+                </div>
+                <div className="default_thumbnail">
+                    <img src={startThumbnail+thumbnailId+endThumbnail}/>
+                </div>
                 <Dialog open={Open} onClose={handleClose}>
                     <DialogTitle>
                         URL검색
@@ -111,48 +140,9 @@ function VideoUploadPage(props) {
                    
                     {/* Thumbnail */}
                     <div>
-                        <img src alt />
+                        
                     </div>
                 </div>
-
-                <br />
-                <br />
-                <lable>Title</lable>
-                <Input
-                    onChange={onTitleChange}
-                    value={VideoTitle}
-                />
-                <br />
-                <br />
-                <label>Description</label>
-
-                <TextArea
-                    onChange={onDescriptionChange}
-                    value={Description}
-                />
-                <br />
-                <br />
-
-                <select onChange>
-                    {PrivateOptions.map((item, index) => (
-                        <option key={index} value={item.value}>{item.label}</option>
-                    ))}
-                </select>
-
-                <br />
-                <br />
-
-                <select onChange>
-                    <option key value></option>
-                </select>
-
-                <br />
-                <br />
-
-                <Button type="primary" size="large">
-                    submit
-                </Button>
-
 
             </Form>
 
@@ -160,5 +150,7 @@ function VideoUploadPage(props) {
         
     )
 }
+
+
 
 export default withRouter(VideoUploadPage);

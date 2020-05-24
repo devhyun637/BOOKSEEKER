@@ -9,10 +9,8 @@ const youtube = new Youtube();
 //             URL Search
 //=================================
 router.post('/urlsearch',(req,res) => {
-
-const URL = req.body.URL // 검색할 url
-var limit = 5;  // 출력 갯수
-
+URL = req.body.URL // 검색할 url
+let limit = 1;  // 출력 갯수
 console.log("api에서 출력한 결과 : ", URL)
 
 youtube.setKey('AIzaSyDCwHsZdvktc9-M_hZYkQOKXyRxAjMuEQI'); // API 키 입력
@@ -21,9 +19,10 @@ youtube.search(URL, limit, function (err, result) { // 검색 실행
    // 에러일 경우 에러공지하고 빠져나감
     if (err) { console.log(err);
         console.log("왜이래~");
+        console.log(err);
         return res.json({
             isSearchSuccess: false,
-            message: "video not found"
+            message: "err"
         })
     }
 
@@ -42,7 +41,12 @@ youtube.search(URL, limit, function (err, result) { // 검색 실행
               if(url===URL){
                 return res.json({
                     isSearchSuccess: true,
-                    message: "videofound"
+                    message: "video found"
+                });
+              }else{
+                return res.json({
+                    isSearchSuccess: false,
+                    message: "video not found"
                 });
               }
             
