@@ -1,5 +1,5 @@
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import React, { useState } from 'react';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -72,17 +72,24 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[4],
         padding: '2%',
         overflow: 'scroll'
-    },
+    }
 }));
 
 
-function APISearch(props) {
+function NaverBookAPI(props) {
+
     const classes = useStyles();
 
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
+
     const [Search, setSearch] = useState("");
-    const [selected, setSelected] = useState([]);
+
+    const [publisher, setPublisher] = useState("");
+    const [author, setAuthor] = useState([]);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
     const [body, setBody] = useState('');
 
     const handleOpen = () => {
@@ -104,20 +111,18 @@ function APISearch(props) {
     const handleCheck = (event) => {
         let params = [];
         let parent = event.currentTarget.parentNode;
-        params.push(parent.querySelector('.publisher').innerHTML);
-        var authors = parent.querySelector('.author').innerHTML.split('|');
-        for(var i=0;i<authors.length;i++){
+
+        let authors = parent.querySelector('.author').innerHTML.split('|');
+        for (var i = 0; i < authors.length; i++) {
             params.push(authors[i]);
         }
 
-        selecting(params);
+        setAuthor(params)
+        setPublisher(parent.querySelector('.publisher').innerHTML);
+        setTitle(parent.querySelector('.name').innerHTML);
+        setDescription(parent.querySelector('.description').innerHTML);
     }
 
-    const selecting = (filter) => {
-        let newHashtag = [...selected];
-        newHashtag = filter;
-        setSelected(newHashtag)
-    }
 
     const onSubmitHandler = (evnet) => {
         evnet.preventDefault();
@@ -131,17 +136,20 @@ function APISearch(props) {
                         element.push(
                             <BookLi key={i}>
                                 <Checkbox type="radio" id={i} name="gener" className='radioBox' onChange={handleCheck} />
-                                <Thumbnail src={data.image} alt={data.title} />
-                                <Name>{data.title.replace(/(<([^>]+)>)/ig, '')}</Name>
+                                <Thumbnail src={data.image} alt={data.title.replace(/(<([^>]+)>)/ig, '')} />
+                                <Name className="name">{data.title.replace(/(<([^>]+)>)/ig, '')}</Name>
                                 <br />
                                 <Contents className="author">{data.author.replace(/(<([^>]+)>)/ig, '')}</Contents>
                                 <Contents className="publisher">{data.publisher.replace(/(<([^>]+)>)/ig, '')}</Contents>
+                                <Contents className="description"
+                                    style={{ display: "none" }}>
+                                    {data.description.replace(/(<([^>]+)>)/ig, '')}
+                                </Contents>
                                 <Hr />
                             </BookLi>
                         );
                     }
                     setBody(element);
-
                     handleOpen();
                 } else {
                     alert(res.data.message);
@@ -149,15 +157,15 @@ function APISearch(props) {
             })
     }
 
-    const sendHashtag = (e) => {
+    const sendBook = (e) => {
         e.preventDefault();
-        props.handleHashtag(selected)
+        props.handleBook(title, publisher, author, description);
         setOpen(false);
     }
 
     return (
         <div>
-            <form onSubmit={onSubmitHandler}>
+            <form onSubmit={onSubmitHandler} >
                 <InputGroup className="mb-3"
                     style={{
                         width: "90%",
@@ -165,7 +173,7 @@ function APISearch(props) {
                     }}>
                     <FormControl
                         style={{
-                            padding: "22px",
+                            padding: "10px",
                             border: "1px solid #171717",
                             color: "#0f4c81",
                             fontSize: '14px'
@@ -193,7 +201,7 @@ function APISearch(props) {
 
 
             <Modal open={open} onClose={handleClose}>
-                <form style={modalStyle} className={classes.paper} onSubmit={sendHashtag}>
+                <form style={modalStyle} className={classes.paper} onSubmit={sendBook}>
                     <ModalBox>
                         <Text>책 검색 결과</Text>
                         <Hr style={{ border: "1px solid black" }} />
@@ -230,4 +238,4 @@ function APISearch(props) {
     )
 }
 
-export default withRouter(APISearch)
+export default withRouter(NaverBookAPI)

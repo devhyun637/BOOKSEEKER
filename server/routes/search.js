@@ -6,6 +6,8 @@ const sequelize = require('sequelize');
 const Op = sequelize.Op;
 const axios = require('axios');
 
+const naverAPI = require('../config/naverAPI');
+
 
 //=================================
 //             Search
@@ -59,8 +61,8 @@ router.get('/APISearch/:searchWord',(req,res) => {
             display: 25
         },
         headers: {
-            'X-Naver-Client-Id': 'qNsHwGwnktVQ4C6fb2MB',
-            'X-Naver-Client-Secret': 'H8P4T6tx_D'
+            'X-Naver-Client-Id': naverAPI.clientId,
+            'X-Naver-Client-Secret': naverAPI.clientSecret
         }
     }).then(result => {
         return res.json({
@@ -68,6 +70,22 @@ router.get('/APISearch/:searchWord',(req,res) => {
             data: result.data.items
         });
     })
-})
+});
+
+
+router.get('/user', (req, res) => {
+    var userId = req.cookies.id;
+    models.users.findOne({where:{id:userId}}).then(result=>{
+        return res.json({
+            isSearchSuccess: true,
+            data: result
+        });
+    }).catch(err=>{
+        return res.json({
+            isSearchSuccess: false,
+            message: "wrongUserInformation"
+        });
+    });
+});
 
 module.exports = router;
