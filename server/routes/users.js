@@ -118,7 +118,50 @@ router.post('/register', (req, res) => {
                 console.log("find 에러");
             });
         }
-        
+
+        await models.Publisher.findOne({ where: {publisher: userInfo.publisher} })
+        .then(publisher => {
+            if(publisher==null){
+                models.Publisher.create({
+                    publisher: userInfo.publisher
+                }).then(res=>{
+                    models.User_Publisher.create({
+                        userId: result.dataValues.id,
+                        publisherId: res.dataValues.id
+                    })
+                });
+            }else{
+                models.User_Publisher.create({
+                    userId: result.dataValues.id,
+                    publisherId: publisher.dataValues.id
+                });
+            }
+        });
+
+        for(var i=0;i<userInfo.authors.length;i++){
+            var authorName = userInfo.authors[i];
+            await models.Author.findOne({ where: {author: authorName} })
+            .then(author => {
+                if(author!=null){
+                    models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
+                        replacements: { id: tagResult.dataValues.id }
+                    });
+                    models.User_Author.create({
+                        userId: result.dataValues.id,
+                        authorId: author.dataValues.id
+                    });
+                }else{
+                    models.Author.create({
+                        author: authorName
+                    }).then(author =>{
+                        models.User_Author.create({
+                            userId: result.dataValues.id,
+                            authorId: author.dataValues.id
+                        });
+                    });
+                }
+            });
+        }
         return res.json({
             isRegisterSuccess: true,
             user: result,
@@ -176,6 +219,7 @@ router.post('/login', async function (req, res) {
     } else {
         //비밀번호가 맞으면 토큰 Cookie에 저장하기
         res.cookie("user", token);
+        res.cookie("id", result.dataValues.id);
         return res.json({
             loginSuccess: true,
             email: result.dataValues.email,
@@ -226,6 +270,24 @@ router.get('/auth', (req, res) => {
             verify: false
         });
     }
-})
+});
+
+// =========================== 유저 찾기 ===========================
+router.get('/search', (req, res) => {
+    var userId = req.cookies.id;
+    models.User.findOne({where:{id:userId}}).then(result=>{
+        return res.json({
+            isSearchSuccess: true,
+            email: result.dataValues.userID,
+            name: result.dataValues.name
+        });
+    }).catch(err=>{
+        return res.json({
+            isSearchSuccess: false,
+            message: "wrongUserInformation"
+        });
+    });
+});
+
 
 module.exports = router;
