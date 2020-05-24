@@ -104,11 +104,11 @@ function APISearch(props) {
     const handleCheck = (event) => {
         let params = [];
         let parent = event.currentTarget.parentNode;
+        params.push(parent.querySelector('.publisher').innerHTML);
         var authors = parent.querySelector('.author').innerHTML.split('|');
         for(var i=0;i<authors.length;i++){
             params.push(authors[i]);
         }
-        params.push(parent.querySelector('.publisher').innerHTML);
 
         selecting(params);
     }
