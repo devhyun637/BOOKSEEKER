@@ -84,6 +84,7 @@ function RegisterPage5(props) {
         for (let i = 0; i < filter.length; i++) {
             newHashtag.push(filter[i]);
         }
+        
         setPublisher(filter[0]);
         setAuthors(filter.slice(1,));
         setHashtags(newHashtag);
