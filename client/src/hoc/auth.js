@@ -26,7 +26,7 @@ export default function(SpecificComponent, option, adminRoute = null){
             fetchData();
         }, []);
 
-        return option==null? <SpecificComponent/> :option? verify? <SpecificComponent/> : <LoginPage/> : verify? LandingPage : <SpecificComponent/>
+        return option==null? <SpecificComponent/> :option? verify? <SpecificComponent/> : <LoginPage/> : verify? <LandingPage/> : <SpecificComponent/>
 
     }
 
