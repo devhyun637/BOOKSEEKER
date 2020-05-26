@@ -16,34 +16,18 @@ export default function(SpecificComponent, option, adminRoute = null){
         
         //back에 req날리기
         useEffect(() => {
-           dispatch(auth()).then(res => {
-               //console.log("hoc에서 묻는다", res);
-               setVerify(res.payload.verify);
-           });
+            async function fetchData() {
+                await dispatch(auth()).then(res => {
+                    //console.log("hoc에서 묻는다", res);
+                    setVerify(res.payload.verify);
+                });
+            }
            
-        });
+            fetchData();
+        }, []);
 
-        if(option == null){
-            return (
-                <SpecificComponent/>
-            )
-        }else if(option){
-            if(verify){
-                return (
-                    <SpecificComponent/>
-                )
-            }else{
-                return (<LoginPage/>)
-            }
-        }else{
-            if(verify){
-                return (
-                    <LandingPage/>
-                )
-            }else{
-                return (<SpecificComponent/>)
-            }
-        }
+        return option==null? <SpecificComponent/> :option? verify? <SpecificComponent/> : <LoginPage/> : verify? <LandingPage/> : <SpecificComponent/>
+
     }
 
 

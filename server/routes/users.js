@@ -252,21 +252,18 @@ router.get('/auth', (req, res) => {
         jwt.verify(token, secretObj.secret, (err,decoded) => {
             if(err){
                 decode = false;
+                return res.json({
+                    verify: false
+                });
             }else{
                 decode = decoded;
+                return res.json({
+                    verify: true
+                });
             }
         });
-        if(decode){
-            return res.send({
-                verify: true
-            });
-        }else{
-            return res.send({
-                verify: false
-            });
-        }
     }else{
-        return res.send({
+        return res.json({
             verify: false
         });
     }
