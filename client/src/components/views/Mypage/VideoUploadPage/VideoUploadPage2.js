@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { Form, Input } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 const { TextArea } = Input;
 
@@ -37,6 +36,7 @@ function VideoUploadPage2(props) {
     const [booktrailerDesc, setBooktrailerDesc] = useState("");
     const [checkButtonShow, setCheckButtonShow] = useState('');
     const [sendButtonShow, setSendButtonShow] = useState('none');
+    const [inputable, setInputalbe] = useState(false);
 
     const componentDidMount = () => {
         const booktrailer = props.history.location.state
@@ -54,24 +54,34 @@ function VideoUploadPage2(props) {
 
     const [form] = Form.useForm();
 
-    const onCheck = async () => {
-        try {
-            const values = await form.validateFields();
-            // console.log('Success:', values);
-            let title = values.booktrailer_title;
-            let desc = values.booktrailer_description;
+    const onFinish = values => {
+        // const values = await form.validateFields();
+        // console.log('Success:', values);
+        let title = values.booktrailer_title;
+        let desc = values.booktrailer_description;
 
-            setBooktrailerTitle(title);
-            setBooktrailerDesc(desc);
+        setBooktrailerTitle(title);
+        setBooktrailerDesc(desc);
 
-            alert(`북트레일러 제목 : ${title}`);
-            setSendButtonShow('');
-            setCheckButtonShow('none');
-
-        } catch (errorInfo) {
-            console.log('Failed:', errorInfo);
-        }
+        // alert(`북트레일러 제목 : ${title}`);
+        setSendButtonShow('');
+        setCheckButtonShow('none');
+        setInputalbe(true);
     };
+
+    const onFinishFailed = errorInfo => {
+        // console.log('Failed:', errorInfo);
+    };
+
+    const reset = (e) => {
+        e.preventDefault();
+        let data = componentDidMount();
+        props.history.push('/mypage/booktrailer/upload2', data);
+        setSendButtonShow('none');
+        setCheckButtonShow('');
+        setInputalbe(false);
+        // form.resetFields();
+    }
 
     const realSend = (e) => {
         e.preventDefault();
@@ -90,7 +100,10 @@ function VideoUploadPage2(props) {
             </Title>
             <Hr />
 
-            <Form form={form} name="dynamic_rule">
+            <Form form={form}
+                name="dynamic_rule"
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}>
 
                 <Form.Item
                     {...formItemLayout}
@@ -103,7 +116,7 @@ function VideoUploadPage2(props) {
                         },
                     ]}
                 >
-                    <Input placeholder="제목은 필수 입력입니다." />
+                    <Input placeholder="제목은 필수 입력입니다." disabled={inputable} />
                 </Form.Item>
 
                 <Form.Item
@@ -119,6 +132,7 @@ function VideoUploadPage2(props) {
                 >
                     <TextArea
                         placeholder="제목은 필수 입력입니다."
+                        disabled={inputable}
                         autoSize={{ minRows: 5, maxRows: 10 }}
                     />
                 </Form.Item>
@@ -134,8 +148,19 @@ function VideoUploadPage2(props) {
                         color: "black",
                         display: `${checkButtonShow}`
                     }}
-                        onClick={onCheck}
+                        type="primary"
+                        htmlType="submit"
                     >확인</Button>
+                    <Button style={{
+                        margin: "0 auto",
+                        marginRight: "5px",
+                        border: "0.5px solid #717171",
+                        backgroundColor: "white",
+                        color: "black",
+                        display: `${sendButtonShow}`
+                    }}
+                        onClick={reset}
+                    >취소</Button>
                     <Button style={{
                         margin: "0 auto",
                         border: "0.5px solid #717171",

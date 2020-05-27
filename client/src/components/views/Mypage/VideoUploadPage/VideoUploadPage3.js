@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router';
+import axios from 'axios';
 // import NaverBookAPI from '../../Mypage/naverBookAPI/NaverBookAPI';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { Form, Input } from 'antd';
+import { Form, Input, Button, Select } from 'antd';
+
+const { Option } = Select;
 
 
 //스타일 component
@@ -41,6 +43,10 @@ function VideoUploadPage3(props) {
 
     const [checkButtonShow, setCheckButtonShow] = useState('');
     const [sendButtonShow, setSendButtonShow] = useState('none');
+    const [inputable, setInputalbe] = useState(false);
+
+    const [category, setCategory] = useState(null);
+    const [body, setBody] = useState('');
 
     const componentDidMount = () => {
         const booktrailer = props.history.location.state
@@ -53,29 +59,39 @@ function VideoUploadPage3(props) {
             desc: booktrailer.desc,
             bookTitle: bookTitle,
             publisher: publisher,
-            author: author
+            author: author,
+            category: category
         }
 
         return body
     }
 
-    const onCheck = async () => {
-        try {
-            const values = await form.validateFields();
-            // console.log('Success:', values);
+    const onFinish = values => {
+        // console.log('Success:', values);
 
-            setBookTitle(values.book);
-            setPublisher(values.publisher);
-            setAuthor(values.autor);
+        setBookTitle(values.book);
+        setPublisher(values.publisher);
+        setAuthor(values.autor);
 
-            alert(`책 제목 : ${values.book}`);
-            setSendButtonShow('');
-            setCheckButtonShow('none');
-
-        } catch (errorInfo) {
-            console.log('Failed:', errorInfo);
-        }
+        // alert(`책 제목 : ${values.book}`);
+        setSendButtonShow('');
+        setCheckButtonShow('none');
+        setInputalbe(true);
     };
+
+    const onFinishFailed = errorInfo => {
+        // console.log('Failed:', errorInfo);
+    };
+
+    const reset = (e) => {
+        e.preventDefault();
+        let data = componentDidMount();
+        props.history.push('/mypage/booktrailer/upload3', data);
+        setSendButtonShow('none');
+        setCheckButtonShow('');
+        setInputalbe(false);
+        // form.resetFields();
+    }
 
     const realSend = (e) => {
         e.preventDefault();
@@ -83,6 +99,27 @@ function VideoUploadPage3(props) {
         console.log(data);
         props.history.push('/mypage', data);
     };
+
+
+    //카테고리
+    const handleChange = async (value) => {
+        await axios.get('/api/categories')
+            .then(res => {
+                const element = [];
+                if (res.data) {
+                    for (let i = 0; i < res.data.length; i++) {
+                        let category = res.data[i].categoryName;
+                        element.push(
+                            <Option key={category}>{category}</Option>
+                        )
+                    }
+                } else {
+                    alert("카테고리 목록 불러오기 실패")
+                }
+                setBody(element);
+            });
+        setCategory(value)
+    }
 
     return (
         <Box>
@@ -94,7 +131,10 @@ function VideoUploadPage3(props) {
             {/* <NaverBookAPI handleBook={(filter1, filter2, filter3, filter4) => handleBook(filter1, filter2, filter3, filter4)} /> */}
             <Hr />
 
-            <Form form={form} name="dynamic_rule">
+            <Form form={form}
+                name="dynamic_rule"
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}>
 
                 <Form.Item
                     {...formItemLayout}
@@ -107,7 +147,12 @@ function VideoUploadPage3(props) {
                         },
                     ]}
                 >
-                    <Input className="titleInput" placeholder="책 제목은 필수 입력입니다." />
+                    <Input className="titleInput"
+                        placeholder="책 제목은 필수 입력입니다."
+                        disabled={inputable}
+                        onChange={e =>
+                            e.preventDefault()
+                        } />
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -120,7 +165,7 @@ function VideoUploadPage3(props) {
                         },
                     ]}
                 >
-                    <Input className="publisherInput" placeholder="출판사는 필수 입력입니다." />
+                    <Input className="publisherInput" placeholder="출판사는 필수 입력입니다." disabled={inputable} />
                 </Form.Item>
                 <Form.Item
                     {...formItemLayout}
@@ -133,9 +178,27 @@ function VideoUploadPage3(props) {
                         },
                     ]}
                 >
-                    <Input className="authorInput" placeholder="작가는 필수 입력입니다." />
+                    <Input className="authorInput" placeholder="작가는 필수 입력입니다." disabled={inputable} />
                 </Form.Item>
 
+
+                <div>
+                    <Form.Item
+                        name="category"
+                        label="카테고리"
+                        rules={[
+                            {
+                                required: true,
+                                message: '카테고리를 선택해주세요',
+                            },
+                        ]}
+                    >
+                        <Select style={{ width: '100%' }} onChange={handleChange} disabled={inputable}>
+                            <Option >카테고리 불러오기</Option>
+                            {body}
+                        </Select>
+                    </Form.Item>
+                </div>
                 <br />
                 <br />
 
@@ -147,8 +210,19 @@ function VideoUploadPage3(props) {
                         color: "black",
                         display: `${checkButtonShow}`
                     }}
-                        onClick={onCheck}
+                        type="primary"
+                        htmlType="submit"
                     >확인</Button>
+                    <Button style={{
+                        margin: "0 auto",
+                        marginRight: "5px",
+                        border: "0.5px solid #717171",
+                        backgroundColor: "white",
+                        color: "black",
+                        display: `${sendButtonShow}`
+                    }}
+                        onClick={reset}
+                    >취소</Button>
                     <Button style={{
                         margin: "0 auto",
                         border: "0.5px solid #717171",

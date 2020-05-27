@@ -75,8 +75,10 @@ class RegisterPage4 extends React.Component {
         e.preventDefault();
         if (this.state.tags.length === 0) {
             alert("해시태그를 입력해주세요")
+        } else{
+            // alert(`선택된 해시태그: ${this.state.tags}`)
+            this.props.handleHashtag(this.state.tags)
         }
-        this.props.handleHashtag(this.state.tags)
     }
 
     render() {
