@@ -29,18 +29,9 @@ import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
-<<<<<<< HEAD
-// import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
-// import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
-// import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
-
-//======================== python test 페이지 ========================
-import pythonTest from './components/views/pythonTest/testPage';
-=======
 import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
->>>>>>> 213910232bae7d595f75528ecd0ae24ac23a147f
 
 function App() {
   return (
@@ -74,15 +65,9 @@ function App() {
 
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
-<<<<<<< HEAD
-          {/* <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
-          <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
-          <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} /> */}
-=======
           <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
           <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
->>>>>>> 213910232bae7d595f75528ecd0ae24ac23a147f
 
           {/* 파이썬 페이지 */}
           <Route exact path="/python" component={pythonTest} />
