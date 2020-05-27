@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const sampleImage1 = '/images/booktrailer.jpg';
+const sampleImage1 = '/images/booktrailer2.jpeg'
 const sampleImage2 = '/images/booktrailer2.jpeg';
 const sampleImage3 = '/images/booktrailer3.jpeg';
 
@@ -31,9 +32,8 @@ const RecommandListLi = styled.li`
     width: 214px;
 `;
 
-const Image1 = styled.img.attrs({
-    src: `${sampleImage1}`
-})`
+const Image1 = styled.div`
+    background-image: url(${props => props.bgUrl})
     width: 214px;
     height: 130px;
     background-size: cover;
@@ -75,7 +75,41 @@ const Name = styled.p`
     width: inherit;
 `;
 
-function RecommendPage() {
+function RecommendPage(props) {
+
+    const [todayBookTrailer, setTodayBookTrailer] = useState("");
+
+    useEffect(() => {
+        async function fetchData() {
+            await axios.get('/api/python/case1').then(res => {
+
+                setTodayBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to="/">
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+                    
+                ));
+            }).catch(e =>{
+                console.log(e);
+            });
+        }
+       
+        fetchData();
+    }, []);
+
+    
     return (
         <div>
             <form>
@@ -101,24 +135,7 @@ function RecommendPage() {
                 <RecommandCard>
                     <RecommandName>오늘의 북트레일러</RecommandName>
                     <RecommandList>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image1 />
-                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image2 />
-                                <Name>홍남권 작가의 역사소설, 안시성</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image3 />
-                                <Name>몽실이 몽실이 몽실언니</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
+                        {todayBookTrailer}
                     </RecommandList>
                 </RecommandCard>
 
