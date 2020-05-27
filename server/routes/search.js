@@ -72,20 +72,4 @@ router.get('/APISearch/:searchWord',(req,res) => {
     })
 });
 
-
-router.get('/user', (req, res) => {
-    var userId = req.cookies.id;
-    models.users.findOne({where:{id:userId}}).then(result=>{
-        return res.json({
-            isSearchSuccess: true,
-            data: result
-        });
-    }).catch(err=>{
-        return res.json({
-            isSearchSuccess: false,
-            message: "wrongUserInformation"
-        });
-    });
-});
-
 module.exports = router;
