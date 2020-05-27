@@ -33,6 +33,9 @@ import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUplo
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
 
+//======================== python test 페이지 ========================
+import pythonTest from './components/views/pythonTest/testPage';
+
 function App() {
   return (
     <Router>
