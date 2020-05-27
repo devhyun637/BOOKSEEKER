@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Tag, Input, Button } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
 import { BsPlusCircle } from 'react-icons/bs';
@@ -8,27 +7,10 @@ import { withRouter } from 'react-router';
 class RegisterPage4 extends React.Component {
 
     state = {
-        tags: ['캡스톤디자인', 'BOOKSEEKER'],
+        tags: [],
         inputVisible: false,
         inputValue: '',
     };
-
-    componentDidMount = () => {
-        const info = this.props.history.location.state
-        // console.log("데이터 보낸거 register4에서", info)
-        let body = {
-            email: info.email,
-            name: info.name,
-            password: info.password,
-            confirmpassword: info.confirmpassword,
-            birthDate: info.birthDate,
-            gender: info.gender,
-            categoryIds: info.categoryIds,
-            hashtags: this.state.tags
-        }
-        return body
-        
-    }
 
     handleClose = removedTag => {
         const tags = this.state.tags.filter(tag => tag !== removedTag);
@@ -90,20 +72,13 @@ class RegisterPage4 extends React.Component {
     };
 
     sendHashtag = e => {
-        e.preventDefault()
-        const data = this.componentDidMount()
-        let { tags } = this.state;
-
-        axios.post('/api/hashtags/select', tags)
-            .then((res) => {
-                if (!res.data.categorySelectSuccess) {
-                    alert(res.data.message);
-                } else {
-                  this.props.history.push('/register/5', data)
-                }
-            }).catch(e => {
-                console.log('해시태그 선택에 실패', e)
-            })
+        e.preventDefault();
+        if (this.state.tags.length === 0) {
+            alert("해시태그를 입력해주세요")
+        } else{
+            // alert(`선택된 해시태그: ${this.state.tags}`)
+            this.props.handleHashtag(this.state.tags)
+        }
     }
 
     render() {
@@ -113,7 +88,6 @@ class RegisterPage4 extends React.Component {
         return (
             <form style={{
                 position: 'relative',
-                paddingBottom: '30px',
                 textAlign: 'center'
             }} onSubmit={this.sendHashtag}>
                 <div
@@ -179,6 +153,7 @@ class RegisterPage4 extends React.Component {
                         margin: '0 auto',
                         overflow: 'hidden'
                     }}>
+
                     <TweenOneGroup
                         enter={{
                             scale: 1,
@@ -194,30 +169,24 @@ class RegisterPage4 extends React.Component {
                     >
                         {tagChild}
                     </TweenOneGroup>
-                </div>
 
-                {/* 버튼 */}
-                <Button style={{
-                    border: '1px solid black',
-                    color: 'black',
-                    paddingTop: '0',
-                    height: '40px',
-                    width: '30%',
-                    lineHeight: '40px',
-                    margin: '20px'
-                }}
-                    htmlType="submit"
-                    type="button">
-                    <span style={{
+                    <Button style={{
+                        margin: '0 auto',
+                        fontSize: '14px',
+                        width: '80%',
+                        backgroundColor: 'black',
+                        color: 'white',
+                        borderRadius: '5px',
+                        alignItems: 'center',
                         textAlign: 'center',
-                        marginRight: '0px',
-                        paddingRight: '0px',
-                        letterSpacing: '-1px',
-                        fontWeight: 'normal',
-                        fontSize: '16px',
-                        textJustify: 'justify'
-                    }}> 다음 </span>
-                </Button>
+                        lineHeight: '14px',
+                        fontWeight: 'bold',
+                    }}
+                        htmlType="submit"
+                        type="button">
+                        <span> 해시태그 확인 </span>
+                    </Button>
+                </div>
             </form>
         );
     }

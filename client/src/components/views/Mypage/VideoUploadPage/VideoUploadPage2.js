@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router';
-import axios from 'axios';
-// import NaverBookAPI from '../../Mypage/naverBookAPI/NaverBookAPI';
 import styled from 'styled-components';
-import { Form, Input, Button, Select } from 'antd';
+import { Form, Input, Button } from 'antd';
 
-const { Option } = Select;
-
+const { TextArea } = Input;
 
 //스타일 component
 const Box = styled.div`
@@ -33,20 +30,13 @@ const formItemLayout = {
     wrapperCol: { span: 8 },
 };
 
-function VideoUploadPage3(props) {
+function VideoUploadPage2(props) {
 
-    const [form] = Form.useForm();
-
-    const [bookTitle, setBookTitle] = useState("");
-    const [publisher, setPublisher] = useState("");
-    const [author, setAuthor] = useState("");
-
+    const [booktrailerTitle, setBooktrailerTitle] = useState("");
+    const [booktrailerDesc, setBooktrailerDesc] = useState("");
     const [checkButtonShow, setCheckButtonShow] = useState('');
     const [sendButtonShow, setSendButtonShow] = useState('none');
     const [inputable, setInputalbe] = useState(false);
-
-    const [category, setCategory] = useState(null);
-    const [body, setBody] = useState('');
 
     const componentDidMount = () => {
         const booktrailer = props.history.location.state
@@ -55,25 +45,25 @@ function VideoUploadPage3(props) {
             url: booktrailer.url,
             thumbnail: booktrailer.thumbnail,
             hashtag: booktrailer.hashtag,
-            title: booktrailer.title,
-            desc: booktrailer.desc,
-            bookTitle: bookTitle,
-            publisher: publisher,
-            author: author,
-            category: category
+            title: booktrailerTitle,
+            desc: booktrailerDesc
         }
 
         return body
     }
 
+    const [form] = Form.useForm();
+
     const onFinish = values => {
+        // const values = await form.validateFields();
         // console.log('Success:', values);
+        let title = values.booktrailer_title;
+        let desc = values.booktrailer_description;
 
-        setBookTitle(values.book);
-        setPublisher(values.publisher);
-        setAuthor(values.autor);
+        setBooktrailerTitle(title);
+        setBooktrailerDesc(desc);
 
-        // alert(`책 제목 : ${values.book}`);
+        // alert(`북트레일러 제목 : ${title}`);
         setSendButtonShow('');
         setCheckButtonShow('none');
         setInputalbe(true);
@@ -86,7 +76,7 @@ function VideoUploadPage3(props) {
     const reset = (e) => {
         e.preventDefault();
         let data = componentDidMount();
-        props.history.push('/mypage/booktrailer/upload3', data);
+        props.history.push('/mypage/booktrailer/upload2', data);
         setSendButtonShow('none');
         setCheckButtonShow('');
         setInputalbe(false);
@@ -96,39 +86,18 @@ function VideoUploadPage3(props) {
     const realSend = (e) => {
         e.preventDefault();
         let data = componentDidMount();
+        // console.log(data);
+        props.history.push('/mypage/booktrailer/upload3', data);
         console.log(data);
-        props.history.push('/mypage', data);
     };
-
-
-    //카테고리
-    const handleChange = async (value) => {
-        await axios.get('/api/categories')
-            .then(res => {
-                const element = [];
-                if (res.data) {
-                    for (let i = 0; i < res.data.length; i++) {
-                        let category = res.data[i].categoryName;
-                        element.push(
-                            <Option key={category}>{category}</Option>
-                        )
-                    }
-                } else {
-                    alert("카테고리 목록 불러오기 실패")
-                }
-                setBody(element);
-            });
-        setCategory(value)
-    }
 
     return (
         <Box>
             <Title>
-                STEP3 <br />
+                STEP2 <br />
                 북트레일러 <br />
-                도서 정보 등록
+                영상 정보 등록2
             </Title>
-            {/* <NaverBookAPI handleBook={(filter1, filter2, filter3, filter4) => handleBook(filter1, filter2, filter3, filter4)} /> */}
             <Hr />
 
             <Form form={form}
@@ -138,67 +107,36 @@ function VideoUploadPage3(props) {
 
                 <Form.Item
                     {...formItemLayout}
-                    name="book"
-                    label="책제목"
+                    name="booktrailer_title"
+                    label="북트레일러 제목"
                     rules={[
                         {
                             required: true,
-                            message: '책제목을 입력해주세요',
+                            message: '북트레일러 제목을 입력해주세요',
                         },
                     ]}
                 >
-                    <Input className="titleInput"
-                        placeholder="책 제목은 필수 입력입니다."
+                    <Input placeholder="제목은 필수 입력입니다." disabled={inputable} />
+                </Form.Item>
+
+                <Form.Item
+                    {...formItemLayout}
+                    name="booktrailer_description"
+                    label="북트레일러 소개"
+                    rules={[
+                        {
+                            required: true,
+                            message: '북트레일러 소개는 필수 입력입니다.',
+                        },
+                    ]}
+                >
+                    <TextArea
+                        placeholder="제목은 필수 입력입니다."
                         disabled={inputable}
-                        onChange={e =>
-                            e.preventDefault()
-                        } />
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    name="publisher"
-                    label="출판사"
-                    rules={[
-                        {
-                            required: true,
-                            message: '출판사를 입력해주세요',
-                        },
-                    ]}
-                >
-                    <Input className="publisherInput" placeholder="출판사는 필수 입력입니다." disabled={inputable} />
-                </Form.Item>
-                <Form.Item
-                    {...formItemLayout}
-                    name="autor"
-                    label="작가"
-                    rules={[
-                        {
-                            required: true,
-                            message: '작가를 입력해주세요',
-                        },
-                    ]}
-                >
-                    <Input className="authorInput" placeholder="작가는 필수 입력입니다." disabled={inputable} />
+                        autoSize={{ minRows: 5, maxRows: 10 }}
+                    />
                 </Form.Item>
 
-
-                <div>
-                    <Form.Item
-                        name="category"
-                        label="카테고리"
-                        rules={[
-                            {
-                                required: true,
-                                message: '카테고리를 선택해주세요',
-                            },
-                        ]}
-                    >
-                        <Select style={{ width: '100%' }} onChange={handleChange} disabled={inputable}>
-                            <Option >카테고리 불러오기</Option>
-                            {body}
-                        </Select>
-                    </Form.Item>
-                </div>
                 <br />
                 <br />
 
@@ -239,4 +177,4 @@ function VideoUploadPage3(props) {
     )
 }
 
-export default withRouter(VideoUploadPage3)
+export default withRouter(VideoUploadPage2)
