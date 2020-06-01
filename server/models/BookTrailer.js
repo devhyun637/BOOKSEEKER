@@ -7,6 +7,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING(255),
             allowNull: false
         },
+        thumbnail: {
+            field: "thumbnail",
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
         author: {
             field: "author",
             type: DataTypes.STRING(255)
@@ -24,6 +29,31 @@ module.exports = function (sequelize, DataTypes) {
         URL: {
             field: "URL",
             type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        categoryId: {
+            field: "categoryId",
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        bookTitle: {
+            field: "bookTitle",
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        bookPublisher: {
+            field: "bookPublisher",
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        watch: {
+            field: "watch",
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        userId: {
+            field: "userId",
+            type:DataTypes.INTEGER,
             allowNull: false
         }
     }, {

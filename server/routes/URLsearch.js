@@ -37,18 +37,11 @@ youtube.search(URL, limit, function (err, result) { // 검색 실행
               console.log("제목 : " + title);
               console.log("URL : " + url);
               console.log("-----------");
-
-              if(url===URL){
                 return res.json({
                     isSearchSuccess: true,
                     message: "video found"
                 });
-              }else{
-                return res.json({
-                    isSearchSuccess: false,
-                    message: "video not found"
-                });
-              }
+              
             
         }
     }

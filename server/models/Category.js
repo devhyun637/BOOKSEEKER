@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
             underscored: true,
             freezeTalbeName: true,
-            tableName: "category_id"
+            tableName: "category"
         });
 
     return category;

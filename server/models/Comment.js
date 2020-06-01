@@ -1,22 +1,28 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_author = sequelize.define("User_Author", {
+    const comment = sequelize.define("Comment", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: false
         },
-        authorId: {
-            field: "authorId",
+        postId: {
+            field: "postId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: null
+        },
+        comment: {
+            field: "comment",
+            type: DataTypes.STRING
         }
     }, {
             underscored: true,
             freezeTalbeName: true,
-            tableName: "user_author"
+            tableName: "comment"
         });
 
-    return user_author;
+    return comment;
 }

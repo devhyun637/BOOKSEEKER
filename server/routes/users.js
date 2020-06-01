@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 const crypto = require('crypto');
 
-const {auth} = require('../middleware/auth');
+const S3config = require('../config/S3');
+const AWS = require('aws-sdk');
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 
 
@@ -119,49 +123,6 @@ router.post('/register', (req, res) => {
             });
         }
 
-        await models.Publisher.findOne({ where: {publisher: userInfo.publisher} })
-        .then(publisher => {
-            if(publisher==null){
-                models.Publisher.create({
-                    publisher: userInfo.publisher
-                }).then(res=>{
-                    models.User_Publisher.create({
-                        userId: result.dataValues.id,
-                        publisherId: res.dataValues.id
-                    })
-                });
-            }else{
-                models.User_Publisher.create({
-                    userId: result.dataValues.id,
-                    publisherId: publisher.dataValues.id
-                });
-            }
-        });
-
-        for(var i=0;i<userInfo.authors.length;i++){
-            var authorName = userInfo.authors[i];
-            await models.Author.findOne({ where: {author: authorName} })
-            .then(author => {
-                if(author!=null){
-                    models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
-                        replacements: { id: tagResult.dataValues.id }
-                    });
-                    models.User_Author.create({
-                        userId: result.dataValues.id,
-                        authorId: author.dataValues.id
-                    });
-                }else{
-                    models.Author.create({
-                        author: authorName
-                    }).then(author =>{
-                        models.User_Author.create({
-                            userId: result.dataValues.id,
-                            authorId: author.dataValues.id
-                        });
-                    });
-                }
-            });
-        }
         return res.json({
             isRegisterSuccess: true,
             user: result,
@@ -283,6 +244,87 @@ router.get('/search', (req, res) => {
             isSearchSuccess: false,
             message: "wrongUserInformation"
         });
+    });
+});
+
+router.post('/videoUpload',multipartMiddleware, async (req, res) => {
+    var userInfo = req.body;
+    var userId = req.cookies.id;
+    var thumbnailName = userInfo.title+Date.now();
+
+    var imageExtension = userInfo.thumbnail.split(';')[0].split('/');
+    imageExtension = imageExtension[imageExtension.length - 1];
+
+    buf = new Buffer(userInfo.thumbnail.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+
+    const s3 = new AWS.S3({accessKeyId: S3config.ID, secretAccessKey: S3config.SECRET});
+    const param = {
+        'Bucket': S3config.BUCKET_NAME,
+        'Key': 'image/'+thumbnailName,
+        'Body': buf,
+        'ContentType':'image/'+imageExtension
+    }
+
+    s3.upload(param,function(err, data){
+        console.log(err);
+        console.log(data);
+    });
+
+
+    await models.BookTrailer.create({
+        title: userInfo.title,
+        likeCount: 1,
+        URL: 1,
+        thumbnail: thumbnailName,
+        content: userInfo.desc,
+        categoryId: userInfo.category,
+        bookName: userInfo.bookTitle,
+        author: userInfo.author,//복수 확인
+        bookPublisher: userInfo.publisher,
+        watch: 1,
+        userId: userId,
+        created_at: new Date(),
+        updated_at: new Date()
+    }).then(async result=>{
+        for(var i=0;i<userInfo.hashtag.length;i++){
+            await models.Hashtag.findOne({ where: {hashtagName: userInfo.hashtag[i]} })
+            .then(async hashtag => {
+                if(hashtag==null){
+                    await models.Hashtag.create({
+                        hashtagName: userInfo.hashtag[i],
+                        counting: 1
+                    }).then(async res => {
+                        await models.Trailer_Hashtag.create({
+                            booktrailerId: result.dataValues.id,
+                            hashtagId: res.dataValues.id
+                        });
+                    }).catch(e => {
+                        console.log("해시태그 생성 실패");
+                        console.log(e);
+                        return res.json({
+                            isUploadSuccess: false,
+                            message: "해시태그 생성 오류"
+                        })
+                    });
+                }else{
+                    await models.Trailer_Hashtag.create({
+                        booktrailerId: result.dataValues.id,
+                        hashtagId: hashtag.dataValues.id
+                    });
+                }
+            });
+        }
+    }).catch(err=>{
+        console.log("트레일러 생성 오류");
+        console.log(err);
+        return res.json({
+            isUploadSuccess: false,
+            message: "트레일러 생성 오류"
+        })
+    });
+    return res.json({
+        isUploadSuccess: true,
+        data: userInfo
     });
 });
 

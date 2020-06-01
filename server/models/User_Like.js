@@ -1,22 +1,24 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_publisher = sequelize.define("User_Publisher", {
+    const user_like = sequelize.define("user_like", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: false
         },
-        publisherId: {
-            field: "publisherId",
+        booktrailerId: {
+            field: "booktrailerId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: null
         }
     }, {
             underscored: true,
             freezeTalbeName: true,
-            tableName: "user_publisher"
+            tableName: "user_like"
         });
 
-    return user_publisher;
+    return user_like;
 }

@@ -1,24 +1,26 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_hashtag = sequelize.define("User_Hashtag", {
+    const user_quiz = sequelize.define("user_quiz", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: false,
             primaryKey: true
         },
-        hashtagId: {
-            field: "hashtagId",
+        quizId: {
+            field: "quizId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: null,
             primaryKey: true
         }
     }, {
             underscored: true,
             freezeTalbeName: true,
-            tableName: "user_hashtag"
+            tableName: "user_quiz"
         });
 
-    return user_hashtag;
+    return user_quiz;
 }
