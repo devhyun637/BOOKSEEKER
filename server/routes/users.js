@@ -69,7 +69,8 @@ router.post('/register', (req, res) => {
         updated_at: new Date(),
         age: userAge,
         gender: userInfo.gender,
-        roleId: 2
+        roleId: 2,
+        score: 0
     }).then(async result => {
         for (var i = 0; i < userInfo.categoryIds.length; i++) {
             //유저-카테고리 관계 추가
@@ -78,7 +79,7 @@ router.post('/register', (req, res) => {
                 categoryId: userInfo.categoryIds[i]
             });
             //카테고리 count증가(*)
-            models.sequelize.query("UPDATE category_id SET counting=counting+1 WHERE id = :id", {
+            models.sequelize.query("UPDATE category SET counting=counting+1 WHERE id = :id", {
                 replacements: { id: userInfo.categoryIds[i] }
             });
         }
