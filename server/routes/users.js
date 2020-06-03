@@ -366,8 +366,14 @@ router.get('/video', async (req, res) => {
     models.BookTrailer.findAll({where:{userId:userId}}).then(async result=>{
         answer = []
         for(var i=0;i<result.length;i++){
-            var hashtags = await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
+            var hashtags = []
+            await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
                 replacements: { booktrailerId: result[i].dataValues.id }
+            }).then(res=>{
+                var hashResult = res[0];
+                for(var i=0;i<hashResult.length;i++){
+                    hashtags.push(JSON.stringify(hashResult[i].hashtag));
+                }
             });
             var comment = await models.sequelize.query("SELECT c.comment as comment from comment as c join post as p on c.postId = p.id join booktrailer as b on p.booktrailerId = b.id WHERE b.id = :booktrailerId", {
                 replacements: { booktrailerId: result[i].dataValues.id }
