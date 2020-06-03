@@ -5,14 +5,12 @@ module.exports = function (sequelize, DataTypes) {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,
-            unique: true,
             allowNull: false,
             primaryKey: true
         },
         booktrailerId: {
             field: "booktrailerId",
             type: DataTypes.INTEGER,
-            unique: true,
             allowNull: null,
             primaryKey: true
         }

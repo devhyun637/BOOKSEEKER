@@ -5,16 +5,14 @@ import Card from "../Sections/Card";
 class TimeLinePage extends React.Component {
     state = {
         isLoading: true,
-        card: []
+        cards: []
     };
     getCards = async () => {
-        const {
-          data: {
-            data:{ card }
-          }
-        } = await axios.get('/api/users/video');
-        //console.log(movies);
-        this.setState({ card, isLoadig: false})
+        // await axios.get('/api/users/video')
+        // .then(result => {
+        //     this.setState({ isLoading: false, cards: result.data.data});
+        // });
+        // console.log(this.state.cards);
       }
     
       componentDidMount(){
@@ -33,6 +31,7 @@ class TimeLinePage extends React.Component {
                
                <div className="cards">
                  { cards.map(card =>
+
                  <Card 
                     key = {card.id}
                     id = {card.id} 
