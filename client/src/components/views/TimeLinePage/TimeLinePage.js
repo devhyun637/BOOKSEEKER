@@ -10,10 +10,11 @@ function TimeLinePage() {
         async function fetchData() {
             await axios.get('/api/users/video').then(res => {
                 setIsLoading(false);
-                console.log(res.data.data);
                 setCards(res.data.data.map(
                     (data, index) => (
-                        <article className="Post" key={index}>
+            <article className="Post" key={index} style={{
+                marginBottom:"5%"
+            }}>
             <header>
               <div className="Post-user">
                 <div className="Post-user-name">
@@ -30,7 +31,7 @@ function TimeLinePage() {
               <div className="Post-image-bg">
              <p align = "middle">   
               <iframe 
-                width="90%" height="100%" src={data.URL} 
+                width="90%" height="100%" src={data.URL.replace("youtu.be/","www.youtube.com/embed/")} 
                 frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen>
               </iframe>
@@ -62,6 +63,7 @@ function TimeLinePage() {
                 댓글보기{data.comments}
                 </div>
             </div>
+
           </article>
                     )
                     
