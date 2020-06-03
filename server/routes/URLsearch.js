@@ -18,7 +18,7 @@ youtube.setKey('AIzaSyDCwHsZdvktc9-M_hZYkQOKXyRxAjMuEQI'); // API 키 입력
 youtube.search(URL, limit, function (err, result) { // 검색 실행
    // 에러일 경우 에러공지하고 빠져나감
     if (err) { console.log(err);
-        console.log("왜이래~");
+        // console.log("왜이래~");
         console.log(err);
         return res.json({
             isSearchSuccess: false,

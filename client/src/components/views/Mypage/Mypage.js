@@ -65,13 +65,13 @@ function Mypage() {
 
     axios.get('/api/users/search')
         .then(res => {
-        if (res.data.isSearchSuccess) {
-            handleUserName(res.data.name);
-            handleUserEmail(res.data.email);
-        } else {
-            alert(res.data.message);
-        }
-    })
+            if (res.data.isSearchSuccess) {
+                handleUserName(res.data.name);
+                handleUserEmail(res.data.email);
+            } else {
+                alert(res.data.message);
+            }
+        })
 
 
     return (
@@ -80,24 +80,24 @@ function Mypage() {
             <p>{userEmail}</p>
 
             <Nav>
-                    <NavList>
-                        <NavListItems>
-                            <NavListLink to="#">
-                                <NavListName>
-                                    북트레일러등록
+                <NavList>
+                    <NavListItems>
+                        <NavListLink to="#">
+                            <NavListName>
+                                북트레일러등록
                         </NavListName>
-                            </NavListLink>
-                        </NavListItems>
+                        </NavListLink>
+                    </NavListItems>
 
-                        <NavListItems>
-                            <NavListLink to="#">
-                                <NavListName>
-                                    등록한 북트레일러
+                    <NavListItems>
+                        <NavListLink to="#">
+                            <NavListName>
+                                등록한 북트레일러
                         </NavListName>
-                            </NavListLink>
-                        </NavListItems>
-                    </NavList>
-                </Nav>
+                        </NavListLink>
+                    </NavListItems>
+                </NavList>
+            </Nav>
 
             <button onClick={onClickHandler}>
                 로그아웃
