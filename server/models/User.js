@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         image_profile: {
-            filed: "image_profile",
+            field: "image_profile",
             type: DataTypes.STRING(255)
         },
         age: {
@@ -39,7 +39,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false
         },
         roleId: {
-            filed: "roleId",
+            field: "roleId",
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        score: {
+            field: "score",
             type: DataTypes.INTEGER,
             allowNull: false
         }

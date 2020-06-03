@@ -97,7 +97,14 @@ function VideoUploadPage3(props) {
         e.preventDefault();
         let data = componentDidMount();
         console.log(data);
-        props.history.push('/mypage', data);
+        axios.post('/api/users/videoUpload', data).then(res => {
+            console.log(res);
+            if(res.data.isUploadSuccess){
+                props.history.push('/mypage', data);
+            }else{
+                alert("등록 실패");
+            }
+        });
     };
 
 
@@ -108,7 +115,7 @@ function VideoUploadPage3(props) {
                 const element = [];
                 if (res.data) {
                     for (let i = 0; i < res.data.length; i++) {
-                        let category = res.data[i].categoryName;
+                        let category = res.data[i].id;
                         element.push(
                             <Option key={category}>{category}</Option>
                         )

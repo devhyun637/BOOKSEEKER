@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 const crypto = require('crypto');
 
-const {auth} = require('../middleware/auth');
+const S3config = require('../config/S3');
+const AWS = require('aws-sdk');
+
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 
 
@@ -65,7 +69,8 @@ router.post('/register', (req, res) => {
         updated_at: new Date(),
         age: userAge,
         gender: userInfo.gender,
-        roleId: 2
+        roleId: 2,
+        score: 0
     }).then(async result => {
         for (var i = 0; i < userInfo.categoryIds.length; i++) {
             //유저-카테고리 관계 추가
@@ -74,7 +79,7 @@ router.post('/register', (req, res) => {
                 categoryId: userInfo.categoryIds[i]
             });
             //카테고리 count증가(*)
-            models.sequelize.query("UPDATE category_id SET counting=counting+1 WHERE id = :id", {
+            models.sequelize.query("UPDATE category SET counting=counting+1 WHERE id = :id", {
                 replacements: { id: userInfo.categoryIds[i] }
             });
         }
@@ -119,49 +124,6 @@ router.post('/register', (req, res) => {
             });
         }
 
-        await models.Publisher.findOne({ where: {publisher: userInfo.publisher} })
-        .then(publisher => {
-            if(publisher==null){
-                models.Publisher.create({
-                    publisher: userInfo.publisher
-                }).then(res=>{
-                    models.User_Publisher.create({
-                        userId: result.dataValues.id,
-                        publisherId: res.dataValues.id
-                    })
-                });
-            }else{
-                models.User_Publisher.create({
-                    userId: result.dataValues.id,
-                    publisherId: publisher.dataValues.id
-                });
-            }
-        });
-
-        for(var i=0;i<userInfo.authors.length;i++){
-            var authorName = userInfo.authors[i];
-            await models.Author.findOne({ where: {author: authorName} })
-            .then(author => {
-                if(author!=null){
-                    models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
-                        replacements: { id: tagResult.dataValues.id }
-                    });
-                    models.User_Author.create({
-                        userId: result.dataValues.id,
-                        authorId: author.dataValues.id
-                    });
-                }else{
-                    models.Author.create({
-                        author: authorName
-                    }).then(author =>{
-                        models.User_Author.create({
-                            userId: result.dataValues.id,
-                            authorId: author.dataValues.id
-                        });
-                    });
-                }
-            });
-        }
         return res.json({
             isRegisterSuccess: true,
             user: result,
@@ -285,6 +247,129 @@ router.get('/search', (req, res) => {
         });
     });
 });
+
+router.post('/videoUpload',multipartMiddleware, async (req, res) => {
+    var userInfo = req.body;
+    var userId = req.cookies.id;
+    var thumbnailName = userInfo.title+Date.now();
+
+    var imageExtension = userInfo.thumbnail.split(';')[0].split('/');
+    imageExtension = imageExtension[imageExtension.length - 1];
+
+    buf = new Buffer(userInfo.thumbnail.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+
+    const s3 = new AWS.S3({accessKeyId: S3config.ID, secretAccessKey: S3config.SECRET});
+    const param = {
+        'Bucket': S3config.BUCKET_NAME,
+        'Key': 'image/'+thumbnailName,
+        'Body': buf,
+        'ContentType':'image/'+imageExtension
+    }
+
+    s3.upload(param,function(err, data){
+        console.log(err);
+        console.log(data);
+    });
+
+
+    await models.BookTrailer.create({
+        title: userInfo.title,
+        thumbnail: thumbnailName,
+        author: userInfo.author,//복수 확인
+        content: userInfo.desc,
+        likeCount: 1,
+        URL: 1,
+        categoryId: userInfo.category,
+        bookTitle: userInfo.bookTitle,
+        bookPublisher: userInfo.publisher,
+        watch: 1,
+        userId: userId,
+        created_at: new Date(),
+        updated_at: new Date()
+    }).then(async result=>{
+        for(var i=0;i<userInfo.hashtag.length;i++){
+            await models.Hashtag.findOne({ where: {hashtagName: userInfo.hashtag[i]} })
+            .then(async hashtag => {
+                if(hashtag==null){
+                    await models.Hashtag.create({
+                        hashtagName: userInfo.hashtag[i],
+                        counting: 1
+                    }).then(async res => {
+                        await models.Trailer_Hashtag.create({
+                            booktrailerId: result.dataValues.id,
+                            hashtagId: res.dataValues.id,
+                            counting: 1
+                        });
+                    }).catch(e => {
+                        console.log("해시태그 생성 실패");
+                        console.log(e);
+                        return res.json({
+                            isUploadSuccess: false,
+                            message: "해시태그 생성 오류"
+                        })
+                    });
+                }else{
+                    await models.Trailer_Hashtag.findOne({ where: {booktrailerId: result.dataValues.id,
+                        hashtagId: hashtag.dataValues.id
+                    } })
+                    .then(async trailer_hashtag => {
+                        if(trailer_hashtag == null){
+                            await models.Trailer_Hashtag.create({
+                                booktrailerId: result.dataValues.id,
+                                hashtagId: hashtag.dataValues.id,
+                                counting: 1
+                            });
+                        }else{
+                            await models.sequelize.query("UPDATE trailer_hashtag SET counting=counting+1 WHERE booktrailerId = :booktrailerId AND hashtagId = :hashtagId", {
+                                replacements: { booktrailerId: result.dataValues.id, hashtagId: hashtag.dataValues.id }
+                            });
+                        }
+                    });
+
+                    
+                }
+            });
+        }
+        await models.Post.create({
+            userId: userId,
+            booktrailerId: result.dataValues.id,
+            content: userInfo.desc,
+            like: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+
+    }).catch(err=>{
+        console.log("트레일러 생성 오류");
+        console.log(err);
+        return res.json({
+            isUploadSuccess: false,
+            message: "트레일러 생성 오류"
+        })
+    });
+
+    return res.json({
+        isUploadSuccess: true,
+        data: userInfo
+    });
+});
+
+router.get('/video', (req, res) => {
+    var userId = req.cookies.id;
+    models.BookTrailer.findAll({where:{userId:userId}}).then(result=>{
+        console.log(result);
+        return res.json({
+            isSearchSuccess: true,
+            data: result
+        });
+    }).catch(err=>{
+        return res.json({
+            isSearchSuccess: false,
+            message: "wrongUserInformation"
+        });
+    });
+});
+
 
 
 module.exports = router;

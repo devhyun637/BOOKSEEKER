@@ -1,14 +1,21 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const trailer_hashtag = sequelize.define("trailer_hashtag", {
+    const trailer_hashtag = sequelize.define("Trailer_Hashtag", {
         booktrailerId: {
             field: "booktrailerId",
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            primaryKey: true
         },
         hashtagId: {
             field: "hashtagId",
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true
+        },
+        counting: {
+            field: "counting",
             type: DataTypes.INTEGER,
             allowNull: false
         }

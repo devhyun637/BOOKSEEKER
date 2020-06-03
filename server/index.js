@@ -20,9 +20,9 @@ models.sequelize.sync().then(() => {
 app.use(cors());
 
 //application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit:"50mb" }));
 //aplication/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit:"50mb"}));
 app.use(cookieParser());
 
 // =========================== 라우터 ===========================

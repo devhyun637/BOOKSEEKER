@@ -1,24 +1,26 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_hashtag = sequelize.define("User_Hashtag", {
+    const follow = sequelize.define("Follow", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: false,
             primaryKey: true
         },
-        hashtagId: {
-            field: "hashtagId",
+        friendId: {
+            field: "friendId",
             type: DataTypes.INTEGER,
+            unique: true,
             allowNull: null,
             primaryKey: true
         }
     }, {
             underscored: true,
             freezeTalbeName: true,
-            tableName: "user_hashtag"
+            tableName: "Follow"
         });
 
-    return user_hashtag;
+    return follow;
 }
