@@ -36,10 +36,9 @@ class TimeLinePage extends React.Component {
                  <Card 
                     key = {card.id}
                     id = {card.id} 
-                    image = {card.profile_image}
                     userName = {card.userName} 
-                    url = {card.url} 
-                    likecount = {card.likecount}
+                    url = {card.URL} 
+                    likecount = {card.likeCount}
                     hashtags = {card.hashtags}
                 />
               )}

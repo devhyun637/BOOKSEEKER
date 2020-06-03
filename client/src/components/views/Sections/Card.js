@@ -5,16 +5,13 @@ import LikeButton from '../Sections/LikeButton'
 
 
 
-function Card({profile_image, userName, url, likecount, hashtags, comments}) {
+function Card({userName, URL, likeCount, hashtags, comments}) {
      
     
         return (
         <article className="Post" ref="Post">
             <header>
               <div className="Post-user">
-                <div className="Post-user-profile">
-                  <img src={profile_image} alt="user_image" />
-                </div>
                 <div className="Post-user-name">
                     <span>{userName}</span>
                 </div>
@@ -29,7 +26,7 @@ function Card({profile_image, userName, url, likecount, hashtags, comments}) {
               <div className="Post-image-bg">
              <p align = "middle">   
               <iframe 
-                width="90%" height="100%" src={url} 
+                width="90%" height="100%" src={URL} 
                 frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
               </iframe>
@@ -44,7 +41,7 @@ function Card({profile_image, userName, url, likecount, hashtags, comments}) {
                   </button>
                </div>
                <div className="Like-count">
-                  <p>{likecount}명이좋아합니다.</p>
+                  <p>{likeCount}명이좋아합니다.</p>
               </div>
               <div className="share-button">
                 <button>
@@ -68,13 +65,11 @@ function Card({profile_image, userName, url, likecount, hashtags, comments}) {
 
         Card.propTypes = {
           id: PropTypes.number.isRequired,
-          profile_image: PropTypes.string.isRequired,
           userName: PropTypes.string.isRequired,
-          url: PropTypes.string.isRequired,
-          likecount: PropTypes.number.isRequired,
+          URL: PropTypes.string.isRequired,
+          likeCount: PropTypes.number.isRequired,
           hashtags: PropTypes.arrayOf(PropTypes.string).isRequired,
-          comments: PropTypes.string.isRequired
-
+          comments: PropTypes.arrayOf(PropTypes.string).isRequired
         }
 
         

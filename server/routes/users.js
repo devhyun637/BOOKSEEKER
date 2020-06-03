@@ -354,13 +354,32 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
     });
 });
 
-router.get('/video', (req, res) => {
+router.get('/video', async (req, res) => {
     var userId = req.cookies.id;
-    models.BookTrailer.findAll({where:{userId:userId}}).then(result=>{
-        console.log(result);
+    var user = await models.User.findOne({where:{id:userId}});
+    var userName = user.dataValues.name;
+    models.BookTrailer.findAll({where:{userId:userId}}).then(async result=>{
+        answer = []
+        for(var i=0;i<result.length;i++){
+            var hashtags = await models.sequelize.query("SELECT h.hashtagName from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
+                replacements: { booktrailerId: result[i].dataValues.id }
+            });
+            var comment = await models.sequelize.query("SELECT c.comment from comment as c join post as p on c.postId = p.id join booktrailer as b on p.booktrailerId = b.id WHERE b.id = :booktrailerId", {
+                replacements: { booktrailerId: result[i].dataValues.id }
+            });
+            answer.push({
+                id: result[i].dataValues.id,
+                userName: userName,
+                URL: result[i].dataValues.URL,
+                likeCount: result[i].dataValues.likeCount,
+                hashtags: hashtags,
+                comments: comment
+            });
+
+        }
         return res.json({
             isSearchSuccess: true,
-            data: result
+            data: answer
         });
     }).catch(err=>{
         return res.json({
