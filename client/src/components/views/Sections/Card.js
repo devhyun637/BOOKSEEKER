@@ -9,7 +9,7 @@ function Card({profile_image, userName, url, likecount, hashtags, comments}) {
      
     
         return (
-        <article className="Post" ref="Post">
+        <article className="Post" ref="">
             <header>
               <div className="Post-user">
                 <div className="Post-user-profile">
