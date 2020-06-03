@@ -274,13 +274,13 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
 
     await models.BookTrailer.create({
         title: userInfo.title,
+        thumbnail: thumbnailName,
+        author: userInfo.author,//복수 확인
+        content: userInfo.desc,
         likeCount: 1,
         URL: 1,
-        thumbnail: thumbnailName,
-        content: userInfo.desc,
         categoryId: userInfo.category,
-        bookName: userInfo.bookTitle,
-        author: userInfo.author,//복수 확인
+        bookTitle: userInfo.bookTitle,
         bookPublisher: userInfo.publisher,
         watch: 1,
         userId: userId,
@@ -297,7 +297,8 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
                     }).then(async res => {
                         await models.Trailer_Hashtag.create({
                             booktrailerId: result.dataValues.id,
-                            hashtagId: res.dataValues.id
+                            hashtagId: res.dataValues.id,
+                            counting: 1
                         });
                     }).catch(e => {
                         console.log("해시태그 생성 실패");
@@ -308,13 +309,36 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
                         })
                     });
                 }else{
-                    await models.Trailer_Hashtag.create({
-                        booktrailerId: result.dataValues.id,
+                    await models.Trailer_Hashtag.findOne({ where: {booktrailerId: result.dataValues.id,
                         hashtagId: hashtag.dataValues.id
+                    } })
+                    .then(async trailer_hashtag => {
+                        if(trailer_hashtag == null){
+                            await models.Trailer_Hashtag.create({
+                                booktrailerId: result.dataValues.id,
+                                hashtagId: hashtag.dataValues.id,
+                                counting: 1
+                            });
+                        }else{
+                            await models.sequelize.query("UPDATE trailer_hashtag SET counting=counting+1 WHERE booktrailerId = :booktrailerId AND hashtagId = :hashtagId", {
+                                replacements: { booktrailerId: result.dataValues.id, hashtagId: hashtag.dataValues.id }
+                            });
+                        }
                     });
+
+                    
                 }
             });
         }
+        await models.Post.create({
+            userId: userId,
+            booktrailerId: result.dataValues.id,
+            content: userInfo.desc,
+            like: 1,
+            created_at: new Date(),
+            updated_at: new Date()
+        })
+
     }).catch(err=>{
         console.log("트레일러 생성 오류");
         console.log(err);
@@ -323,11 +347,29 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
             message: "트레일러 생성 오류"
         })
     });
+
     return res.json({
         isUploadSuccess: true,
         data: userInfo
     });
 });
+
+router.get('/video', (req, res) => {
+    var userId = req.cookies.id;
+    models.BookTrailer.findAll({where:{userId:userId}}).then(result=>{
+        console.log(result);
+        return res.json({
+            isSearchSuccess: true,
+            data: result
+        });
+    }).catch(err=>{
+        return res.json({
+            isSearchSuccess: false,
+            message: "wrongUserInformation"
+        });
+    });
+});
+
 
 
 module.exports = router;
