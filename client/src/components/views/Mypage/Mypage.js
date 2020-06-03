@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 const Nav = styled.div`
     width: 100%;
     background-color: #ffffff;
     padding: 10px 20px;
-    border-top: 1px solid #f7f7f7;
+    border-top: 1px solid gray;
 `;
 
 const NavList = styled.ul`
@@ -19,7 +20,8 @@ const NavList = styled.ul`
 `;
 
 const NavListItems = styled.li`
-    width: 25%;
+    padding: 5px 5px;
+    border-bottom: 2px solid #f7f7f7;
 `;
 
 const NavListLink = styled(Link)`  
@@ -34,7 +36,7 @@ const NavListIcon = styled.div``;
 
 const NavListName = styled.div`
     color: inherit;
-    font-size: 13px;
+    font-size: 20px;
 `;
 
 function Mypage() {
@@ -65,43 +67,64 @@ function Mypage() {
 
     axios.get('/api/users/search')
         .then(res => {
-            if (res.data.isSearchSuccess) {
-                handleUserName(res.data.name);
-                handleUserEmail(res.data.email);
-            } else {
-                alert(res.data.message);
-            }
-        })
+        if (res.data.isSearchSuccess) {
+            handleUserName(res.data.name);
+            handleUserEmail(res.data.email);
+        } else {
+            alert(res.data.message);
+        }
+    })
 
 
     return (
         <div>
-            <p>{userName}</p>
-            <p>{userEmail}</p>
-
+            <br />
+            <p style={{ 
+                margin: '10px',
+                marginBottom: '-10px',
+                textAlign: 'center',
+            }}>{userName}</p>
+            <p style={{ 
+                margin: '10px',
+                marginBottom: '20px',
+                textAlign: 'center',
+            }}>{userEmail}</p>
             <Nav>
-                <NavList>
-                    <NavListItems>
-                        <NavListLink to="#">
-                            <NavListName>
-                                북트레일러등록
+            <br />
+                    <NavList>
+                        <NavListItems>
+                            <NavListLink to="/mypage/booktrailer/upload/">
+                                <NavListName>
+                                    북트레일러등록
                         </NavListName>
-                        </NavListLink>
-                    </NavListItems>
+                            </NavListLink>
+                        </NavListItems>
 
-                    <NavListItems>
-                        <NavListLink to="#">
-                            <NavListName>
-                                등록한 북트레일러
+                        <NavListItems>
+                            <NavListLink to="#">
+                                <NavListName>
+                                    등록한 북트레일러
                         </NavListName>
-                        </NavListLink>
-                    </NavListItems>
-                </NavList>
-            </Nav>
+                            </NavListLink>
+                        </NavListItems>
 
-            <button onClick={onClickHandler}>
-                로그아웃
-            </button>
+                        <NavListItems>
+                            <NavListLink to="#">
+                                <NavListName>
+                                    좋아요한 북트레일러
+                        </NavListName>
+                            </NavListLink>
+                        </NavListItems>
+                        
+                        <NavListItems>
+                            <NavListLink to="#" onClick={onClickHandler}>
+                                <NavListName>
+                                    로그아웃
+                        </NavListName>
+                            </NavListLink>
+                        </NavListItems>
+                    </NavList>
+                </Nav>
         </div>
     )
 }
