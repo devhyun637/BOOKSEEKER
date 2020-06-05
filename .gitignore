@@ -4,4 +4,4 @@ dev.js
 jwt.js
 .vscode
 naverAPI.js
-S3.js
+S3Config.js

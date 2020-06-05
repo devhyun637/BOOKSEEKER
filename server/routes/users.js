@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const secretObj = require('../config/jwt');
 const crypto = require('crypto');
 
-const S3config = require('../config/S3');
+const S3config = require('../config/S3Config');
 const AWS = require('aws-sdk');
 
 var multipart = require('connect-multiparty');

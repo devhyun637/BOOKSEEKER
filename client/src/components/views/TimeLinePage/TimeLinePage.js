@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Card from "../Sections/Card";
+import "./Post.css";
+
 
 function TimeLinePage() {
     const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +13,7 @@ function TimeLinePage() {
                 setIsLoading(false);
                 setCards(res.data.data.map(
                     (data, index) => (
+
             <article className="Post" key={index} style={{
                 marginBottom:"5%"
             }}>
