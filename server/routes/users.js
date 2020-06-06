@@ -278,7 +278,7 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
         author: userInfo.author,//복수 확인
         content: userInfo.desc,
         likeCount: 1,
-        URL: 1,
+        URL: userInfo.url,
         categoryId: userInfo.category,
         bookTitle: userInfo.bookTitle,
         bookPublisher: userInfo.publisher,
@@ -337,7 +337,12 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
             like: 1,
             created_at: new Date(),
             updated_at: new Date()
-        })
+        }).then(async postResult => {
+            await models.User_Post.create({
+                userId: userId,
+                postId: postResult.dataValues.id
+            });
+        });
 
     }).catch(err=>{
         console.log("트레일러 생성 오류");
@@ -354,13 +359,38 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
     });
 });
 
-router.get('/video', (req, res) => {
+router.get('/video', async (req, res) => {
     var userId = req.cookies.id;
-    models.BookTrailer.findAll({where:{userId:userId}}).then(result=>{
-        console.log(result);
+    var user = await models.User.findOne({where:{id:userId}});
+    var userName = user.dataValues.name;
+    models.BookTrailer.findAll({where:{userId:userId}}).then(async result=>{
+        answer = []
+        for(var i=0;i<result.length;i++){
+            var hashtags = []
+            await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
+                replacements: { booktrailerId: result[i].dataValues.id }
+            }).then(res=>{
+                var hashResult = res[0];
+                for(var i=0;i<hashResult.length;i++){
+                    hashtags.push(JSON.stringify(hashResult[i].hashtag));
+                }
+            });
+            var comment = await models.sequelize.query("SELECT c.comment as comment from comment as c join post as p on c.postId = p.id join booktrailer as b on p.booktrailerId = b.id WHERE b.id = :booktrailerId", {
+                replacements: { booktrailerId: result[i].dataValues.id }
+            });
+            answer.push({
+                id: result[i].dataValues.id,
+                userName: userName,
+                URL: result[i].dataValues.URL,
+                likeCount: result[i].dataValues.likeCount,
+                hashtags: hashtags,
+                comments: comment
+            });
+
+        }
         return res.json({
             isSearchSuccess: true,
-            data: result
+            data: answer
         });
     }).catch(err=>{
         return res.json({
