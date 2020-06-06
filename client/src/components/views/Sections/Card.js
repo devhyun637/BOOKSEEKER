@@ -53,7 +53,8 @@ function Card({userName, URL, likeCount, hashtags, comments}) {
                 ))}
               </div>
               <div className="comments">
-                댓글보기{comments}
+                댓글보기
+                {/* 댓글보기{comments} */}
                 </div>
             </div>
           </article>
@@ -66,8 +67,7 @@ function Card({userName, URL, likeCount, hashtags, comments}) {
           userName: PropTypes.string.isRequired,
           URL: PropTypes.string.isRequired,
           likeCount: PropTypes.number.isRequired,
-          hashtags: PropTypes.arrayOf(PropTypes.string).isRequired,
-          comments: PropTypes.arrayOf(PropTypes.string).isRequired
+          hashtags: PropTypes.arrayOf(PropTypes.string).isRequired
         }
 
         
