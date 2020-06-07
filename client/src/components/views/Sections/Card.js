@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "./Card.css";
-import LikeButton from '../Sections/LikeButton'
 
 function Card({userName, URL, likeCount, hashtags, comments}) {
      

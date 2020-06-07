@@ -38,5 +38,7 @@ app.use('/api/booktrailer/search', require('./routes/search'));
 app.use('/api/booktrailer', require('./routes/URLsearch'));
 // 파이썬 서버 테스트
 app.use('/api/python', require('./routes/python'));
+// 북트레일러 관련
+app.use('/api/booktrailer', require('./routes/booktrailer'));
 
 app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

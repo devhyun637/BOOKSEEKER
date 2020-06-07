@@ -75,8 +75,10 @@ const Name = styled.p`
     width: inherit;
 `;
 
+
 function RecommendPage(props) {
 
+    const trailer_id = 2;
     const [todayBookTrailer, setTodayBookTrailer] = useState("");
 
     useEffect(() => {
@@ -86,7 +88,7 @@ function RecommendPage(props) {
                 setTodayBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
-                            <RecommandLink to="/">
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
                                 <div style={{
                                     backgroundImage: `url(${data.thumbnail})`,
                                     width: '214px',
@@ -99,17 +101,17 @@ function RecommendPage(props) {
                             </RecommandLink>
                         </RecommandListLi>
                     )
-                    
+
                 ));
-            }).catch(e =>{
+            }).catch(e => {
                 console.log(e);
             });
         }
-       
+
         fetchData();
     }, []);
 
-    
+
     return (
         <div>
             <form>
@@ -155,7 +157,7 @@ function RecommendPage(props) {
                             </RecommandLink>
                         </RecommandListLi>
                         <RecommandListLi>
-                            <RecommandLink to="">
+                            <RecommandLink to={`/booktrailer/${trailer_id}`}>
                                 <Image3 />
                                 <Name>몽실이 몽실이 몽실언니</Name>
                             </RecommandLink>

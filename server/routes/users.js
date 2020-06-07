@@ -13,9 +13,6 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
 
-
-
-
 //=================================
 //             Users
 //=================================
@@ -44,7 +41,7 @@ router.get('/name', async (req, res) => {
 router.post('/register', (req, res) => {
     userInfo = req.body;
     birthDateInfo = userInfo.birthDate.split('/');
-    userBirth = new Date(birthDateInfo[0],birthDateInfo[1]-1,birthDateInfo[2]);
+    userBirth = new Date(birthDateInfo[0], birthDateInfo[1] - 1, birthDateInfo[2]);
     userAge = new Date().getFullYear() - userBirth.getFullYear();
     //비밀번호 일치 여부 확인하기
     if (userInfo.password !== userInfo.confirmpassword) {
@@ -84,44 +81,44 @@ router.post('/register', (req, res) => {
             });
         }
         console.log("================== user_info insert success ==================");
-         
-        for(var i=0;i<userInfo.book.length;i++){
+
+        for (var i = 0; i < userInfo.book.length; i++) {
             var tagName = userInfo.book[i];
-            await models.Hashtag.findOne({ where: {hashtagName: tagName} })
-            .then(tagResult => {
-                var hashtagId = 0;
-                if(tagResult!=null){
-                    models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
-                        replacements: { id: tagResult.dataValues.id }
-                    });
-                    hashtagId = tagResult.dataValues.id;
-                    //유저-해시태그 관계 추가
-                    models.User_Hashtag.create({
-                        userId: result.dataValues.id,
-                        hashtagId: hashtagId
-                    });
-                }else{
-                    models.Hashtag.create({
-                        hashtagName: tagName,
-                        counting: 1,
-                        created_at: new Date(),
-                        updated_at: new Date()
-                    }).then(res=>{
-                        hashtagId = res.dataValues.id;
+            await models.Hashtag.findOne({ where: { hashtagName: tagName } })
+                .then(tagResult => {
+                    var hashtagId = 0;
+                    if (tagResult != null) {
+                        models.sequelize.query("UPDATE hashtag SET counting=counting+1 WHERE id = :id", {
+                            replacements: { id: tagResult.dataValues.id }
+                        });
+                        hashtagId = tagResult.dataValues.id;
                         //유저-해시태그 관계 추가
                         models.User_Hashtag.create({
                             userId: result.dataValues.id,
-                            hashtagId: hashtagId,
+                            hashtagId: hashtagId
+                        });
+                    } else {
+                        models.Hashtag.create({
+                            hashtagName: tagName,
+                            counting: 1,
                             created_at: new Date(),
                             updated_at: new Date()
+                        }).then(res => {
+                            hashtagId = res.dataValues.id;
+                            //유저-해시태그 관계 추가
+                            models.User_Hashtag.create({
+                                userId: result.dataValues.id,
+                                hashtagId: hashtagId,
+                                created_at: new Date(),
+                                updated_at: new Date()
+                            });
+                        }).catch(err => {
+                            console.log(err);
                         });
-                    }).catch(err=>{
-                        console.log(err);
-                    });
-                }
-            }).catch(err=>{
-                console.log("find 에러");
-            });
+                    }
+                }).catch(err => {
+                    console.log("find 에러");
+                });
         }
 
         return res.json({
@@ -143,7 +140,7 @@ router.post('/register', (req, res) => {
 router.post('/login', async function (req, res) {
     //토큰 생성하기
     let token = jwt.sign({
-        email: req.body.email+Date.now()
+        email: req.body.email + Date.now()
     },
         secretObj.secret,
         {
@@ -209,22 +206,22 @@ router.get('/logout', (req, res) => {
 // =========================== 페이지 인증 ===========================
 router.get('/auth', (req, res) => {
     let token = req.cookies.user;
-    if(token!=null){
+    if (token != null) {
         let decode = false;
-        jwt.verify(token, secretObj.secret, (err,decoded) => {
-            if(err){
+        jwt.verify(token, secretObj.secret, (err, decoded) => {
+            if (err) {
                 decode = false;
                 return res.json({
                     verify: false
                 });
-            }else{
+            } else {
                 decode = decoded;
                 return res.json({
                     verify: true
                 });
             }
         });
-    }else{
+    } else {
         return res.json({
             verify: false
         });
@@ -234,13 +231,13 @@ router.get('/auth', (req, res) => {
 // =========================== 유저 찾기 ===========================
 router.get('/search', (req, res) => {
     var userId = req.cookies.id;
-    models.User.findOne({where:{id:userId}}).then(result=>{
+    models.User.findOne({ where: { id: userId } }).then(result => {
         return res.json({
             isSearchSuccess: true,
             email: result.dataValues.userID,
             name: result.dataValues.name
         });
-    }).catch(err=>{
+    }).catch(err => {
         return res.json({
             isSearchSuccess: false,
             message: "wrongUserInformation"
@@ -248,25 +245,25 @@ router.get('/search', (req, res) => {
     });
 });
 
-router.post('/videoUpload',multipartMiddleware, async (req, res) => {
+router.post('/videoUpload', multipartMiddleware, async (req, res) => {
     var userInfo = req.body;
     var userId = req.cookies.id;
-    var thumbnailName = userInfo.title+Date.now();
+    var thumbnailName = userInfo.title + Date.now();
 
     var imageExtension = userInfo.thumbnail.split(';')[0].split('/');
     imageExtension = imageExtension[imageExtension.length - 1];
 
     buf = new Buffer(userInfo.thumbnail.replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
-    const s3 = new AWS.S3({accessKeyId: S3config.ID, secretAccessKey: S3config.SECRET});
+    const s3 = new AWS.S3({ accessKeyId: S3config.ID, secretAccessKey: S3config.SECRET });
     const param = {
         'Bucket': S3config.BUCKET_NAME,
-        'Key': 'image/'+thumbnailName,
+        'Key': 'image/' + thumbnailName,
         'Body': buf,
-        'ContentType':'image/'+imageExtension
+        'ContentType': 'image/' + imageExtension
     }
 
-    s3.upload(param,function(err, data){
+    s3.upload(param, function (err, data) {
         console.log(err);
         console.log(data);
     });
@@ -286,49 +283,52 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
         userId: userId,
         created_at: new Date(),
         updated_at: new Date()
-    }).then(async result=>{
-        for(var i=0;i<userInfo.hashtag.length;i++){
-            await models.Hashtag.findOne({ where: {hashtagName: userInfo.hashtag[i]} })
-            .then(async hashtag => {
-                if(hashtag==null){
-                    await models.Hashtag.create({
-                        hashtagName: userInfo.hashtag[i],
-                        counting: 1
-                    }).then(async res => {
-                        await models.Trailer_Hashtag.create({
-                            booktrailerId: result.dataValues.id,
-                            hashtagId: res.dataValues.id,
+    }).then(async result => {
+        for (var i = 0; i < userInfo.hashtag.length; i++) {
+            await models.Hashtag.findOne({ where: { hashtagName: userInfo.hashtag[i] } })
+                .then(async hashtag => {
+                    if (hashtag == null) {
+                        await models.Hashtag.create({
+                            hashtagName: userInfo.hashtag[i],
                             counting: 1
-                        });
-                    }).catch(e => {
-                        console.log("해시태그 생성 실패");
-                        console.log(e);
-                        return res.json({
-                            isUploadSuccess: false,
-                            message: "해시태그 생성 오류"
-                        })
-                    });
-                }else{
-                    await models.Trailer_Hashtag.findOne({ where: {booktrailerId: result.dataValues.id,
-                        hashtagId: hashtag.dataValues.id
-                    } })
-                    .then(async trailer_hashtag => {
-                        if(trailer_hashtag == null){
+                        }).then(async res => {
                             await models.Trailer_Hashtag.create({
                                 booktrailerId: result.dataValues.id,
-                                hashtagId: hashtag.dataValues.id,
+                                hashtagId: res.dataValues.id,
                                 counting: 1
                             });
-                        }else{
-                            await models.sequelize.query("UPDATE trailer_hashtag SET counting=counting+1 WHERE booktrailerId = :booktrailerId AND hashtagId = :hashtagId", {
-                                replacements: { booktrailerId: result.dataValues.id, hashtagId: hashtag.dataValues.id }
+                        }).catch(e => {
+                            console.log("해시태그 생성 실패");
+                            console.log(e);
+                            return res.json({
+                                isUploadSuccess: false,
+                                message: "해시태그 생성 오류"
+                            })
+                        });
+                    } else {
+                        await models.Trailer_Hashtag.findOne({
+                            where: {
+                                booktrailerId: result.dataValues.id,
+                                hashtagId: hashtag.dataValues.id
+                            }
+                        })
+                            .then(async trailer_hashtag => {
+                                if (trailer_hashtag == null) {
+                                    await models.Trailer_Hashtag.create({
+                                        booktrailerId: result.dataValues.id,
+                                        hashtagId: hashtag.dataValues.id,
+                                        counting: 1
+                                    });
+                                } else {
+                                    await models.sequelize.query("UPDATE trailer_hashtag SET counting=counting+1 WHERE booktrailerId = :booktrailerId AND hashtagId = :hashtagId", {
+                                        replacements: { booktrailerId: result.dataValues.id, hashtagId: hashtag.dataValues.id }
+                                    });
+                                }
                             });
-                        }
-                    });
 
-                    
-                }
-            });
+
+                    }
+                });
         }
         await models.Post.create({
             userId: userId,
@@ -344,7 +344,7 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
             });
         });
 
-    }).catch(err=>{
+    }).catch(err => {
         console.log("트레일러 생성 오류");
         console.log(err);
         return res.json({
@@ -358,48 +358,5 @@ router.post('/videoUpload',multipartMiddleware, async (req, res) => {
         data: userInfo
     });
 });
-
-router.get('/video', async (req, res) => {
-    var userId = req.cookies.id;
-    var user = await models.User.findOne({where:{id:userId}});
-    var userName = user.dataValues.name;
-    models.BookTrailer.findAll({where:{userId:userId}}).then(async result=>{
-        answer = []
-        for(var i=0;i<result.length;i++){
-            var hashtags = []
-            await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
-                replacements: { booktrailerId: result[i].dataValues.id }
-            }).then(res=>{
-                var hashResult = res[0];
-                for(var i=0;i<hashResult.length;i++){
-                    hashtags.push(JSON.stringify(hashResult[i].hashtag));
-                }
-            });
-            var comment = await models.sequelize.query("SELECT c.comment as comment from comment as c join post as p on c.postId = p.id join booktrailer as b on p.booktrailerId = b.id WHERE b.id = :booktrailerId", {
-                replacements: { booktrailerId: result[i].dataValues.id }
-            });
-            answer.push({
-                id: result[i].dataValues.id,
-                userName: userName,
-                URL: result[i].dataValues.URL,
-                likeCount: result[i].dataValues.likeCount,
-                hashtags: hashtags,
-                comments: comment
-            });
-
-        }
-        return res.json({
-            isSearchSuccess: true,
-            data: answer
-        });
-    }).catch(err=>{
-        return res.json({
-            isSearchSuccess: false,
-            message: "wrongUserInformation"
-        });
-    });
-});
-
-
 
 module.exports = router;
