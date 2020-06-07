@@ -23,6 +23,9 @@ import SearchedPage from './components/views/SearchPage/SearchedPage';
 //======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
 
+//======================== 상세페이지 ========================
+import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
+
 //======================== 공유관련 페이지 ========================
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
@@ -34,9 +37,9 @@ import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUpl
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
 
 //======================== python test 페이지 ========================
-import pythonTest from './components/views/pythonTest/testPage';
+// import pythonTest from './components/views/pythonTest/testPage';
 
-function App() {
+function App(props) {
   return (
     <Router>
       <div className="bigScreen">
@@ -58,13 +61,16 @@ function App() {
           <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
 
           {/* 추천관련 페이지 */}
-          <Route exact path="/recommend" component={Auth(RecommendPage, null)} />
+          <Route exact path="/booktrailer/recommend" component={Auth(RecommendPage, null)} />
 
           {/* 커뮤니티 페이지 */}
           <Route exact path="/community" component={Auth(CommunityPage, true)} />
 
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
+
+          {/* 비디오 상세 페이지 */}
+          <Route exact path="/booktrailer/:booktrailerId" component={Auth(VideoDatailPage, null)} />
 
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
@@ -73,10 +79,11 @@ function App() {
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
 
           {/* 파이썬 페이지 */}
-          <Route exact path="/python" component={pythonTest} />
+          {/* <Route exact path="/python" component={pythonTest} /> */}
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
           <Redirect from="*" to="/" />
         </Switch>
+
         <Navigation />
       </div>
     </Router>

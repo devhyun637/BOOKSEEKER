@@ -8,6 +8,7 @@ class CommunityPage extends React.Component {
         isLoading: true,
         card: []
     };
+    
     // getCards = async () => {
     //     const {
     //       data: {
