@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../Sections/Card";
+import Card from "../Sections/Card/Card";
 import "./Post.css";
 
 class CommunityPage extends React.Component {
