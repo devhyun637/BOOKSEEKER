@@ -42,5 +42,7 @@ app.use('/api/python', require('./routes/python'));
 app.use('/api/booktrailer', require('./routes/booktrailer'));
 // 상세페이지 댓글 
 app.use('/api/review', require('./routes/review'));
+// 포스트 관련
+app.use('/api/post', require('./routes/post'));
 
 app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

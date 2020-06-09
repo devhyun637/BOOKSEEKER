@@ -29,10 +29,12 @@ import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
 //======================== 공유관련 페이지 ========================
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
+import CommentsPage from './components/views/TimeLinePage/Sections/CommentsPage';
 import SharePostPage from './components/views/SharePostPage/SharePostPage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
+import Likepage from './components/views/Mypage/Likepage';
 import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
@@ -69,6 +71,7 @@ function App(props) {
 
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
+          <Route exact path="/timeline/comments/:postId" component={Auth(CommentsPage, true)} />
 
           {/* 공유하기 페이지 */}
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
@@ -81,6 +84,9 @@ function App(props) {
           <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
           <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
+
+          {/* 좋아요 페이지 */}
+          <Route exact path="/likepage" component={Auth(Likepage,true)} />
 
           {/* 파이썬 페이지 */}
           {/* <Route exact path="/python" component={pythonTest} /> */}

@@ -10,28 +10,27 @@ const { Title } = Typography;
 const { Meta } = Card;
 
 
-function SearchedPage(props) {
+function Likepage(props) {
 
     const [videos, setVideos] = useState([])   
+
+    const fetchData = async function(){
+        await axios.get('/api/users/getLikeTrailers').then(async result=>{
+            console.log(result.data.data);
+            await setVideos(result.data.data);
+            
+        });
+        console.log(videos);
+    }
 
     useEffect(() => {
         //search 페이지에서 보낸 video를 받는다.
         //그리고 setVideos한다.
         //각각의 속성 map은 renderCards에서 해본다.
 
-        const info = props.history.location.state
-        console.log("given data",info)
-
-        setVideos(info)
+        fetchData();
     
-    }, [])
-
-    const getThumbnail = async function(thumbnail){
-        await axios.post('/api/users/getThumbnail',{thumbnail:thumbnail}).then(result => {
-            console.log(result);
-            return result.data.thumbnail;
-        });
-    }
+    }, []);
 
     const moveDetail = function(event){
         let url = '/booktrailer/'+event.target.id;
@@ -65,7 +64,7 @@ function SearchedPage(props) {
     return (
         <div>
             
-            <Title>북트레일러 검색 결과...</Title>
+            <Title>라이크 페이지...</Title>
             <hr/>
             <List
                 itemLayout="vertical"
@@ -84,4 +83,4 @@ function SearchedPage(props) {
     )
 }
 
-export default withRouter(SearchedPage);
+export default withRouter(Likepage);

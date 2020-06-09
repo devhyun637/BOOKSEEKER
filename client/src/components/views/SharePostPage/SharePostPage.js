@@ -98,6 +98,9 @@ function SharePostPage(props) {
         console.log(data);
 
         //Post 공유한거 등록하기 ()
+        axios.post('/api/post/addhashtags',data).then(res => {
+            document.location.href="/timeline";
+        });
     };
 
     const PostHashtags = (newHashtag) => {

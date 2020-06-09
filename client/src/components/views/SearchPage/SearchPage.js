@@ -34,9 +34,8 @@ function SearchPage(props) {
         setSearch(event.currentTarget.value);
     }
 
-    const onSubmitHandler = (evnet) => {
-        evnet.preventDefault();
-        console.log(Search);
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
         axios.get('/api/booktrailer/search/' + Search)
             .then(res => {
                 console.log("res: ", res)

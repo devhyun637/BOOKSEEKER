@@ -45,6 +45,7 @@ function VideoDatailPage(props) {
     const [likeCount, setLikeCount] = useState("");
     const [isLike, setIsLike] = useState(false);
     const [likeColor, setLikeColor] = useState("");
+    const [menuBody, setMenuBody] = useState([]);
 
     const [count,setCount] = useState(0);
 
@@ -72,18 +73,22 @@ function VideoDatailPage(props) {
     }
 
     const getIsFollowing = async function (bookTrailerUserId) {
+        let target = document.querySelector('.follow');
+
         if (bookTrailerUserId == Cookies.get('id')) {
             target.style.backgroundColor = '#6C757D';
             setButtonColor('#6C757D');
         }
-        let target = document.querySelector('.follow');
+        
         await axios.post('/api/users/isFollowing', { bookTrailerUserId: bookTrailerUserId }).then(res => {
             if (res.data.isFollowing) {
                 target.style.backgroundColor = '#6C757D';
                 setButtonColor('#6C757D');
+                target.innerHTML = "팔로우 취소";
             } else {
                 target.style.backgroundColor = '#ff3232';
                 setButtonColor('#ff3232');
+                target.innerHTML = "팔로우";
             }
         });
     }
@@ -100,10 +105,12 @@ function VideoDatailPage(props) {
                     target.style.backgroundColor = '#6C757D';
                     setButtonColor('#6C757D');
                     console.log("follow success");
+                    target.innerHTML = "팔로우 취소";
                 } else if (res.data.data == '0') {
                     target.style.backgroundColor = '#ff3232';
                     setButtonColor('#ff3232');
                     console.log("follow delete success");
+                    target.innerHTML = "팔로우";
                 } else {
                     alert(res.data.message);
                 }
@@ -136,6 +143,80 @@ function VideoDatailPage(props) {
                     setLikeColor("gray");
                 }
             });
+        }
+    }
+
+    const settingDisplay = function(userID){
+        if(userID==Cookies.get('id')){
+            setMenuBody(<Dropdown>
+                <Dropdown.Toggle
+                    variant="secondary"
+                    id="dropdown-basic"
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        border: 'none'
+                    }} >
+                    <BarsOutlined style={{
+                        fontSize: '25px',
+                    }} />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={
+                        (e) => {
+                            e.preventDefault()
+                            props.history.push({
+                                pathname: '/share',
+                                state: {
+                                    booktrailerId
+                                }
+                            })
+                        }}>공유하기</Dropdown.Item>
+                    <Dropdown.Item className="changeState" href="#">퀴즈만들기</Dropdown.Item>
+                    <Dropdown.Item
+                        className="changeState"
+                        onClick={
+                            (e) => {
+                                e.preventDefault()
+                                props.history.push({
+                                    pathname: '/mypage/booktrailer/upload',
+                                    state: {
+                                        booktrailerId,
+                                        //props.history.location.state.booktrailerId
+                                    }
+                                })
+                            }}
+                    >수정하기</Dropdown.Item>
+                    <Dropdown.Item className="changeState" href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>);
+        }else{
+            setMenuBody(<Dropdown>
+                <Dropdown.Toggle
+                    variant="secondary"
+                    id="dropdown-basic"
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        border: 'none'
+                    }} >
+                    <BarsOutlined style={{
+                        fontSize: '25px',
+                    }} />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={
+                        (e) => {
+                            e.preventDefault()
+                            props.history.push({
+                                pathname: '/share',
+                                state: {
+                                    booktrailerId
+                                }
+                            })
+                        }}>공유하기</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>);
         }
     }
 
@@ -176,6 +257,7 @@ function VideoDatailPage(props) {
                 if (response.data.success) {
                     // console.log(response.data);
                     // setBooktrailer(response.data);
+                    settingDisplay(response.data.booktrailerUser.id);
                     setBooktrailerUserId(response.data.booktrailerUser.id);
                     setBooktrailerTitle(response.data.booktrailerInfo.title);
                     setBooktrailerDesc(response.data.booktrailerInfo.content);
@@ -267,47 +349,7 @@ function VideoDatailPage(props) {
                         }} />
                 </Button>
 
-                <Dropdown>
-                    <Dropdown.Toggle
-                        variant="secondary"
-                        id="dropdown-basic"
-                        style={{
-                            backgroundColor: 'white',
-                            color: 'black',
-                            border: 'none'
-                        }} >
-                        <BarsOutlined style={{
-                            fontSize: '25px',
-                        }} />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={
-                            (e) => {
-                                e.preventDefault()
-                                props.history.push({
-                                    pathname: '/share',
-                                    state: {
-                                        booktrailerId
-                                    }
-                                })
-                            }}>공유하기</Dropdown.Item>
-                        <Dropdown.Item href="#">퀴즈만들기</Dropdown.Item>
-                        <Dropdown.Item
-                            onClick={
-                                (e) => {
-                                    e.preventDefault()
-                                    props.history.push({
-                                        pathname: '/mypage/booktrailer/upload',
-                                        state: {
-                                            booktrailerId,
-                                            //props.history.location.state.booktrailerId
-                                        }
-                                    })
-                                }}
-                        >수정하기</Dropdown.Item>
-                        <Dropdown.Item href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                {menuBody}
             </div>
             <Card title={bookTrailerUser} style={{ width: "100%", }} extra={<Button className="follow" variant="secondary" onClick={follow} style={{ border: 'none', backgroundColor: { buttonColor } }}>팔로우</Button>}>
                 <Collapse style={{
