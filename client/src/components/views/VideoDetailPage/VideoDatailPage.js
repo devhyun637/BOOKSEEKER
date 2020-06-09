@@ -257,6 +257,7 @@ function VideoDatailPage(props) {
                 if (response.data.success) {
                     // console.log(response.data);
                     // setBooktrailer(response.data);
+                    console.log(response.data.hashtags[0]);//해쉬태그
                     settingDisplay(response.data.booktrailerUser.id);
                     setBooktrailerUserId(response.data.booktrailerUser.id);
                     setBooktrailerTitle(response.data.booktrailerInfo.title);

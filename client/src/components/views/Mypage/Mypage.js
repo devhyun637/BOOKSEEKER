@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import { withRouter } from 'react-router-dom';
 
 const Nav = styled.div`
     width: 100%;
@@ -39,7 +40,7 @@ const NavListName = styled.div`
     font-size: 20px;
 `;
 
-function Mypage() {
+function Mypage(props) {
 
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
@@ -52,6 +53,16 @@ function Mypage() {
     const handleUserEmail = (userEmail) => {
         let data = userEmail;
         setUserEmail(data);
+    }
+
+    const moveUploaded = (e) => {
+        e.preventDefault();
+        axios.get('/api/users/getUploaded').then(res => {
+            if(res.data.success){
+                console.log(res.data.data);
+                props.history.push('/mypage/booktrailer/uploaded', res.data.data)
+            }
+        })
     }
 
     const onClickHandler = () => {
@@ -101,7 +112,7 @@ function Mypage() {
                         </NavListItems>
 
                         <NavListItems>
-                            <NavListLink to="#">
+                            <NavListLink to="#" onClick={moveUploaded}>
                                 <NavListName>
                                     등록한 북트레일러
                         </NavListName>
@@ -129,4 +140,4 @@ function Mypage() {
     )
 }
 
-export default Mypage;
+export default withRouter(Mypage);

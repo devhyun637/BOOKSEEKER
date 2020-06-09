@@ -548,4 +548,18 @@ router.get('/getLikeTrailers', async (req,res) => {
     });
 });
 
+// =========================== 등록한 북트레일러 가져오기 ===========================
+router.get('/getUploaded', async (req,res) => {
+    let userId = req.cookies.id;
+
+    await models.sequelize.query("SELECT * FROM booktrailer WHERE userId = :userId",{
+        replacements:{userId:userId}
+    }).then(result => {
+        return res.json({
+            success:true,
+            data: result[0]
+        });
+    })
+})
+
 module.exports = router;
