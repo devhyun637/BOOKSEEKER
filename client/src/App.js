@@ -29,6 +29,7 @@ import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
 //======================== 공유관련 페이지 ========================
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
+import SharePostPage from './components/views/SharePostPage/SharePostPage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
@@ -68,6 +69,9 @@ function App(props) {
 
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
+
+          {/* 공유하기 페이지 */}
+          <Route exact path="/share" component={Auth(SharePostPage, true)} />
 
           {/* 비디오 상세 페이지 */}
           <Route exact path="/booktrailer/:booktrailerId" component={Auth(VideoDatailPage, null)} />

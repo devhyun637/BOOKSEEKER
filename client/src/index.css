@@ -55,7 +55,10 @@ code {
   padding: 0px;
 }
 
-.ant-btn {
-  border: none;
-  font-size: 25px;
+.ant-card-meta-title, .ant-card-meta-description{
+  margin: 10px;
+}
+
+.ant-form-item-control-input {
+  text-align: center;
 }

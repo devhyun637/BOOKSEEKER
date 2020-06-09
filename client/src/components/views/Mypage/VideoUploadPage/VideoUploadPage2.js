@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 import { Form, Input, Button } from 'antd';
 
+import Hashtags from '../../SharePostPage/Sections/Hashtags';
 const { TextArea } = Input;
 
 //스타일 component
@@ -32,6 +33,29 @@ const formItemLayout = {
 
 function VideoUploadPage2(props) {
 
+    // useEffect(() => {
+    //     if (props.history.location) {
+    //         const trailerId = props.history.location.state.data.trailerId;
+    //         console.log(trailerId)
+
+    //         const booktraileVariable = {
+    //             booktrailerId: trailerId
+    //         }
+
+    //         axios.post('/api/booktrailer/getVideo', booktraileVariable)
+    //             .then(response => {
+    //                 if (response.data.success) {
+    //                     // console.log(response.data.booktrailerInfo);
+    //                     const { booktrailerInfo } = response.data;
+    //                     setBooktrailerTitle(booktrailerInfo.title);
+    //                     setBooktrailerDesc(booktrailerInfo.content);
+    //                 } else {
+    //                     alert('Failed to get booktrailer Info')
+    //                 }
+    //             })
+    //     }
+    // }, [])
+    const [tags, setTags] = useState([]);
     const [booktrailerTitle, setBooktrailerTitle] = useState("");
     const [booktrailerDesc, setBooktrailerDesc] = useState("");
     const [checkButtonShow, setCheckButtonShow] = useState('');
@@ -44,7 +68,7 @@ function VideoUploadPage2(props) {
         let body = {
             url: booktrailer.url,
             thumbnail: booktrailer.thumbnail,
-            hashtag: booktrailer.hashtag,
+            hashtag: tags,
             title: booktrailerTitle,
             desc: booktrailerDesc
         }
@@ -87,9 +111,17 @@ function VideoUploadPage2(props) {
         e.preventDefault();
         let data = componentDidMount();
         // console.log(data);
-        props.history.push('/mypage/booktrailer/upload3', data);
-        console.log(data);
+        if (tags.length === 0) {
+            alert("해시태그를 입력해주세요");
+        } else {
+            props.history.push('/mypage/booktrailer/upload3', data);
+            console.log(data);
+        }
     };
+
+    const PostHashtags = (newHashtag) => {
+        setTags(newHashtag);
+    }
 
     return (
         <Box>
@@ -116,9 +148,14 @@ function VideoUploadPage2(props) {
                         },
                     ]}
                 >
-                    <Input placeholder="제목은 필수 입력입니다." disabled={inputable} />
+                    <Input placeholder="제목은 필수 입력입니다." disabled={inputable} value={booktrailerTitle} />
                 </Form.Item>
-
+                <hr />
+                {/* 해시태그 */}
+                <br />
+                <Hashtags PostHashtags={PostHashtags}/>
+                <br />
+                <hr />
                 <Form.Item
                     {...formItemLayout}
                     name="booktrailer_description"
@@ -133,16 +170,12 @@ function VideoUploadPage2(props) {
                     <TextArea
                         placeholder="제목은 필수 입력입니다."
                         disabled={inputable}
-                        autoSize={{ minRows: 5, maxRows: 10 }}
+                        autoSize={{ minRows: 5, maxRows: 15 }}
                     />
                 </Form.Item>
 
-                <br />
-                <br />
-
                 <Form.Item>
                     <Button style={{
-                        margin: "0 auto",
                         border: "0.5px solid #717171",
                         backgroundColor: "white",
                         color: "black",
@@ -152,7 +185,6 @@ function VideoUploadPage2(props) {
                         htmlType="submit"
                     >확인</Button>
                     <Button style={{
-                        margin: "0 auto",
                         marginRight: "5px",
                         border: "0.5px solid #717171",
                         backgroundColor: "white",
@@ -162,7 +194,6 @@ function VideoUploadPage2(props) {
                         onClick={reset}
                     >취소</Button>
                     <Button style={{
-                        margin: "0 auto",
                         border: "0.5px solid #717171",
                         backgroundColor: "black",
                         color: "white",

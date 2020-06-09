@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import Hashtag from '../../Sections/Hashtag/Hashtag';
+// import Hashtags from '../../SharePostPage/Sections/Hashtags';
 import Dropzone from 'react-dropzone';
 
 //스타일 component
@@ -39,7 +39,28 @@ const Content = styled.div`
 
 function VideoUploadPage(props) {
 
-    const [tags, setTags] = useState([]);
+    // const [tags, setTags] = useState([]);
+
+    // useEffect(() => {
+    //     if (props.history.location) {
+    //         const trailerId = props.history.location.state.booktrailerId;
+
+    //         const booktraileVariable = {
+    //             booktrailerId: trailerId
+    //         }
+
+    //         axios.post('/api/booktrailer/getVideo', booktraileVariable)
+    //             .then(response => {
+    //                 if (response.data.success) {
+    //                     // console.log(response.data.booktrailerInfo);
+    //                     const { booktrailerInfo } = response.data;
+    //                     setValidURL(booktrailerInfo.URL);
+    //                 } else {
+    //                     alert('Failed to get booktrailer Info')
+    //                 }
+    //             })
+    //     }
+    // }, [])
 
     const [URL, setURL] = useState("");
     const [Open, setOpen] = useState(false);
@@ -91,13 +112,6 @@ function VideoUploadPage(props) {
         };
     }
 
-    //해시태그 관련
-    const handleHashtag = (filter) => {
-        // console.log(filter);
-        let newHashtag = filter;
-        setTags(newHashtag);
-    }
-
     //전체보내주기
     const sendStep1 = (e) => {
         e.preventDefault();
@@ -105,18 +119,15 @@ function VideoUploadPage(props) {
         let data = {
             url: ValidURL,
             thumbnail: img,
-            hashtag: tags
+            // hashtag: tags,
+            // trailerId: props.history.location.state.booktrailerId
         }
 
         if (!img) {
             alert("썸네일을 등록해주세요");
         } else if (!ValidURL) {
             alert("Youtube URL을 검색해주세요");
-        } else if (tags.length === 0) {
-            alert("해시태그를 입력 후, 확인을 눌러주세요");
         } else {
-            console.log(data);
-            alert(`선택된 해시태그 : ${tags}`)
             props.history.push('/mypage/booktrailer/upload2', data);
         }
     }
@@ -213,14 +224,7 @@ function VideoUploadPage(props) {
                     </div>
                 </form>
             </Content>
-            <hr />
-
-            {/* 해시태그 */}
-            <Content>
-                <Hashtag handleHashtag={filter => handleHashtag(filter)} />
-            </Content>
-
-            <hr />
+            <br />
             <form onSubmit={sendStep1}>
                 <Button style={{
                     border: '1px solid black',
