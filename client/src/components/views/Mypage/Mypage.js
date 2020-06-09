@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
 
 const Nav = styled.div`
     width: 100%;
@@ -109,7 +108,7 @@ function Mypage() {
                         </NavListItems>
 
                         <NavListItems>
-                            <NavListLink to="#">
+                            <NavListLink to="/likepage">
                                 <NavListName>
                                     좋아요한 북트레일러
                         </NavListName>
