@@ -4,10 +4,10 @@ const models = require('../models/index');
 
 
 //=================================
-//             Cost
+//             Post.js
 //=================================
 
-// =========================== 해시태그 추가하기 ===========================
+// =========================== 해시태그가져오기 ===========================
 router.post('/addhashtags', async (req, res) => {
     let data = req.body;
     let userId = req.cookies.id;
@@ -74,7 +74,5 @@ router.post('/addhashtags', async (req, res) => {
         success:true
     });
 });
-
-
 
 module.exports = router;
