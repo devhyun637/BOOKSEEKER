@@ -46,6 +46,8 @@ function VideoDatailPage(props) {
     const [isLike, setIsLike] = useState(false);
     const [likeColor, setLikeColor] = useState("");
 
+    const [count,setCount] = useState(0);
+
     //모든 댓글 가져오기
     const [allReviews, setAllReviews] = useState([]);
 
@@ -128,7 +130,7 @@ function VideoDatailPage(props) {
         } else {
             await axios.post('/api/booktrailer/getIsLike', { booktrailerId: booktrailerId }).then(res => {
                 setIsLike(res.data.isLike);
-                if (isLike) {
+                if (res.data.isLike) {
                     setLikeColor("#ff3232");
                 } else {
                     setLikeColor("gray");
@@ -166,9 +168,8 @@ function VideoDatailPage(props) {
             }
         }
     }
-
+    
     useEffect(() => {
-        getButtonColor();
         //북트레일러 정보 가져오기
         axios.post('/api/booktrailer/getVideo', booktraileVariable)
             .then(response => {
@@ -186,8 +187,9 @@ function VideoDatailPage(props) {
                     setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
                     getLikeCount(response.data.booktrailerInfo.id);
                     getIsLike(booktrailerId);
-                    getIsFollowing(bookTrailerUserId);
+                    getIsFollowing(response.data.booktrailerUser.id);
                     setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
+                    axios.post('/api/booktrailer/countUp',{booktrailerId:booktrailerId});
                 } else {
                     alert('Failed to get booktrailer Info')
                 }

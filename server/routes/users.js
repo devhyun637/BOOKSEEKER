@@ -409,6 +409,7 @@ router.post('/follow', async (req, res) => {
 router.post('/followex', async (req, res) => {
     bookTrailerUserId = Number(req.body.bookTrailerUserId);
     let userId = Number(req.cookies.id);
+    console.log(userId,bookTrailerUserId);
     if (userId) {
         await models.Follow.findOne({ where: { userId: userId, friendId: bookTrailerUserId } })
             .then(async follow => {

@@ -1,5 +1,5 @@
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Tag } from 'antd';
 import { withRouter } from 'react-router-dom';
@@ -7,6 +7,28 @@ import { withRouter } from 'react-router-dom';
 
 function SearchPage(props) {
     const [Search, setSearch] = useState("");
+    const [hashtags, setHashTags] = useState([]);
+
+    useEffect(()=> {
+        axios.get('/api/hashtags/hashtags').then(result =>{
+            let element = [];
+            if(result.data.success){
+                for(let i=0;i<result.data.hashtags[0].length;i++){
+                    let id = result.data.hashtags[0][i].id
+                    let categoryName = result.data.hashtags[0][i].hashtagName;
+                    element.push(
+                        <Tag color="#0492c2" key={id}>
+                        <a href="/register3">
+                            {categoryName}
+                        </a>
+                        </Tag>
+                    );
+                }
+                setHashTags(element);
+            }
+        });
+
+    },[])
 
     const onSearchHandler = (event) => {
         setSearch(event.currentTarget.value);
@@ -73,66 +95,7 @@ function SearchPage(props) {
             <br />
             {/* 해시태그 영역 */}
             <div>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                    </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                    </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                    </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                    </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                    </a>
-                </Tag>
-                <Tag color="#0492c2">
-                    <a href="/register3">
-                        해시태그1
-                     </a>
-                </Tag>
+                {hashtags}
             </div>
         </div>
     )
