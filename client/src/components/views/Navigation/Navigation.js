@@ -61,7 +61,7 @@ function Navigation() {
     //스크롤 움직이면 Navigation 숨기기
     useScrollPosition(
         ({ prevPos, currPos }) => {
-            const isVisible = currPos.y > prevPos.y
+            const isVisible = currPos.y >= prevPos.y
 
             const shouldBeStyle = {
                 visibility: isVisible ? 'visible' : 'hidden'

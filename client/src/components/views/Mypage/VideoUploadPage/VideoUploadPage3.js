@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 import axios from 'axios';
 // import NaverBookAPI from '../../Mypage/naverBookAPI/NaverBookAPI';
@@ -35,6 +35,26 @@ const formItemLayout = {
 
 function VideoUploadPage3(props) {
 
+    useEffect(() => {
+
+        axios.get('/api/categories').then(res => {
+            const element = [];
+            if (res.data) {
+                for (let i = 0; i < res.data.length; i++) {
+                    let categoryId = res.data[i].id;
+                    let categoryName = res.data[i].categoryName;
+                    element.push(
+                        <Option key={categoryId}>{categoryName}</Option>
+                    )
+                }
+            } else {
+                alert("카테고리 목록 불러오기 실패")
+            }
+            setCategory(element);
+        });
+
+    }, [])
+
     const [form] = Form.useForm();
 
     const [bookTitle, setBookTitle] = useState("");
@@ -46,7 +66,7 @@ function VideoUploadPage3(props) {
     const [inputable, setInputalbe] = useState(false);
 
     const [category, setCategory] = useState(null);
-    const [body, setBody] = useState('');
+    const [CategoryId, setCategoryId] = useState(null);
 
     const componentDidMount = () => {
         const booktrailer = props.history.location.state
@@ -60,7 +80,7 @@ function VideoUploadPage3(props) {
             bookTitle: bookTitle,
             publisher: publisher,
             author: author,
-            category: category
+            category: CategoryId
         }
 
         return body
@@ -96,37 +116,23 @@ function VideoUploadPage3(props) {
     const realSend = (e) => {
         e.preventDefault();
         let data = componentDidMount();
-        console.log(data);
         axios.post('/api/users/videoUpload', data).then(res => {
-            console.log(res);
-            if(res.data.isUploadSuccess){
-                props.history.push('/mypage', data);
-            }else{
+            // console.log(data.category);
+            if (res.data.isUploadSuccess) {
+                // props.history.push('/mypage', data);
+                document.location.href = "/mypage";
+            } else {
                 alert("등록 실패");
             }
         });
     };
 
-
     //카테고리
-    const handleChange = async (value) => {
-        await axios.get('/api/categories')
-            .then(res => {
-                const element = [];
-                if (res.data) {
-                    for (let i = 0; i < res.data.length; i++) {
-                        let category = res.data[i].id;
-                        element.push(
-                            <Option key={category}>{category}</Option>
-                        )
-                    }
-                } else {
-                    alert("카테고리 목록 불러오기 실패")
-                }
-                setBody(element);
-            });
-        setCategory(value)
+    const handleChange = (value) => {
+        setCategoryId(value)
+        // console.log(value)
     }
+
 
     return (
         <Box>
@@ -201,12 +207,10 @@ function VideoUploadPage3(props) {
                         ]}
                     >
                         <Select style={{ width: '100%' }} onChange={handleChange} disabled={inputable}>
-                            <Option >카테고리 불러오기</Option>
-                            {body}
+                            {category}
                         </Select>
                     </Form.Item>
                 </div>
-                <br />
                 <br />
 
                 <Form.Item>

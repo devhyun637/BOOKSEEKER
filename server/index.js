@@ -40,5 +40,7 @@ app.use('/api/booktrailer', require('./routes/URLsearch'));
 app.use('/api/python', require('./routes/python'));
 // 북트레일러 관련
 app.use('/api/booktrailer', require('./routes/booktrailer'));
+// 상세페이지 댓글 
+app.use('/api/review', require('./routes/review'));
 
 app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

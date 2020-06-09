@@ -29,4 +29,11 @@ router.post('/select', (req, res) => {
     }
 })
 
+// =========================== 북트레일러에 해당하는 해시태그 가져오기 ===========================
+router.post('/trailer_hashtag', (req, res) => {
+    const booktrailerId = req.body.booktrailerId;
+    
+    //해시태그 가져오기
+})
+
 module.exports = router;

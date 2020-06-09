@@ -167,8 +167,6 @@ function VideoDatailPage(props) {
         }
     }
 
-
-
     useEffect(() => {
         getButtonColor();
         //북트레일러 정보 가져오기
@@ -339,4 +337,10 @@ function VideoDatailPage(props) {
     )
 }
 
+<<<<<<< HEAD
 export default withRouter(VideoDatailPage)
+=======
+export default withRouter(VideoDatailPage)
+
+
+>>>>>>> bea4bc570cbc246c97fac9025e8375db2946dcb8
