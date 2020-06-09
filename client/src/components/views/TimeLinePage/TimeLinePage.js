@@ -1,67 +1,153 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./Post.css";
+import { withRouter } from 'react-router';
 
-function TimeLinePage() {
+import styled from 'styled-components';
+import { Dropdown, Button } from 'react-bootstrap';
+import { EditOutlined, HeartTwoTone, BarsOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
+
+import Hashtags from '../VideoDetailPage/Sections/BooktrailerHashtag';
+
+const TimeLineSection = styled.section`   
+    margin: 30px auto;
+`;
+
+const NickName = styled.p`   
+    margin: 0 15px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 20px;
+`;
+
+
+function TimeLinePage(props) {
+
   const [isLoading, setIsLoading] = useState(true);
   const [cards, setCards] = useState("");
+  const [userName, setUserName] = useState("");
+  const [likeCount, setLikeCount] = useState("");
+  const [commentCount, setCommentCount] = useState(0);
+  const [postId, setPostId] = useState(null);
+  // const [content, setContent] = useState("");
+  const [hashtags, setHashTags] = useState([]);
+  const [createTime, setCreatedTime] = useState(null);
+
+  const content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta quam et lectus dignissim, id dignissim elit laoreet. Aliquam id orci mauris. Morbi neque lacus, aliquet vel dolor condimentum, consequat accumsan tellus. Proin venenatis feugiat quam tempor tincidunt. Aliquam sit amet fringilla leo. Maecenas laoreet ipsum nisi, vitae faucibus magna fermentum et. Cras eu nunc at velit ultricies molestie in sit amet nunc. Vivamus sollicitudin iaculis magna. Integer vitae pulvinar ligula. Donec rutrum ultrices metus id feugiat. Morbi rutrum, ex vitae sollicitudin posuere, ex massa efficitur quam, suscipit aliquam lacus mauris non dolor. Proin efficitur arcu id dolor auctor, at luctus enim imperdiet. Praesent facilisis turpis felis, in porta libero mattis mattis. Pellentesque vel lobortis lacus, sit amet congue nibh. Phasellus posuere nulla ac mi placerat commodo.";
+
+  const readMoreComment = (e) => {
+    e.preventDefault();
+
+    const variables = {
+      postId: postId,
+      content: content,
+      hashtags: hashtags,
+      userName: userName,
+      createTime: createTime
+    }
+
+    props.history.push('/timeline/comments/5', variables);
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      await axios.get('/api/booktrailer/video').then(res => {
+
+    const resultContent = (content) => {
+      if (content.length > 40) {
+        let contents = content.slice(0, 35);
+        return (
+          <div className="postDesc">
+            <span className="">{contents}...</span>
+            <button onClick={readMoreComment} className="readmore"> 더보기 </button>
+          </div>)
+      } else {
+        return (<div className="postDesc">
+          <span className="content" style={{ marginBottom: '10px' }}>{content}</span>
+        </div>)
+      }
+    }
+
+    function fetchData() {
+      axios.get('/api/booktrailer/video').then(res => {
         setIsLoading(false);
         setCards(res.data.data.map(
           (data, index) => (
-
-            <article className="Post" key={index} style={{
-              marginBottom: "5%"
-            }}>
+            <article className="Post" key={index} >
               <header>
                 <div className="Post-user">
                   <div className="Post-user-name">
                     <span>{data.userName}</span>
                   </div>
-                  <div className="Post-detail">
-                    <button className="detail-button">
-                      상세
-                   </button>
-                  </div>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="secondary"
+                      id="dropdown-basic"
+                      style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        border: 'none'
+                      }} >
+                      <BarsOutlined style={{
+                        fontSize: '25px',
+                      }} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#">상세보기</Dropdown.Item>
+                      <Dropdown.Item href="#">수정하기</Dropdown.Item>
+                      <Dropdown.Item href="#">삭제하기</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </header>
+
               <div className="Post-image">
                 <div className="Post-image-bg">
-                  <p align="middle">
-                    <iframe
-                      width="90%" height="100%" src={data.URL.replace("youtu.be/", "www.youtube.com/embed/")}
-                      frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen>
-                    </iframe>
-                  </p>
-                </div>
-              </div>
-              <div className="Post-caption">
-                <div className="Like-about">
-                  <div className="Like-button">
-                    <button>
-                      좋아요
-                  </button>
-                  </div>
-                  <div className="Like-count">
-                    <p>{data.likeCount}명이좋아합니다.</p>
-                  </div>
-                  <div className="share-button">
-                    <button>
-                      공유
-                </button>
-                  </div>
-                </div>
-                <div className="hashtags">
-                  #해쉬태그 #감성 #고양이...{data.hashtags.map((hashtag, index) => (
-                    <li key={index} className="hashtags_hashtag">{hashtag}</li>
-                  ))}
+                  <iframe
+                    width="90%" src={data.URL.replace("youtu.be/", "www.youtube.com/embed/").replace("watch?v=", "embed/")}
+                    frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen>
+                  </iframe>
                 </div>
               </div>
 
+              {/* 좋아요 버튼 */}
+              <div className="Like-button">
+                <Button
+                  // onClick
+                  style={{
+                    color: 'black',
+                    backgroundColor: "white",
+                    border: 'none',
+                  }}
+                  variant="secondary">
+                  <HeartTwoTone
+                    // twoToneColor
+                    style={{
+                      float: 'left',
+                      fontSize: '25px',
+                    }} />
+                  <div style={{ float: 'left', marginLeft: '5px', heigth: 'center', lineHeight: 'center' }}>
+                    111{likeCount}
+                  </div>
+                </Button>
+              </div>
+              <div className="post_time">
+                날짜날짜날짜
+              </div>
+
+              {/* 해시태그*/}
+              <div className="hashtags">
+                <Hashtags />
+              </div>
+
+              {/* 내용 */}
+              <form>
+                {resultContent(content)}
+              </form>
+
+              {/* 댓글 */}
+              <button className="comment" onClick={readMoreComment}>
+                댓글 {commentCount}개 보기
+              </button>
             </article>
           )
 
@@ -75,21 +161,22 @@ function TimeLinePage() {
     fetchData();
   }, []);
 
+
   return (
-    <section className="container">
+    <TimeLineSection className="container">
+      <NickName>{userName}님</NickName>
       {isLoading ? (
         <div className="loader">
-          <span className="loader__text">Loading...</span>
+          <span className="loader__text">북트레일러 가져오는 중...</span>
         </div>)
         : (
-
           <div className="cards">
             {cards}
           </div>
         )}
 
-    </section>);
+    </TimeLineSection>);
 
 }
 
-export default TimeLinePage
+export default withRouter(TimeLinePage)
