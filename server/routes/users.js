@@ -194,6 +194,7 @@ router.post('/login', async function (req, res) {
 router.get('/logout', (req, res) => {
     if (req.cookies.user) {
         res.clearCookie('user');
+        res.clearCookie('id');
         console.log("token remove success");
         return res.status(200).send({
             isLogoutSuccess: true
@@ -245,6 +246,7 @@ router.get('/search', (req, res) => {
     });
 });
 
+// =========================== 비디오 업로드하기 ===========================
 router.post('/videoUpload', multipartMiddleware, async (req, res) => {
     var userInfo = req.body;
     var userId = req.cookies.id;
@@ -358,5 +360,159 @@ router.post('/videoUpload', multipartMiddleware, async (req, res) => {
         data: userInfo
     });
 });
+
+// =========================== 팔로우 하기 ===========================
+router.post('/follow', async (req, res) => {
+    bookTrailerUserId = Number(req.body.bookTrailerUserId);
+    let userId = Number(req.cookies.id);
+    if (userId) {
+        await models.Follow.findOne({ where: { userId: userId, friendId: bookTrailerUserId } })
+            .then(async follow => {
+                if (follow) {
+                    await models.Follow.destroy({
+                        where: {
+                            userId: userId,
+                            friendId: bookTrailerUserId
+                        }
+                    }).then(result => {
+                        return res.json({
+                            success: true,
+                            data: 0
+                        });
+                    }).catch(e => {
+                        console.log(e);
+                    });
+                } else {
+                    await models.Follow.create({
+                        userId: userId,
+                        friendId: bookTrailerUserId
+                    }).then(result => {
+                        return res.json({
+                            success: true,
+                            data: 1
+                        });
+                    }).catch(e => {
+                        console.log(e);
+                    });
+                }
+
+            });
+    } else {
+        return res.json({
+            sucess: false,
+            message: "로그인 해주세요"
+        });
+    }
+});
+
+// =========================== 팔로우유무파악 ===========================
+router.post('/followex', async (req, res) => {
+    bookTrailerUserId = Number(req.body.bookTrailerUserId);
+    let userId = Number(req.cookies.id);
+    if (userId) {
+        await models.Follow.findOne({ where: { userId: userId, friendId: bookTrailerUserId } })
+            .then(async follow => {
+                if (follow) {
+                    return res.json({
+                        color: '#6C757D'
+                    });
+                } else {
+                    return res.json({
+                        color: '#ff3232'
+                    });
+                }
+            });
+    } else {
+        return res.json({
+            color: '#ff3232'
+        });
+    }
+});
+
+// =========================== 좋아요 수정 ===========================
+router.post("/changeLike", async (req, res) => {
+    let userId = req.cookies.id;
+    if (userId == null) {
+        return res.json({
+            success: false,
+            message: "로그인을 해주세요"
+        });
+    }
+    let bookTrailerId = req.body.booktrailerId;
+    let isLike = req.body.isLike;
+
+    if (isLike == "true") {
+        await models.User_Like.destroy({
+            where: {
+                userId: userId,
+                booktrailerId: bookTrailerId
+            }
+        }).then(async result => {
+            await models.sequelize.query("UPDATE booktrailer SET likeCount=likeCount-1 WHERE id = :id", {
+                replacements: { id: bookTrailerId }
+            }).then(result2 => {
+                return res.json({
+                    success: true,
+                });
+            })
+        });
+
+    } else if (isLike == "false") {
+        await models.User_Like.create({
+            userId: userId,
+            booktrailerId: bookTrailerId,
+            created_at: new Date(),
+            updated_at: new Date()
+        }).then(async result => {
+            await models.sequelize.query("UPDATE booktrailer SET likeCount=likeCount+1 WHERE id = :id", {
+                replacements: { id: bookTrailerId }
+            }).then(result2 => {
+                return res.json({
+                    success: true,
+                });
+            })
+        })
+    } else {
+        return res.json({
+            success: false,
+            message: "오류"
+        });
+    }
+});
+
+// =========================== 팔로잉중인가 ===========================
+router.post('/isFollowing', async (req, res) => {
+    let userId = req.cookies.id;
+    if (userId == null) {
+        return res.json({
+            isFollowing: false
+        });
+    }
+    let friendId = req.body.bookTrailerUserId;
+    models.Follow.findOne({ where: { userId: userId, friendId: friendId } }).then(result => {
+        if (result) {
+            return res.json({
+                isFollowing: true
+            });
+        } else {
+            return res.json({
+                isFollowing: false
+            })
+        }
+    });
+});
+
+// =========================== 회원 정보 가져오기 ===========================
+router.post('/getUser', async (req, res) => {
+    const { userId } = req.body;
+
+    models.User.findOne({ where: { id: userId } }).then(userInfo => {
+        return res.status(200).json({
+            success: true, userInfo
+        })
+    }).catch(err => {
+        return res.status(400).send(err)
+    })
+})
 
 module.exports = router;

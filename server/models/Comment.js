@@ -15,6 +15,11 @@ module.exports = function (sequelize, DataTypes) {
         comment: {
             field: "comment",
             type: DataTypes.STRING
+        },
+        emotion: {
+            field: "emotion",
+            type: DataTypes.INTEGER,
+            allowNull: null
         }
     }, {
             underscored: true,
