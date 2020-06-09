@@ -78,7 +78,7 @@ const Name = styled.p`
 
 function RecommendPage(props) {
 
-    const trailer_id = 2;
+    const trailer_id = 8;
     const [todayBookTrailer, setTodayBookTrailer] = useState("");
 
     useEffect(() => {

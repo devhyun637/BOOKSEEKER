@@ -14,7 +14,12 @@ module.exports = function (sequelize, DataTypes) {
         },
         review: {
             field: "review",
-            type: DataTypes.STRING(255)
+            type: DataTypes.TEXT
+        },
+        emotion: {
+            field: "emotion",
+            type: DataTypes.INTEGER,
+            allowNull: null
         }
     }, {
             underscored: true,

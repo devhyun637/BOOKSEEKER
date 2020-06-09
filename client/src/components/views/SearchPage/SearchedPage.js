@@ -58,7 +58,11 @@ function SearchedPage(props) {
             <Title>북트레일러 검색 결과...</Title>
             <hr/>
             <List
+<<<<<<< HEAD
                 margin = "10px"
+=======
+                margin_ = "10px"
+>>>>>>> e433e1d0cb0b7e5747ae9412305ac0473a6c433e
                 itemLayout="vertical"
                 size="small"
                 pagination={{

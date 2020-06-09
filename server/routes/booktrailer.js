@@ -5,6 +5,10 @@ const models = require('../models/index');
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
+const jwt = require('jsonwebtoken');
+const secretObj = require('../config/jwt');
+const crypto = require('crypto');
+
 
 //=================================
 //             bookTrailer
@@ -56,7 +60,7 @@ router.get('/video', async (req, res) => {
 // =========================== 북트레일러 가져오기(상세페이지) ===========================
 router.post("/getVideo", multipartMiddleware, async (req, res) => {
     let booktrailerId = req.body.booktrailerId;
-    
+
     //TODO : 함수 수정하기
     let booktailerInfo = await models.BookTrailer.findOne({ where: { id: booktrailerId } });
     let booktrailerUser = await models.User.findOne({ where: { id: booktailerInfo.dataValues.userId } });
@@ -69,14 +73,99 @@ router.post("/getVideo", multipartMiddleware, async (req, res) => {
     }).catch(err => {
         return res.status(400).send(err)
     })
-
-    // if (booktailerInfo) {
-    //     return res.status(200).json({
-    //         success: true, booktrailerInfo, booktrailerUser
-    //     })
-    // } else {
-    //     return res.status(400).send(err)
-    // }
 });
 
+// =========================== 좋아요 하기(상세) ===========================
+router.post('/getLike', async (req, res) => {
+    var bookTrailerId = req.body.booktrailerId;
+    await models.BookTrailer.findOne({
+        where: {
+            id: bookTrailerId
+        }
+    }).then(result => {
+        return res.json({
+            count: result.dataValues.likeCount
+        });
+    });
+});
+
+// =========================== 좋아요 가져오기(상세페이지) ===========================
+router.post('/getIsLike', async (req, res) => {
+    let userId = req.cookies.id;
+    if (userId == null) {
+        return res.json({
+            isLike: false
+        });
+    }
+    let bookTrailerId = req.body.booktrailerId;
+    await models.User_Like.findOne({
+        where: {
+            userId: userId,
+            booktrailerId: bookTrailerId
+        }
+    }).then(result => {
+        if (result) {
+            return res.json({
+                isLike: true
+            });
+        } else {
+            return res.json({
+                isLike: false
+            });
+        }
+    }).catch(e => {
+        console.log(e)
+    });
+});
+
+// =========================== 삭제하기 ===========================
+router.post('/delete', async (req, res) => {
+    let token = req.cookies.user;
+    if (token != null) {
+        let decode = false;
+        await jwt.verify(token, secretObj.secret, async (err, decoded) => {
+            if (err) {
+                decode = false;
+                return res.json({
+                    success: false
+                });
+            } else {
+                decode = decoded;
+                let booktrailerId = req.body.booktrailerId;
+                let userId = req.cookies.id;
+                await models.User_Like.destroy({
+                    where: { booktrailerId: booktrailerId }
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+                await models.BookTrailer.destroy({
+                    where: { id: booktrailerId }
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+                return res.json({
+                    success: true
+                });
+            }
+        });
+    } else {
+        return res.json({
+            success: false
+        });
+    }
+
+});
+
+router.post('/countUp', async (req,res) => {
+    let booktrailerId = req.body.booktrailerId;
+
+    models.sequelize.query("UPDATE booktrailer SET watch=watch+1 WHERE id = :booktrailerId",{
+        replacements: { booktrailerId: booktrailerId }
+    });
+
+});
 module.exports = router;
