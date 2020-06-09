@@ -337,10 +337,4 @@ function VideoDatailPage(props) {
     )
 }
 
-<<<<<<< HEAD
-export default withRouter(VideoDatailPage)
-=======
-export default withRouter(VideoDatailPage)
-
-
->>>>>>> bea4bc570cbc246c97fac9025e8375db2946dcb8
+export default withRouter(VideoDatailPage);
