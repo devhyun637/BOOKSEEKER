@@ -72,11 +72,13 @@ function VideoDatailPage(props) {
     }
 
     const getIsFollowing = async function (bookTrailerUserId) {
+        let target = document.querySelector('.follow');
+        
         if (bookTrailerUserId == Cookies.get('id')) {
             target.style.backgroundColor = '#6C757D';
             setButtonColor('#6C757D');
         }
-        let target = document.querySelector('.follow');
+        
         await axios.post('/api/users/isFollowing', { bookTrailerUserId: bookTrailerUserId }).then(res => {
             if (res.data.isFollowing) {
                 target.style.backgroundColor = '#6C757D';

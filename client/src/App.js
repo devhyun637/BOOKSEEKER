@@ -30,12 +30,14 @@ import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 import SharePostPage from './components/views/SharePostPage/SharePostPage';
+import UploadBooktrailersPage from './components/views/Mypage/UploadedBooktrailersPage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
 import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
+
 
 //======================== python test 페이지 ========================
 // import pythonTest from './components/views/pythonTest/testPage';
@@ -81,6 +83,7 @@ function App(props) {
           <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
           <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
+          <Route exact path="/mypage/booktrailer/uploaded" component={Auth(UploadBooktrailersPage, true)} />
 
           {/* 파이썬 페이지 */}
           {/* <Route exact path="/python" component={pythonTest} /> */}

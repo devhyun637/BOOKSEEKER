@@ -10,7 +10,7 @@ const { Title } = Typography;
 const { Meta } = Card;
 
 
-function SearchedPage(props) {
+function UploadBooktrailersPage(props) {
 
     const [videos, setVideos] = useState([])   
 
@@ -67,7 +67,7 @@ function SearchedPage(props) {
     return (
         <div>
             
-            <Title>북트레일러 검색 결과...</Title>
+            <Title>등록한 북트레일러들...</Title>
             <hr/>
             <List
                 itemLayout="vertical"
@@ -76,7 +76,7 @@ function SearchedPage(props) {
                     onChange: page => {
                       console.log(page);
                     },
-                    pageSize: 9,
+                    pageSize: 6,
                 }}
                
                 dataSource={renderCards}
@@ -84,6 +84,7 @@ function SearchedPage(props) {
             />
         </div>
     )
+
 }
 
-export default withRouter(SearchedPage);
+export default withRouter(UploadBooktrailersPage);
