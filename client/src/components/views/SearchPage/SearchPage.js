@@ -17,8 +17,16 @@ function SearchPage(props) {
         console.log(Search);
         axios.get('/api/booktrailer/search/' + Search)
             .then(res => {
+                console.log("res: ", res)
                 if (res.data.isSearchSuccess) {
-                    props.history.push("/results", res.data.data);
+                    //console.log("음오아예")
+                     props.history.push('/search/results', res.data.data);
+                    // props.history.push({
+                    //     pathname: '/results',
+                    //     state: {
+                    //         data: res.data.data
+                    //     }
+                    // })
                 } else {
                     alert(res.data.message);
                 }
