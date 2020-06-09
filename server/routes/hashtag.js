@@ -27,13 +27,31 @@ router.post('/select', (req, res) => {
             message: "해시태그 선택 성공"
         })
     }
-})
+});
 
 // =========================== 북트레일러에 해당하는 해시태그 가져오기 ===========================
-router.post('/trailer_hashtag', (req, res) => {
+router.post('/trailer_hashtag', async (req, res) => {
     const booktrailerId = req.body.booktrailerId;
-    
+    await models.sequelize.query("SELECT h.id as id, h.hashtagName as hastagName from hashtag as h join trailer_hashtag as th on th.hashtagId = h.id WHERE th.booktrailerId = :booktrailerId", {
+        replacements: { booktrailerId: booktrailerId }
+    }).then(result =>{
+        return res.json({
+            success:true,
+            hashtags:result
+        });
+    });
     //해시태그 가져오기
-})
+});
+
+router.get('/hashtags', async (req, res) => {
+    await models.sequelize.query("SELECT id, hashtagName from hashtag ORDER BY counting DESC LIMIT 12").then(
+        result=>{
+            return res.json({
+                success:true,
+                hashtags:result
+            })
+        }
+    );
+});
 
 module.exports = router;

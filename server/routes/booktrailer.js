@@ -159,4 +159,13 @@ router.post('/delete', async (req, res) => {
     }
 
 });
+
+router.post('/countUp', async (req,res) => {
+    let booktrailerId = req.body.booktrailerId;
+
+    models.sequelize.query("UPDATE booktrailer SET watch=watch+1 WHERE id = :booktrailerId",{
+        replacements: { booktrailerId: booktrailerId }
+    });
+
+});
 module.exports = router;
