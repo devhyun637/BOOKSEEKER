@@ -536,6 +536,7 @@ router.post('/getUser', async (req, res) => {
     })
 })
 
+// =========================== 좋아요 목록 가져오기 ===========================
 router.get('/getLikeTrailers', async (req,res) => {
     userId = req.cookies.id;
     await models.sequelize.query("SELECT b.* FROM booktrailer as b join user_like as u on u.booktrailerId = b.id WHERE u.userId = :userId",{
@@ -547,5 +548,19 @@ router.get('/getLikeTrailers', async (req,res) => {
         });
     });
 });
+
+// =========================== 등록한 북트레일러 가져오기 ===========================
+router.get('/getUploaded', async (req,res) => {
+    let userId = req.cookies.id;
+
+    await models.sequelize.query("SELECT * FROM booktrailer WHERE userId = :userId",{
+        replacements:{userId:userId}
+    }).then(result => {
+        return res.json({
+            success:true,
+            data: result[0]
+        });
+    })
+})
 
 module.exports = router;

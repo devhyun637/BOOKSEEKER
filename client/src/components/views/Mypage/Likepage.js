@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Typography, List } from 'antd';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 import "./Page.css";
 
@@ -11,7 +10,6 @@ const { Title } = Typography;
 function Likepage(props) {
 
     const [videos, setVideos] = useState([]);
-    const [userName, setUserName] = useState("");
 
     const fetchData = async function () {
         await axios.get('/api/users/getLikeTrailers').then(async result => {
@@ -23,12 +21,7 @@ function Likepage(props) {
     }
 
     useEffect(() => {
-
-        //UserName 가져오기
-        // Cookies.get('id');
-
         fetchData();
-
     }, []);
 
     const moveDetail = function (event) {
@@ -48,10 +41,15 @@ function Likepage(props) {
                             padding: '0px',
                             margin: 0,
                         }} onClick={moveDetail}>
-                        <div id={video.id} style={{ 
-                            display: 'inline-block'
+                        <div
+                            onClick={moveDetail}
+                            id={video.id} style={{
+                                display: 'inline-block'
                             }}>
-                            <img src={url} width="128px" height="72px" />
+                            <img
+                                onClick={moveDetail}
+                                id={video.id}
+                                src={url} width="128px" height="72px" />
                         </div>
                         <div
                             className="ListTitle"

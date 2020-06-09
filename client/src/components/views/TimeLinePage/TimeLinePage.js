@@ -48,8 +48,14 @@ function TimeLinePage(props) {
 
     props.history.push('/timeline/comments/5', variables);
   }
+  
 
   useEffect(() => {
+
+    const moveDetail = function(event){
+      let url = '/booktrailer/'+event.target.id;
+      props.history.push(url);
+    }
 
     const resultContent = (content) => {
       if (content.length > 40) {
@@ -91,7 +97,7 @@ function TimeLinePage(props) {
                       }} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#">상세보기</Dropdown.Item>
+                      <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
                       <Dropdown.Item href="#">수정하기</Dropdown.Item>
                       <Dropdown.Item href="#">삭제하기</Dropdown.Item>
                     </Dropdown.Menu>
@@ -126,27 +132,28 @@ function TimeLinePage(props) {
                       fontSize: '25px',
                     }} />
                   <div style={{ float: 'left', marginLeft: '5px', heigth: 'center', lineHeight: 'center' }}>
-                    111{likeCount}
+                    {data.likeCount}
                   </div>
                 </Button>
               </div>
               <div className="post_time">
-                날짜날짜날짜
+                  {data.created_at}
               </div>
 
               {/* 해시태그*/}
               <div className="hashtags">
+                {console.log(data.hashtags)}
                 <Hashtags />
               </div>
 
               {/* 내용 */}
               <form>
-                {resultContent(content)}
+                {resultContent(data.content)}
               </form>
 
               {/* 댓글 */}
               <button className="comment" onClick={readMoreComment}>
-                댓글 {commentCount}개 보기
+                댓글 {data.comments.length}개 보기
               </button>
             </article>
           )

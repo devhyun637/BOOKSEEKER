@@ -31,6 +31,7 @@ import CommunityPage from './components/views/CommunityPage/CommunityPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
 import CommentsPage from './components/views/TimeLinePage/Sections/CommentsPage';
 import SharePostPage from './components/views/SharePostPage/SharePostPage';
+import UploadBooktrailersPage from './components/views/Mypage/UploadBooktrailersPage';
 
 //======================== Mypage 페이지 ========================
 import Mypage from './components/views/Mypage/Mypage';
@@ -84,6 +85,7 @@ function App(props) {
           <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
           <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
+          <Route exact path="/mypage/booktrailer/uploaded" component={Auth(UploadBooktrailersPage, true)} />
 
           {/* 좋아요 페이지 */}
           <Route exact path="/likepage" component={Auth(Likepage,true)} />
