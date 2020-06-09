@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Input } from 'antd';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import SingleReview from './SingleReview';
 
@@ -19,23 +20,27 @@ function Review(props) {
 
     const onSubmit = (event) => {
         event.preventDefault();
+        if (!Cookies.get('user')) {
+            alert("로그인을 해주세요");
+        } else {
+            const variables = {
+                review: reviewValue,
+                booktrailerId: booktrailerId
+            }
 
-        const variables = {
-            review: reviewValue,
-            booktrailerId: booktrailerId
+            //댓글 저장
+            axios.post('/api/review/saveReview', variables)
+                .then(response => {
+                    if (response.data.success) {
+                        // console.log(response.data)
+                        setReviewValue("");
+                        props.refreshFunction(response.data.result)
+                    } else {
+                        document.location.href = '/booktrailer/' + booktrailerId;
+                    }
+                })
         }
 
-        //댓글 저장
-        axios.post('/api/review/saveReview', variables)
-            .then(response => {
-                if (response.data.success) {
-                    // console.log(response.data)
-                    setReviewValue("");
-                    props.refreshFunction(response.data.result)
-                } else {
-                    document.location.href='/booktrailer/'+booktrailerId;
-                }
-            })
     }
 
     return (
@@ -62,7 +67,7 @@ function Review(props) {
             <br />
 
             {props.reviewList && props.reviewList.map((review, index) => (
-                <SingleReview key={review.id} reivews={review} users={review.userId} date={review.createdAt}/>
+                <SingleReview key={review.id} reivews={review} users={review.userId} date={review.createdAt} />
             ))}
         </div>
     )
