@@ -45,9 +45,10 @@ function SearchedPage(props) {
         <div>
              <ul>
                 <li key={index} id={video.id} style={{listStyle: 'none'}} onClick={moveDetail}> 
-                    <div id={video.id} style={{display: 'inline', marginLeft: '-40px' }}>
-                                <img src={url} width="128px" height="72px" /></div>
+                    <div onClick={moveDetail} id={video.id} style={{display: 'inline', marginLeft: '-40px' }}>
+                                <img onClick={moveDetail} id={video.id} src={url} width="128px" height="72px" /></div>
                     <div
+                        onClick={moveDetail}
                         id={video.id}
                         style={{
                             display: 'inline', 

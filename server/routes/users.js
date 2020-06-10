@@ -352,19 +352,6 @@ router.post('/videoUpload', multipartMiddleware, async (req, res) => {
                     }
                 });
         }
-        await models.Post.create({
-            userId: userId,
-            booktrailerId: result.dataValues.id,
-            content: userInfo.desc,
-            like: 1,
-            created_at: new Date(),
-            updated_at: new Date()
-        }).then(async postResult => {
-            await models.User_Post.create({
-                userId: userId,
-                postId: postResult.dataValues.id
-            });
-        });
 
     }).catch(err => {
         console.log("트레일러 생성 오류");

@@ -18,45 +18,119 @@ const crypto = require('crypto');
 // =========================== 북트레일러 가져오기 ===========================
 router.get('/video', async (req, res) => {
     var userId = req.cookies.id;
-    var user = await models.User.findOne({ where: { id: userId } });
-    var userName = user.dataValues.name;
-    models.BookTrailer.findAll({ where: { userId: userId } }).then(async result => {
-        answer = []
-        for (var i = 0; i < result.length; i++) {
-            var hashtags = []
-            await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join trailer_hashtag as th on h.id = th.hashtagId WHERE th.booktrailerId = :booktrailerId", {
-                replacements: { booktrailerId: result[i].dataValues.id }
-            }).then(res => {
-                var hashResult = res[0];
-                for (var i = 0; i < hashResult.length; i++) {
-                    hashtags.push(JSON.stringify(hashResult[i].hashtag));
-                }
-            });
-            var comment = await models.sequelize.query("SELECT c.comment as comment from comment as c join post as p on c.postId = p.id join booktrailer as b on p.booktrailerId = b.id WHERE b.id = :booktrailerId", {
-                replacements: { booktrailerId: result[i].dataValues.id }
-            });
-            answer.push({
-                id: result[i].dataValues.id,
-                userName: userName,
-                content: result[i].dataValues.content,
-                URL: result[i].dataValues.URL,
-                likeCount: result[i].dataValues.likeCount,
-                hashtags: hashtags,
-                comments: comment,
-                created_at: result[i].dataValues.created_at
-            });
 
-        }
-        return res.json({
-            isSearchSuccess: true,
-            data: answer
-        });
-    }).catch(err => {
-        return res.json({
-            isSearchSuccess: false,
-            message: "wrongUserInformation"
+    await models.User.findOne({
+        where:{id:userId}
+    }).then(async user => {
+        await models.Post.findAll({
+            where:{userId: userId}
+        }).then(async posts => {
+            if(posts.length==0){
+                return res.json({
+                    data: {userName:user.dataValues.name}
+                });
+            }
+            let postResults = []
+            for(let i=0;i<posts.length;i++){
+                let postComments = []
+                await models.Comment.findAll({
+                    where:{postId:posts[i].id}
+                }).then(comments => {
+                    for(let i=0;i<comments.length;i++){
+                        postComments.push(comments[i].comment);
+                    }
+                });
+                await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join post_hashtag as ph on h.id = ph.hashtagId WHERE ph.postId = :postId",{
+                    replacements:{postId:posts[i].id}
+                }).then(async hashtags => {
+                    await models.BookTrailer.findOne({
+                        where:{id:posts[i].booktrailerId}
+                    }).then(booktrailer => {
+                        postResults.push({
+                            id: booktrailer.id,
+                            postId: posts[i].id,
+                            userName:user.name,
+                            title: booktrailer.title,
+                            thumbnail: booktrailer.thumbnail,
+                            content: posts[i].content,
+                            likeCount: posts[i].likeCount,
+                            URL: booktrailer.URL,
+                            comments: postComments,
+                            hashtags: hashtags,
+                            created_at: posts[i].created_at
+                        })
+                    });
+                });
+            }
+            //for문 끝
+            return res.json({
+                data: postResults
+            });
         });
     });
+    
+});
+
+router.get('/followVideo', async (req, res) => {
+    var userId = req.cookies.id;
+
+    await models.Follow.findAll({
+        where:{userId:userId}
+    }).then(async friends =>{
+        if(friends.length==0){
+            return res.json({
+                data: {userName:"정보없음"}
+            });
+        }
+        let friendsResult = []
+        for(let i=0;i<friends.length;i++){
+            await models.User.findOne({
+                where:{id:friends[i].dataValues.friendId}
+            }).then(async user => {
+                await models.Post.findAll({
+                    where:{userId: user.dataValues.id}
+                }).then(async posts => {
+                    if(posts.length!=0){
+                    for(let i=0;i<posts.length;i++){
+                        let postComments = []
+                        await models.Comment.findAll({
+                            where:{postId:posts[i].dataValues.id}
+                        }).then(comments => {
+                            for(let i=0;i<comments.length;i++){
+                                postComments.push(comments[i].comment);
+                            }
+                        });
+                        await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join post_hashtag as ph on h.id = ph.hashtagId WHERE ph.postId = :postId",{
+                            replacements:{postId:posts[i].dataValues.id}
+                        }).then(async hashtags => {
+                            await models.BookTrailer.findOne({
+                                where:{id:posts[i].dataValues.booktrailerId}
+                            }).then(booktrailer => {
+                                friendsResult.push({
+                                    id: booktrailer.dataValues.id,
+                                    postId: posts[i].dataValues.id,
+                                    userName:user.name,
+                                    title: booktrailer.dataValues.title,
+                                    thumbnail: booktrailer.dataValues.thumbnail,
+                                    content: posts[i].dataValues.content,
+                                    likeCount: posts[i].dataValues.likeCount,
+                                    URL: booktrailer.dataValues.URL,
+                                    comments: postComments,
+                                    hashtags: hashtags,
+                                    created_at: posts[i].dataValues.created_at
+                                })
+                            });
+                        });
+                    }
+                    }
+                });
+            });
+        }
+        return res.json({
+            data: friendsResult
+        });
+    })
+    
 });
 
 // =========================== 북트레일러 가져오기(상세페이지) ===========================

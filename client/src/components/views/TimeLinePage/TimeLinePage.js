@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Dropdown, Button } from 'react-bootstrap';
 import { EditOutlined, HeartTwoTone, BarsOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 
-import Hashtags from '../VideoDetailPage/Sections/BooktrailerHashtag';
+import TimeLineHashtag from './Sections/TimeLineHashtag';
 
 const TimeLineSection = styled.section`   
     margin: 30px auto;
@@ -57,6 +57,10 @@ function TimeLinePage(props) {
       props.history.push(url);
     }
 
+    const deleting = function(event){
+      axios.post("/api/users/deletePost", {})
+    }
+
     const resultContent = (content) => {
       if (content.length > 40) {
         let contents = content.slice(0, 35);
@@ -75,6 +79,7 @@ function TimeLinePage(props) {
     function fetchData() {
       axios.get('/api/booktrailer/video').then(res => {
         setIsLoading(false);
+        setUserName(res.data.data.userName);
         setCards(res.data.data.map(
           (data, index) => (
             <article className="Post" key={index} >
@@ -99,7 +104,7 @@ function TimeLinePage(props) {
                     <Dropdown.Menu>
                       <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
                       <Dropdown.Item href="#">수정하기</Dropdown.Item>
-                      <Dropdown.Item href="#">삭제하기</Dropdown.Item>
+                      <Dropdown.Item href="#" id={data.id} onClick={deleting}>삭제하기</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -142,8 +147,9 @@ function TimeLinePage(props) {
 
               {/* 해시태그*/}
               <div className="hashtags">
-                {console.log(data.hashtags)}
-                <Hashtags />
+                {data.hashtags[0].map((hashtag, index) => (
+                  <TimeLineHashtag key={index} hashtags={hashtag} />
+                ))}
               </div>
 
               {/* 내용 */}
