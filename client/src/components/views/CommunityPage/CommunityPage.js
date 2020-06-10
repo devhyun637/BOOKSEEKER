@@ -20,6 +20,7 @@ const NickName = styled.p`
     font-size: 20px;
 `;
 
+
 function CommunityPage(props) {
 
   const [isLoading, setIsLoading] = useState(true);
@@ -48,7 +49,17 @@ function CommunityPage(props) {
     props.history.push('/timeline/comments/5', variables);
   }
 
+
   useEffect(() => {
+
+    const moveDetail = function (event) {
+      let url = '/booktrailer/' + event.target.id;
+      props.history.push(url);
+    }
+
+    const deleting = function (event) {
+      axios.post("/api/users/deletePost", {})
+    }
 
     const resultContent = (content) => {
       if (content.length > 40) {
@@ -66,8 +77,10 @@ function CommunityPage(props) {
     }
 
     function fetchData() {
-      axios.get('/api/booktrailer/video').then(res => {
+      axios.get('/api/booktrailer/followVideo').then(res => {
         setIsLoading(false);
+        console.log(res.data.data);
+        setUserName(res.data.data.userName);
         setCards(res.data.data.map(
           (data, index) => (
             <article className="Post" key={index} >
@@ -90,9 +103,9 @@ function CommunityPage(props) {
                       }} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#">상세보기</Dropdown.Item>
-                      <Dropdown.Item href="#">팔로우취소</Dropdown.Item>
-                      <Dropdown.Item href="#">신고하기</Dropdown.Item>
+                      <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
+                      <Dropdown.Item href="#">수정하기</Dropdown.Item>
+                      <Dropdown.Item href="#" id={data.id} onClick={deleting}>삭제하기</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -125,27 +138,29 @@ function CommunityPage(props) {
                       fontSize: '25px',
                     }} />
                   <div style={{ float: 'left', marginLeft: '5px', heigth: 'center', lineHeight: 'center' }}>
-                    111{likeCount}
+                    {data.likeCount}
                   </div>
                 </Button>
               </div>
               <div className="post_time">
-                날짜날짜날짜
+                {data.created_at}
               </div>
 
               {/* 해시태그*/}
               <div className="hashtags">
-                <CommunityHashtag />
+                {data.hashtags[0].map((hashtag, index) => (
+                  <CommunityHashtag key={index} hashtags={hashtag} />
+                ))}
               </div>
 
               {/* 내용 */}
               <form>
-                {resultContent(content)}
+                {resultContent(data.content)}
               </form>
 
               {/* 댓글 */}
               <button className="comment" onClick={readMoreComment}>
-                댓글 {commentCount}개 보기
+                댓글 {data.comments.length}개 보기
               </button>
             </article>
           )
@@ -163,7 +178,7 @@ function CommunityPage(props) {
 
   return (
     <TimeLineSection className="container">
-      <NickName>BOOK SEEKER</NickName>
+      <NickName>{userName}님</NickName>
       {isLoading ? (
         <div className="loader">
           <span className="loader__text">북트레일러 가져오는 중...</span>
