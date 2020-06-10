@@ -26,13 +26,6 @@ function SearchedPage(props) {
     
     }, [])
 
-    const getThumbnail = async function(thumbnail){
-        await axios.post('/api/users/getThumbnail',{thumbnail:thumbnail}).then(result => {
-            console.log(result);
-            return result.data.thumbnail;
-        });
-    }
-
     const moveDetail = function(event){
         let url = '/booktrailer/'+event.target.id;
         props.history.push(url);
