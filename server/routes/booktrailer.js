@@ -38,10 +38,12 @@ router.get('/video', async (req, res) => {
             answer.push({
                 id: result[i].dataValues.id,
                 userName: userName,
+                content: result[i].dataValues.content,
                 URL: result[i].dataValues.URL,
                 likeCount: result[i].dataValues.likeCount,
                 hashtags: hashtags,
-                comments: comment
+                comments: comment,
+                created_at: result[i].dataValues.created_at
             });
 
         }
@@ -61,14 +63,17 @@ router.get('/video', async (req, res) => {
 router.post("/getVideo", multipartMiddleware, async (req, res) => {
     let booktrailerId = req.body.booktrailerId;
 
-    //TODO : 함수 수정하기
-    let booktailerInfo = await models.BookTrailer.findOne({ where: { id: booktrailerId } });
-    let booktrailerUser = await models.User.findOne({ where: { id: booktailerInfo.dataValues.userId } });
-    let bookTrailerCategory = await models.Category.findOne({ where: { id: booktailerInfo.dataValues.categoryId } });
-
-    models.BookTrailer.findOne({ where: { id: booktrailerId } }).then(booktrailerInfo => {
-        return res.status(200).json({
-            success: true, booktrailerInfo, booktrailerUser, bookTrailerCategory
+    await models.BookTrailer.findOne({ where: { id: booktrailerId } }).then(async booktrailerInfo => {
+        await models.User.findOne({ where: { id: booktrailerInfo.dataValues.userId } }).then(async booktrailerUser => {
+            await models.Category.findOne({ where: { id: booktrailerInfo.dataValues.categoryId } }).then(async bookTrailerCategory => {
+                await models.sequelize.query("SELECT h.hashtagName from hashtag as h join trailer_hashtag as th on th.hashtagId = h.id WHERE th.booktrailerId = :booktrailerId",{
+                    replacements: {booktrailerId:booktrailerId}
+                }).then(hashtags => {
+                    return res.status(200).json({
+                        success: true, booktrailerInfo, booktrailerUser, bookTrailerCategory, hashtags
+                    });
+                })
+            });
         })
     }).catch(err => {
         return res.status(400).send(err)
@@ -162,6 +167,7 @@ router.post('/delete', async (req, res) => {
 
 router.post('/countUp', async (req,res) => {
     let booktrailerId = req.body.booktrailerId;
+    console.log(req.body);
 
     models.sequelize.query("UPDATE booktrailer SET watch=watch+1 WHERE id = :booktrailerId",{
         replacements: { booktrailerId: booktrailerId }

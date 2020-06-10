@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
 
 const Nav = styled.div`
     width: 100%;
@@ -113,7 +112,7 @@ function Mypage(props) {
                         </NavListItems>
 
                         <NavListItems>
-                            <NavListLink to="#" onClick={moveUploaded}>
+                            <NavListLink to="" onClick={moveUploaded}>
                                 <NavListName>
                                     등록한 북트레일러
                         </NavListName>
@@ -121,7 +120,7 @@ function Mypage(props) {
                         </NavListItems>
 
                         <NavListItems>
-                            <NavListLink to="#">
+                            <NavListLink to="/likepage">
                                 <NavListName>
                                     좋아요한 북트레일러
                         </NavListName>

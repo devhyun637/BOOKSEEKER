@@ -246,6 +246,26 @@ router.get('/search', (req, res) => {
     });
 });
 
+// =========================== 썸네일 다운로드하기 =========================
+router.post('/getThumbnail', async (req, res) => {
+    const s3 = new AWS.S3({ accessKeyId: S3config.ID, secretAccessKey: S3config.SECRET });
+    const thumbnail = req.body.thumbnail
+
+    const param = {
+        'Bucket': S3config.BUCKET_NAME,
+        'Key': 'image/' + thumbnail
+    }
+    await s3.getObject(param,function(err, data) {
+        if(err){
+            throw err;
+        }
+        console.log(data.Body.toString());
+        return res.json({
+            thumbnail: data.Body.toString()
+        });
+    });
+});
+
 // =========================== 비디오 업로드하기 ===========================
 router.post('/videoUpload', multipartMiddleware, async (req, res) => {
     var userInfo = req.body;
@@ -515,6 +535,19 @@ router.post('/getUser', async (req, res) => {
         return res.status(400).send(err)
     })
 })
+
+// =========================== 좋아요 목록 가져오기 ===========================
+router.get('/getLikeTrailers', async (req,res) => {
+    userId = req.cookies.id;
+    await models.sequelize.query("SELECT b.* FROM booktrailer as b join user_like as u on u.booktrailerId = b.id WHERE u.userId = :userId",{
+        replacements: {userId:userId}
+    }).then(result => {
+        return res.json({
+            success:true,
+            data: result[0]
+        });
+    });
+});
 
 // =========================== 등록한 북트레일러 가져오기 ===========================
 router.get('/getUploaded', async (req,res) => {

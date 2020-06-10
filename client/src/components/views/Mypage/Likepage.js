@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Typography, List } from 'antd';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-import "../Mypage/Page.css";
+import "./Page.css";
 
 const { Title } = Typography;
 
-function SearchedPage(props) {
+function Likepage(props) {
 
-    const [videos, setVideos] = useState([])
+    const [videos, setVideos] = useState([]);
+
+    const fetchData = async function () {
+        await axios.get('/api/users/getLikeTrailers').then(async result => {
+            console.log(result.data.data);
+            await setVideos(result.data.data);
+
+        });
+        console.log(videos);
+    }
 
     useEffect(() => {
-        const info = props.history.location.state
-        console.log("given data", info)
-
-        setVideos(info)
-
-    }, [])
+        fetchData();
+    }, []);
 
     const moveDetail = function (event) {
         let url = '/booktrailer/' + event.target.id;
@@ -61,7 +67,7 @@ function SearchedPage(props) {
                 margin: '20px',
                 fontSize: '20px',
                 marginBottom: '40px'
-            }}>북트레일러 검색결과</Title>
+            }}>좋아요한 북트레일러</Title>
             <hr style={{ margin: '10px' }} />
             <List
                 itemLayout="vertical"
@@ -80,4 +86,4 @@ function SearchedPage(props) {
     )
 }
 
-export default withRouter(SearchedPage);
+export default withRouter(Likepage);

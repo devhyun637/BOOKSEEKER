@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Typography, List } from 'antd';
 import { withRouter } from 'react-router-dom';
 
-import "../Mypage/Page.css";
+import "./Page.css";
 
 const { Title } = Typography;
 
-function SearchedPage(props) {
+function UploadBooktrailersPage(props) {
 
     const [videos, setVideos] = useState([])
 
     useEffect(() => {
         const info = props.history.location.state
         console.log("given data", info)
-
         setVideos(info)
 
     }, [])
@@ -61,7 +60,7 @@ function SearchedPage(props) {
                 margin: '20px',
                 fontSize: '20px',
                 marginBottom: '40px'
-            }}>북트레일러 검색결과</Title>
+            }}>등록한 북트레일러</Title>
             <hr style={{ margin: '10px' }} />
             <List
                 itemLayout="vertical"
@@ -70,7 +69,7 @@ function SearchedPage(props) {
                 //     onChange: page => {
                 //         console.log(page);
                 //     },
-                //     pageSize: 9,
+                //     pageSize: 6,
                 // }}
 
                 dataSource={renderCards}
@@ -78,6 +77,7 @@ function SearchedPage(props) {
             />
         </div>
     )
+
 }
 
-export default withRouter(SearchedPage);
+export default withRouter(UploadBooktrailersPage);
