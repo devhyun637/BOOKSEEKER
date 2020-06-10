@@ -6,8 +6,12 @@ function CommunityHashtag(props) {
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
+<<<<<<< HEAD
         // console.log(props.hashtags)
         // setHashtags(props.hashtags.slice(1,-1));
+=======
+        setHashtags(props.hashtags.hashtag);
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
     }, [])
 
     return (
@@ -30,4 +34,8 @@ function CommunityHashtag(props) {
     )
 }
 
+<<<<<<< HEAD
 export default withRouter(CommunityHashtag)
+=======
+export default withRouter(CommunityHashtag)
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4

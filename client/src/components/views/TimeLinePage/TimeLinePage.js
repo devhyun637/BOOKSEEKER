@@ -7,7 +7,11 @@ import styled from 'styled-components';
 import { Dropdown, Button } from 'react-bootstrap';
 import { HeartTwoTone, BarsOutlined } from '@ant-design/icons';
 
+<<<<<<< HEAD
 import TimeLingHashtags from './Sections/TimeLineHashtag';
+=======
+import TimeLineHashtag from './Sections/TimeLineHashtag';
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
 
 const TimeLineSection = styled.section`   
     margin: 30px auto;
@@ -55,6 +59,10 @@ function TimeLinePage(props) {
       props.history.push(url);
     }
 
+    const deleting = function(event){
+      axios.post("/api/users/deletePost", {})
+    }
+
     const resultContent = (content) => {
       setContent(content);
 
@@ -75,6 +83,7 @@ function TimeLinePage(props) {
     function fetchData() {
       axios.get('/api/booktrailer/video').then(res => {
         setIsLoading(false);
+        setUserName(res.data.data.userName);
         setCards(res.data.data.map(
           (data, index) => (
             <article className="Post" key={index} >
@@ -99,7 +108,7 @@ function TimeLinePage(props) {
                     <Dropdown.Menu>
                       <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
                       <Dropdown.Item href="#">수정하기</Dropdown.Item>
-                      <Dropdown.Item href="#">삭제하기</Dropdown.Item>
+                      <Dropdown.Item href="#" id={data.id} onClick={deleting}>삭제하기</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -142,6 +151,7 @@ function TimeLinePage(props) {
 
               {/* 해시태그*/}
               <div className="hashtags">
+<<<<<<< HEAD
                 {/* {console.log(data.hashtags)} */}
                 {/* <Hashtags hastags={data.hashtags}/>
                 {props.reviewList && props.reviewList.map((review, index) => (
@@ -149,6 +159,10 @@ function TimeLinePage(props) {
             ))} */}
                 {data.hashtags.map((hashtag, index) => (
                   <TimeLingHashtags key={index} hashtags={hashtag} />
+=======
+                {data.hashtags[0].map((hashtag, index) => (
+                  <TimeLineHashtag key={index} hashtags={hashtag} />
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
                 ))}
               </div>
 

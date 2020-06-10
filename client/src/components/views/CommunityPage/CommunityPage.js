@@ -48,16 +48,26 @@ function CommunityPage(props) {
 
     props.history.push('/timeline/comments/5', variables);
   }
+  
 
 
   useEffect(() => {
 
+<<<<<<< HEAD
     const moveDetail = function (event) {
       let url = '/booktrailer/' + event.target.id;
       props.history.push(url);
     }
 
     const deleting = function (event) {
+=======
+    const moveDetail = function(event){
+      let url = '/booktrailer/'+event.target.id;
+      props.history.push(url);
+    }
+
+    const deleting = function(event){
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
       axios.post("/api/users/deletePost", {})
     }
 
@@ -143,7 +153,11 @@ function CommunityPage(props) {
                 </Button>
               </div>
               <div className="post_time">
+<<<<<<< HEAD
                 {data.created_at}
+=======
+                  {data.created_at}
+>>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
               </div>
 
               {/* 해시태그*/}
