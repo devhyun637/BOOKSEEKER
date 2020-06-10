@@ -5,9 +5,9 @@ import { withRouter } from 'react-router';
 
 import styled from 'styled-components';
 import { Dropdown, Button } from 'react-bootstrap';
-import { EditOutlined, HeartTwoTone, BarsOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
+import { HeartTwoTone, BarsOutlined } from '@ant-design/icons';
 
-import Hashtags from '../VideoDetailPage/Sections/BooktrailerHashtag';
+import TimeLingHashtags from './Sections/TimeLineHashtag';
 
 const TimeLineSection = styled.section`   
     margin: 30px auto;
@@ -29,11 +29,9 @@ function TimeLinePage(props) {
   const [likeCount, setLikeCount] = useState("");
   const [commentCount, setCommentCount] = useState(0);
   const [postId, setPostId] = useState(null);
-  // const [content, setContent] = useState("");
+  const [content, setContent] = useState("");
   const [hashtags, setHashTags] = useState([]);
   const [createTime, setCreatedTime] = useState(null);
-
-  const content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta quam et lectus dignissim, id dignissim elit laoreet. Aliquam id orci mauris. Morbi neque lacus, aliquet vel dolor condimentum, consequat accumsan tellus. Proin venenatis feugiat quam tempor tincidunt. Aliquam sit amet fringilla leo. Maecenas laoreet ipsum nisi, vitae faucibus magna fermentum et. Cras eu nunc at velit ultricies molestie in sit amet nunc. Vivamus sollicitudin iaculis magna. Integer vitae pulvinar ligula. Donec rutrum ultrices metus id feugiat. Morbi rutrum, ex vitae sollicitudin posuere, ex massa efficitur quam, suscipit aliquam lacus mauris non dolor. Proin efficitur arcu id dolor auctor, at luctus enim imperdiet. Praesent facilisis turpis felis, in porta libero mattis mattis. Pellentesque vel lobortis lacus, sit amet congue nibh. Phasellus posuere nulla ac mi placerat commodo.";
 
   const readMoreComment = (e) => {
     e.preventDefault();
@@ -48,16 +46,18 @@ function TimeLinePage(props) {
 
     props.history.push('/timeline/comments/5', variables);
   }
-  
+
 
   useEffect(() => {
 
-    const moveDetail = function(event){
-      let url = '/booktrailer/'+event.target.id;
+    const moveDetail = function (event) {
+      let url = '/booktrailer/' + event.target.id;
       props.history.push(url);
     }
 
     const resultContent = (content) => {
+      setContent(content);
+
       if (content.length > 40) {
         let contents = content.slice(0, 35);
         return (
@@ -137,13 +137,19 @@ function TimeLinePage(props) {
                 </Button>
               </div>
               <div className="post_time">
-                  {data.created_at}
+                {data.created_at}
               </div>
 
               {/* 해시태그*/}
               <div className="hashtags">
-                {console.log(data.hashtags)}
-                <Hashtags />
+                {/* {console.log(data.hashtags)} */}
+                {/* <Hashtags hastags={data.hashtags}/>
+                {props.reviewList && props.reviewList.map((review, index) => (
+                <SingleReview key={review.id} reivews={review} users={review.userId} date={review.createdAt} />
+            ))} */}
+                {data.hashtags.map((hashtag, index) => (
+                  <TimeLingHashtags key={index} hashtags={hashtag} />
+                ))}
               </div>
 
               {/* 내용 */}

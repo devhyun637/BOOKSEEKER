@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 
-function BooktrailerHashtag(props) {
+function TimeLineHashtag(props) {
 
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
-        // setHashtags(props.hashtags.slice(1,-1));
+        // console.log(props.hashtags)
+        setHashtags(props.hashtags.slice(1,-1));
     }, [])
 
     return (
@@ -29,4 +30,4 @@ function BooktrailerHashtag(props) {
     )
 }
 
-export default withRouter(BooktrailerHashtag)
+export default withRouter(TimeLineHashtag)

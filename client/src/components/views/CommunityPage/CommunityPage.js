@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Dropdown, Button } from 'react-bootstrap';
 import { EditOutlined, HeartTwoTone, BarsOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 
-import Hashtags from '../VideoDetailPage/Sections/BooktrailerHashtag';
+import CommunityHashtag from './Sections/CommunityHashtag';
 
 const TimeLineSection = styled.section`   
     margin: 30px auto;
@@ -135,7 +135,7 @@ function CommunityPage(props) {
 
               {/* 해시태그*/}
               <div className="hashtags">
-                <Hashtags />
+                <CommunityHashtag />
               </div>
 
               {/* 내용 */}

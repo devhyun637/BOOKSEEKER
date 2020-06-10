@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 
-function BooktrailerHashtag(props) {
+function CommunityHashtag(props) {
 
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
+        // console.log(props.hashtags)
         // setHashtags(props.hashtags.slice(1,-1));
     }, [])
 
@@ -29,4 +30,4 @@ function BooktrailerHashtag(props) {
     )
 }
 
-export default withRouter(BooktrailerHashtag)
+export default withRouter(CommunityHashtag)
