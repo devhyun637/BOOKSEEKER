@@ -255,8 +255,8 @@ router.post('/getThumbnail', async (req, res) => {
         'Bucket': S3config.BUCKET_NAME,
         'Key': 'image/' + thumbnail
     }
-    await s3.getObject(param,function(err, data) {
-        if(err){
+    await s3.getObject(param, function (err, data) {
+        if (err) {
             throw err;
         }
         console.log(data.Body.toString());
@@ -416,7 +416,7 @@ router.post('/follow', async (req, res) => {
 router.post('/followex', async (req, res) => {
     bookTrailerUserId = Number(req.body.bookTrailerUserId);
     let userId = Number(req.cookies.id);
-    console.log(userId,bookTrailerUserId);
+    console.log(userId, bookTrailerUserId);
     if (userId) {
         await models.Follow.findOne({ where: { userId: userId, friendId: bookTrailerUserId } })
             .then(async follow => {
@@ -523,29 +523,43 @@ router.post('/getUser', async (req, res) => {
     })
 })
 
-router.get('/getLikeTrailers', async (req,res) => {
+//누군지 몰라도 이거 주석넣어주세요 ㅂㄷㅂㄷ
+router.get('/getLikeTrailers', async (req, res) => {
     userId = req.cookies.id;
-    await models.sequelize.query("SELECT b.* FROM booktrailer as b join user_like as u on u.booktrailerId = b.id WHERE u.userId = :userId",{
-        replacements: {userId:userId}
+    await models.sequelize.query("SELECT b.* FROM booktrailer as b join user_like as u on u.booktrailerId = b.id WHERE u.userId = :userId", {
+        replacements: { userId: userId }
     }).then(result => {
         return res.json({
-            success:true,
+            success: true,
             data: result[0]
         });
     });
 });
 
 // =========================== 등록한 북트레일러 가져오기 ===========================
-router.get('/getUploaded', async (req,res) => {
+router.get('/getUploaded', async (req, res) => {
     let userId = req.cookies.id;
 
-    await models.sequelize.query("SELECT * FROM booktrailer WHERE userId = :userId",{
-        replacements:{userId:userId}
+    await models.sequelize.query("SELECT * FROM booktrailer WHERE userId = :userId", {
+        replacements: { userId: userId }
     }).then(result => {
         return res.json({
-            success:true,
+            success: true,
             data: result[0]
         });
+    })
+})
+
+// =========================== User 이름 가져오기 ===========================
+router.post('/getUserName', async (req, res) => {
+    const { userId } = req.body;
+
+    models.User.findOne({ where: { id: userId } }).then(userInfo => {
+        return res.status(200).json({
+            success: true, userInfo
+        })
+    }).catch(err => {
+        return res.status(400).send(err)
     })
 })
 

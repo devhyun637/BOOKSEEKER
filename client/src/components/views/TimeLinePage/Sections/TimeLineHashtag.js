@@ -7,6 +7,7 @@ function TimeLineHashtag(props) {
 
     useEffect(() => {
         setHashtags(props.hashtags.hashtag);
+        // console.log(props.hashtags);
     }, [])
 
     return (
