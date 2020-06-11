@@ -67,6 +67,7 @@ function CommunityPage(props) {
     function fetchData() {
       axios.get('/api/booktrailer/followVideo').then(res => {
         setIsLoading(false);
+        console.log(res.data);
         setCards(res.data.data.map(
           (data, index) => {
             return (

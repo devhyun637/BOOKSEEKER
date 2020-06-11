@@ -90,19 +90,30 @@ router.get('/followVideo', async (req, res) => {
                 where: { id: friends[i].dataValues.friendId }
             }).then(async user => {
                 await models.Post.findAll({
+<<<<<<< HEAD
                     where: { userId: user.dataValues.id }
                 }).then(async posts => {
+=======
+                    where: { userId: user.id }
+                }).then(async posts => {
+                    console.log(posts);
+>>>>>>> 9e5eeb5cd5ab6d63abbdc54ab2251ef04ea7461c
                     if (posts.length != 0) {
                         for (let i = 0; i < posts.length; i++) {
                             let postComments = []
                             await models.Comment.findAll({
+<<<<<<< HEAD
                                 where: { postId: posts[i].dataValues.id }
+=======
+                                where: { postId: posts[i].id }
+>>>>>>> 9e5eeb5cd5ab6d63abbdc54ab2251ef04ea7461c
                             }).then(comments => {
                                 for (let i = 0; i < comments.length; i++) {
                                     postComments.push(comments[i].comment);
                                 }
                             });
                             await models.sequelize.query("SELECT h.hashtagName as hashtag from hashtag as h join post_hashtag as ph on h.id = ph.hashtagId WHERE ph.postId = :postId", {
+<<<<<<< HEAD
                                 replacements: { postId: posts[i].dataValues.id }
                             }).then(async hashtags => {
                                 await models.BookTrailer.findOne({
@@ -121,6 +132,26 @@ router.get('/followVideo', async (req, res) => {
                                             comments: postComments,
                                             hashtags: hashtags,
                                             created_at: posts[i].dataValues.createdAt
+=======
+                                replacements: { postId: posts[i].id }
+                            }).then(async hashtags => {
+                                await models.BookTrailer.findOne({
+                                    where: { id: posts[i].booktrailerId }
+                                }).then(booktrailer => {
+                                    if (booktrailer != null) {
+                                        friendsResult.push({
+                                            id: booktrailer.id,
+                                            postId: posts[i].id,
+                                            userName: user.name,
+                                            title: booktrailer.title,
+                                            thumbnail: booktrailer.thumbnail,
+                                            content: posts[i].content,
+                                            likeCount: posts[i].likeCount,
+                                            URL: booktrailer.URL,
+                                            comments: postComments,
+                                            hashtags: hashtags,
+                                            created_at: posts[i].createdAt
+>>>>>>> 9e5eeb5cd5ab6d63abbdc54ab2251ef04ea7461c
                                         })
                                     }
                                 });

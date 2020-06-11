@@ -89,11 +89,11 @@ function VideoUploadPage(props) {
             .then(res => {
                 if (res.data.isSearchSuccess) {
                     // console.log(res.data.message)
-                    setValidURL(url.URL)
+                    setValidURL(res.data.url)
                     setOpen(false)
                 } else {
                     alert("영상없음");
-                    console.log(res.data.message)
+                   // console.log(res.data.message)
                     // console.log('영상못차즘~')
                 }
             })

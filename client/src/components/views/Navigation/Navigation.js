@@ -146,7 +146,7 @@ function Navigation() {
                 <Nav>
                     <NavList>
                         <NavListItems>
-                            <NavListLink to="/booktrailer/recommend">
+                            <NavListLink to="/booktrailer/recommended">
                                 <NavListIcon>
                                     <SearchOutlined style={{
                                         fontSize: '25px'

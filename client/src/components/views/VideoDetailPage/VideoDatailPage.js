@@ -254,7 +254,7 @@ function VideoDatailPage(props) {
                 if (response.data.success) {
                     // console.log(response.data);
                     // setBooktrailer(response.data);
-                    console.log(response.data.hashtags[0]);//해쉬태그
+                    setHashTags(response.data.hashtags[0]);//해쉬태그
                     settingDisplay(response.data.booktrailerUser.id);
                     setBooktrailerUserId(response.data.booktrailerUser.id);
                     setBooktrailerTitle(response.data.booktrailerInfo.title);
@@ -359,7 +359,9 @@ function VideoDatailPage(props) {
                 }} defaultActiveKey={['1']}>
                     <Panel header={booktrailerTitle} key="1">
                         <BooktrailerTitle>{booktrailerTitle}</BooktrailerTitle>
-                        <BooktrailerHashtag booktrailerId={booktrailerId} />
+                        {hashTags.map((hashtag, index) => (
+                            <BooktrailerHashtag key={index} hashtags={hashtag} />
+                        ))}
                         <br />
                         <p>{booktrailerDesc}</p>
                         <hr />

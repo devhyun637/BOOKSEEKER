@@ -34,14 +34,22 @@ youtube.search(URL, limit, function (err, result) { // 검색 실행
              var title = it["snippet"]["title"];
               var video_id = it["id"]["videoId"];
               var url = "https://www.youtube.com/embed/" + video_id;
-              console.log("제목 : " + title);
+              if(video_id!=null){
+              //console.log("제목 : " + title);
+              console.log(video_id)
               console.log("URL : " + url);
               console.log("-----------");
                 return res.json({
                     isSearchSuccess: true,
-                    message: "video found"
+                    message: "video found",
+                    url:url
                 });
-              
+            }else{
+                return res.json({
+                    isSearchSuccess:false,
+                    message:"video not found"
+                });
+            }
             
         }
     }
