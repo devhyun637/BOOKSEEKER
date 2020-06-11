@@ -12,13 +12,16 @@ function UploadBooktrailersPage(props) {
 
     useEffect(() => {
         const info = props.history.location.state
-        console.log("given data", info)
+        // console.log("given data", info)
         setVideos(info)
 
     }, [])
 
-    const moveDetail = function (event) {
-        let url = '/booktrailer/' + event.target.id;
+    const moveDetail = function (e) {
+        e.preventDefault();
+        let url = '/booktrailer/' + e.target.id;
+        // console.log("이동");
+        // console.log(url)
         props.history.push(url);
     }
 

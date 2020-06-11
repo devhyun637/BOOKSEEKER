@@ -6,12 +6,8 @@ function TimeLineHashtag(props) {
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
-<<<<<<< HEAD
-        // console.log(props.hashtags)
-        setHashtags(props.hashtags.slice(1,-1));
-=======
         setHashtags(props.hashtags.hashtag);
->>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4
+        // console.log(props.hashtags);
     }, [])
 
     return (
@@ -34,8 +30,4 @@ function TimeLineHashtag(props) {
     )
 }
 
-<<<<<<< HEAD
 export default withRouter(TimeLineHashtag)
-=======
-export default withRouter(TimeLineHashtag)
->>>>>>> 54fca8e5c6ec68a3a9b6e62ad089c24f93dfe3b4

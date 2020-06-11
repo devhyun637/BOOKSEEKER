@@ -7,14 +7,14 @@ const models = require('../models/index');
 //             Hashtag
 //=================================
 
-// =========================== 카테고리 목록 가져오기 ===========================
+// =========================== ===========================
 router.get('/', (req, res) => {
     models.Category.findAll({}).then(result => {
         return res.json(result);
     })
 })
 
-// =========================== 카테고리 선택한 거 가져오기 ===========================
+// =========================== ===========================
 router.post('/select', (req, res) => {
     if (req.body.length === 0) {
         return res.json({
@@ -34,10 +34,10 @@ router.post('/trailer_hashtag', async (req, res) => {
     const booktrailerId = req.body.booktrailerId;
     await models.sequelize.query("SELECT h.id as id, h.hashtagName as hastagName from hashtag as h join trailer_hashtag as th on th.hashtagId = h.id WHERE th.booktrailerId = :booktrailerId", {
         replacements: { booktrailerId: booktrailerId }
-    }).then(result =>{
+    }).then(result => {
         return res.json({
-            success:true,
-            hashtags:result
+            success: true,
+            hashtags: result
         });
     });
     //해시태그 가져오기
@@ -45,13 +45,31 @@ router.post('/trailer_hashtag', async (req, res) => {
 
 router.get('/hashtags', async (req, res) => {
     await models.sequelize.query("SELECT id, hashtagName from hashtag ORDER BY counting DESC LIMIT 12").then(
-        result=>{
+        result => {
             return res.json({
-                success:true,
-                hashtags:result
+                success: true,
+                hashtags: result
             })
         }
     );
+});
+
+// ========= 해시태그 포스트아이디로 가져오기 =========
+router.post('/getHashtags', async (req, res) => {
+    let postId = req.body.postId;
+    let hashtags = [];
+
+    await models.sequelize.query("SELECT h.hashtagName as hashtagName from hashtag as h join post_hashtag as ph on h.id = ph.hashtagId WHERE ph.postId = :postId", {
+        replacements: { postId: postId }
+    }).then(result => {
+        for (let i = 0; i < result[0].length; i++) {
+            hashtags.push(result[0][i].hashtagName);
+        }
+        return res.json({
+            success: true,
+            hashtags: hashtags
+        })
+    });
 });
 
 module.exports = router;

@@ -51,7 +51,7 @@ function App(props) {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
+          {/* <Route exact path="/" component={LandingPage} /> */}
 
           {/* 로그인/회원가입 관련 */}
           <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -93,7 +93,7 @@ function App(props) {
           {/* 파이썬 페이지 */}
           {/* <Route exact path="/python" component={pythonTest} /> */}
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
-          <Redirect from="*" to="/" />
+          <Redirect from="*" to="/login" />
         </Switch>
 
         <Navigation />

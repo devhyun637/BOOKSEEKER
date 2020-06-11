@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 
-function CommunityHashtag(props) {
+function CommentHashtag(props) {
 
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
-        setHashtags(props.hashtags.hashtag);
+        setHashtags(props.hashtags);
     }, [])
 
     return (
@@ -29,4 +29,4 @@ function CommunityHashtag(props) {
     )
 }
 
-export default withRouter(CommunityHashtag)
+export default withRouter(CommentHashtag)

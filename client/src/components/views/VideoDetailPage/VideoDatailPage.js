@@ -59,63 +59,8 @@ function VideoDatailPage(props) {
         booktrailerId: booktrailerId
     }
 
-    useEffect(() => {
-        //북트레일러 정보 가져오기
-        axios.post('/api/booktrailer/getVideo', booktraileVariable)
-            .then(response => {
-                if (response.data.success) {
-                    // console.log(response.data);
-                    // setBooktrailer(response.data);
-                    // console.log(response.data.hashtags[0]);//해쉬태그
-                    settingDisplay(response.data.booktrailerUser.id);
-                    setBooktrailerUserId(response.data.booktrailerUser.id);
-                    setBooktrailerTitle(response.data.booktrailerInfo.title);
-                    setBooktrailerDesc(response.data.booktrailerInfo.content);
-                    setBookTitle(response.data.booktrailerInfo.bookTitle);
-                    setBookAuthor(response.data.booktrailerInfo.author);
-                    setBookPublisher(response.data.booktrailerInfo.bookPublisher);
-                    setBookTrailerUser(response.data.booktrailerUser.name);
-                    setBookTrailerURL(response.data.booktrailerInfo.URL.replace("youtu.be/", "www.youtube.com/embed/").replace("watch?v=", "embed/"));
-                    setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
-                    getLikeCount(response.data.booktrailerInfo.id);
-                    getIsLike(booktrailerId);
-                    getIsFollowing(response.data.booktrailerUser.id);
-                    setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
-                    axios.post('/api/booktrailer/countUp', { booktrailerId: booktrailerId });
-                } else {
-                    alert('Failed to get booktrailer Info')
-                }
-            })
+    const delMovie = async function () {
 
-        //댓글 가져오기
-        axios.post('/api/review/getReviews', booktraileVariable)
-            .then(response => {
-                if (response.data.success) {
-                    setAllReviews(response.data.result)
-                } else {
-                    alert('댓글 가져오기 실패')
-                }
-            })
-
-        //해시태그 가져오기
-        axios.post('/api/hashtags/trailer_hashtag', booktraileVariable)
-            .then(response => {
-                if (response.data.success) {
-
-                } else {
-                    alert('댓글 가져오기 실패')
-                }
-            })
-
-
-    }, [])
-
-    const delMovie = async function (bookTrailerUserId) {
-        if (Cookies.get('id') != bookTrailerUserId) {
-            console.log(Cookies.get('id'));
-            console.log(bookTrailerUserId);
-            alert("본인의 영상이 아닙니다");
-        }
         await axios.post('/api/booktrailer/delete', { booktrailerId: booktrailerId }).then(result => {
             if (result.data.success) {
                 props.history.push('/mypage');
@@ -127,7 +72,6 @@ function VideoDatailPage(props) {
 
     const getIsFollowing = async function (bookTrailerUserId) {
         let target = document.querySelector('.follow');
-
         if (bookTrailerUserId == Cookies.get('id')) {
             target.style.backgroundColor = '#6C757D';
             setButtonColor('#6C757D');
@@ -240,7 +184,7 @@ function VideoDatailPage(props) {
                                 })
                             }}
                     >수정하기</Dropdown.Item>
-                    <Dropdown.Item className="changeState" href="#" onClick={delMovie(userID)}>삭제하기</Dropdown.Item>
+                    <Dropdown.Item className="changeState" href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>);
         } else {
@@ -302,6 +246,59 @@ function VideoDatailPage(props) {
             }
         }
     }
+
+    useEffect(() => {
+        //북트레일러 정보 가져오기
+        axios.post('/api/booktrailer/getVideo', booktraileVariable)
+            .then(response => {
+                if (response.data.success) {
+                    // console.log(response.data);
+                    // setBooktrailer(response.data);
+                    console.log(response.data.hashtags[0]);//해쉬태그
+                    settingDisplay(response.data.booktrailerUser.id);
+                    setBooktrailerUserId(response.data.booktrailerUser.id);
+                    setBooktrailerTitle(response.data.booktrailerInfo.title);
+                    setBooktrailerDesc(response.data.booktrailerInfo.content);
+                    setBookTitle(response.data.booktrailerInfo.bookTitle);
+                    setBookAuthor(response.data.booktrailerInfo.author);
+                    setBookPublisher(response.data.booktrailerInfo.bookPublisher);
+                    setBookTrailerUser(response.data.booktrailerUser.name);
+                    setBookTrailerURL(response.data.booktrailerInfo.URL.replace("youtu.be/", "www.youtube.com/embed/").replace("watch?v=", "embed/"));
+                    setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
+                    getLikeCount(response.data.booktrailerInfo.id);
+                    getIsLike(booktrailerId);
+                    getIsFollowing(response.data.booktrailerUser.id);
+                    setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
+                    axios.post('/api/booktrailer/countUp', { booktrailerId: booktrailerId });
+                    // console.log("check!!!!!!!, ", response.data.booktrailerUser.id)
+                } else {
+                    alert('Failed to get booktrailer Info')
+                }
+
+            })
+
+        //댓글 가져오기
+        axios.post('/api/review/getReviews', booktraileVariable)
+            .then(response => {
+                if (response.data.success) {
+                    setAllReviews(response.data.result)
+                } else {
+                    alert('댓글 가져오기 실패')
+                }
+            })
+
+        //해시태그 가져오기
+        axios.post('/api/hashtags/trailer_hashtag', booktraileVariable)
+            .then(response => {
+                if (response.data.success) {
+
+                } else {
+                    alert('댓글 가져오기 실패')
+                }
+            })
+
+
+    }, [])
 
     const refreshFunction = (newReview) => {
         setAllReviews(allReviews.concat(newReview));
