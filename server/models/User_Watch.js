@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_watch = sequelize.define("user_watch", {
+    const user_watch = sequelize.define("User_Watch", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,

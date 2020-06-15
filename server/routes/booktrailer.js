@@ -54,7 +54,7 @@ router.get('/video', async (req, res) => {
                                 title: booktrailer.dataValues.title,
                                 thumbnail: booktrailer.dataValues.thumbnail,
                                 content: posts[i].dataValues.content,
-                                likeCount: posts[i].dataValues.likeCount,
+                                likeCount: posts[i].dataValues.like,
                                 URL: booktrailer.dataValues.URL,
                                 comments: postComments,
                                 hashtags: hashtags,
@@ -92,7 +92,6 @@ router.get('/followVideo', async (req, res) => {
                 await models.Post.findAll({
                     where: { userId: user.id }
                 }).then(async posts => {
-                    console.log(posts);
                     if (posts.length != 0) {
                         for (let i = 0; i < posts.length; i++) {
                             let postComments = []
@@ -220,10 +219,104 @@ router.post('/delete', async (req, res) => {
                 await models.User_Like.destroy({
                     where: { booktrailerId: booktrailerId }
                 }).catch(e => {
+                    console.log(e)
                     return res.json({
                         success: false
                     });
                 });
+                await models.User_Watch.destroy({
+                    where:{booktrailerId:booktrailerId}
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+
+                await models.Trailer_Hashtag.destroy({
+                    where:{booktrailerId:booktrailerId}
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+
+                await models.Post.findAll({
+                    where:{booktrailerId:booktrailerId}
+                }).then(async result => {
+                    if(result.length>0){
+                    for(let i=0;i<result.length;i++){
+                        let postId = result[i].dataValues.id;
+                        await models.User_Post.destroy({
+                            where:{postId:postId}
+                        }).catch(e => {
+                            return res.json({
+                                success: false
+                            });
+                        });
+                        await models.Post_Hashtag.destroy({
+                            where:{postId:postId}
+                        }).catch(e => {
+                            return res.json({
+                                success: false
+                            });
+                        });
+
+                        await models.Comment.destroy({
+                            where:{postId:postId}
+                        }).catch(e => {
+                            return res.json({
+                                success: false
+                            });
+                        });
+
+
+                    }
+                }
+                });
+
+                await models.Post.destroy({
+                    where:{booktrailerId:booktrailerId}
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+
+
+                await models.BooktrailerQuiz.findAll({
+                    where:{booktrailerId:booktrailerId}
+                }).then(async result => {
+                    if(result.length>0){
+                    for(let i=0;i<result.length;i++){
+                        let quizId = result[i].dataValues.quizId;
+                        await models.User_Quiz.destroy({
+                            where:{quizId:quizId}
+                        }).catch(e => {
+                            return res.json({
+                                success: false
+                            });
+                        });
+                    }
+                }
+                });
+
+                await models.BooktrailerQuiz.destroy({
+                    where:{booktrailerId:booktrailerId}
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+
+                await models.Review.destroy({
+                    where:{booktrailerId:booktrailerId}
+                }).catch(e => {
+                    return res.json({
+                        success: false
+                    });
+                });
+
+
                 await models.BookTrailer.destroy({
                     where: { id: booktrailerId }
                 }).catch(e => {
@@ -231,6 +324,7 @@ router.post('/delete', async (req, res) => {
                         success: false
                     });
                 });
+
                 return res.json({
                     success: true
                 });

@@ -86,6 +86,63 @@ router.post('/getPost', async (req, res) => {
     }).catch(err => {
         return res.status(400).send(err)
     })
-})
+});
+
+// =========================== Post 정보 삭제하기 ===========================
+router.post('/deletePost', async (req, res) => {
+    let postId = req.body.postId;
+    await models.Comment.destroy({
+        where:{
+            postId: postId
+        }
+    }).catch(e =>{
+        console.log(e);
+        return res.json({
+            success:false,
+            message:"코멘트 삭제 실패"
+        });
+    });
+
+    await models.User_Post.destroy({
+        where:{
+            postId: postId
+        }
+    }).catch(e =>{
+        console.log(e);
+        return res.json({
+            success:false,
+            message:"포스트관계 삭제 실패"
+        });
+    });
+
+    await models.Post_Hashtag.destroy({
+        where:{
+            postId: postId
+        }
+    }).catch(e =>{
+        console.log(e);
+        return res.json({
+            success:false,
+            message:"해시태그 삭제 실패"
+        });
+    });
+
+
+    await models.Post.destroy({
+        where:{
+            id: postId
+        }
+    }).catch(e =>{
+        console.log(e);
+        return res.json({
+            success:false,
+            message:"포스트 삭제 실패"
+        });
+    });
+
+    return res.json({
+        success:true
+    });
+});
 
 module.exports = router;

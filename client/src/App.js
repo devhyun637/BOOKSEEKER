@@ -40,6 +40,7 @@ import Likepage from './components/views/Mypage/Likepage';
 import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
+import QuizPage from './components/views/Mypage/QuizPage/QuizPage';
 
 //======================== python test 페이지 ========================
 // import pythonTest from './components/views/pythonTest/testPage';
@@ -82,7 +83,7 @@ function App(props) {
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
 
           {/* 비디오 상세 페이지 */}
-          <Route exact path="/booktrailer/:booktrailerId" component={Auth(VideoDatailPage, null)} />
+          <Route exact path="/booktrailer/details/:booktrailerId" component={Auth(VideoDatailPage, null)} />
 
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
@@ -91,6 +92,7 @@ function App(props) {
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, true)} />
           <Route exact path="/mypage/booktrailer/uploaded" component={Auth(UploadBooktrailersPage, true)} />
 
+          <Route exact path="/mypage/booktrailer/quiz" component={Auth(QuizPage, true)} />
           {/* 좋아요 페이지 */}
           <Route exact path="/likepage" component={Auth(Likepage, true)} />
 

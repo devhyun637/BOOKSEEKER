@@ -17,11 +17,13 @@ function SearchPage(props) {
                     let id = result.data.hashtags[0][i].id
                     let categoryName = result.data.hashtags[0][i].hashtagName;
                     element.push(
-                        <Tag color="#0492c2" key={id}>
+                       
+                       <Tag color="#0492c2" key={id} >
                         <a href="/register3">
                             {categoryName}
                         </a>
                         </Tag>
+                        
                     );
                 }
                 setHashTags(element);
@@ -38,7 +40,7 @@ function SearchPage(props) {
         event.preventDefault();
         axios.get('/api/booktrailer/search/' + Search)
             .then(res => {
-                console.log("res: ", res)
+               // console.log("res: ", res)
                 if (res.data.isSearchSuccess) {
                     //console.log("음오아예")
                      props.history.push('/search/results', res.data.data);
@@ -93,7 +95,7 @@ function SearchPage(props) {
             <br />
             <br />
             {/* 해시태그 영역 */}
-            <div>
+            <div style={{textAlign: 'justify'}}>
                 {hashtags}
             </div>
         </div>

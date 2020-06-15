@@ -37,7 +37,7 @@ app.use('/api/booktrailer/search', require('./routes/search'));
 // URL 검색(업로드영상확인)
 app.use('/api/booktrailer', require('./routes/URLsearch'));
 // 파이썬 서버 테스트
-// app.use('/api/python', require('./routes/python'));
+app.use('/api/python', require('./routes/python'));
 // 북트레일러 관련
 app.use('/api/booktrailer', require('./routes/booktrailer'));
 // 상세페이지 댓글 

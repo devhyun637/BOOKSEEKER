@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-    const user_quiz = sequelize.define("user_quiz", {
+    const user_quiz = sequelize.define("User_Quiz", {
         userId: {
             field: "userId",
             type: DataTypes.INTEGER,

@@ -278,7 +278,7 @@ function RecommendPage(props) {
 
     return (
         <div>
-            {/* <form>
+            <form>
                 <Button style={{
                     display: 'block',
                     border: "0px",
@@ -346,9 +346,9 @@ function RecommendPage(props) {
                     </RecommandList>
                 </RecommandCard>
 
-            </div> */}
+            </div>
         </div>
     )
 }
 
-export default withRouter(RecommendPage);
+export default RecommendPage;
