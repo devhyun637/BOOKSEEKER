@@ -13,11 +13,11 @@ function Likepage(props) {
 
     const fetchData = async function () {
         await axios.get('/api/users/getLikeTrailers').then(async result => {
-            console.log(result.data.data);
+           // console.log(result.data.data);
             await setVideos(result.data.data);
 
         });
-        console.log(videos);
+       // console.log(videos);
     }
 
     useEffect(() => {

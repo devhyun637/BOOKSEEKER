@@ -61,12 +61,12 @@ function RegisterPage5(props) {
     const sendRegister = (e) => {
         e.preventDefault();
         let data = componentDidMount()
-        console.log(data);
+        //console.log(data);
 
         axios.post('/api/users/register', data)
             .then((res) => {
                 if (res.data.isRegisterSuccess) {
-                    console.log("회원가입 성공!")
+                   // console.log("회원가입 성공!")
                     props.history.push('/login');
                 } else {
                     alert(res.data.message)

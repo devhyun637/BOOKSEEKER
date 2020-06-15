@@ -20,7 +20,7 @@ function SearchedPage(props) {
         //각각의 속성 map은 renderCards에서 해본다.
 
         const info = props.history.location.state
-        console.log("given data",info)
+        //console.log("given data",info)
 
         setVideos(info)
     

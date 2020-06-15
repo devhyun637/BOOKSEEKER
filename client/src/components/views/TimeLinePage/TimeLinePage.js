@@ -79,6 +79,7 @@ function TimeLinePage(props) {
     function fetchData() {
       axios.get('/api/booktrailer/video').then(res => {
         setIsLoading(false);
+        //console.log(res.data);
         setUserName(res.data.data.userName);
         setCards(res.data.data.map(
           (data, index) => (
@@ -142,7 +143,7 @@ function TimeLinePage(props) {
                 </Button>
               </div>
               <div className="post_time">
-                  {data.created_at}
+                  {data.created_at.slice(0,10)}
               </div>
 
               {/* 해시태그*/}
@@ -165,7 +166,7 @@ function TimeLinePage(props) {
           )
 
         ));
-        console.log(cards);
+        //console.log(cards);
       }).catch(e => {
         console.log(e);
       });
@@ -174,6 +175,19 @@ function TimeLinePage(props) {
     fetchData();
   }, []);
 
+  const handleUserName = (userName) => {
+    let data = userName;
+    setUserName(data);
+  }
+
+  axios.get('/api/users/search')
+        .then(res => {
+        if (res.data.isSearchSuccess) {
+            handleUserName(res.data.name);
+        } else {
+            alert(res.data.message);
+        }
+    })
 
   return (
     <TimeLineSection className="container">

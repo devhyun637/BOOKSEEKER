@@ -38,7 +38,7 @@ function SearchPage(props) {
         event.preventDefault();
         axios.get('/api/booktrailer/search/' + Search)
             .then(res => {
-                console.log("res: ", res)
+               // console.log("res: ", res)
                 if (res.data.isSearchSuccess) {
                     //console.log("음오아예")
                      props.history.push('/search/results', res.data.data);

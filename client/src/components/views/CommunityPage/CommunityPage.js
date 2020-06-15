@@ -57,10 +57,6 @@ function CommunityPage(props) {
       props.history.push(url);
     }
 
-    const deleting = function(event){
-      axios.post("/api/users/deletePost", {})
-    }
-
     const resultContent = (content) => {
       if (content.length > 40) {
         let contents = content.slice(0, 35);
@@ -79,7 +75,7 @@ function CommunityPage(props) {
     function fetchData() {
       axios.get('/api/booktrailer/followVideo').then(res => {
         setIsLoading(false);
-        console.log(res.data.data);
+       // console.log(res.data.data);
         setUserName(res.data.data.userName);
         setCards(res.data.data.map(
           (data, index) => (
@@ -104,8 +100,6 @@ function CommunityPage(props) {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
-                      <Dropdown.Item href="#">수정하기</Dropdown.Item>
-                      <Dropdown.Item href="#" id={data.id} onClick={deleting}>삭제하기</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -166,7 +160,7 @@ function CommunityPage(props) {
           )
 
         ));
-        console.log(cards);
+       // console.log(cards);
       }).catch(e => {
         console.log(e);
       });
@@ -178,7 +172,7 @@ function CommunityPage(props) {
 
   return (
     <TimeLineSection className="container">
-      <NickName>{userName}님</NickName>
+      <NickName>BOOK SEEKER</NickName>
       {isLoading ? (
         <div className="loader">
           <span className="loader__text">북트레일러 가져오는 중...</span>

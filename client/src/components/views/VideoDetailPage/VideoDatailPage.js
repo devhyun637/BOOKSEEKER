@@ -61,24 +61,20 @@ function VideoDatailPage(props) {
 
     const delMovie = async function () {
         if (Cookies.get('id') != bookTrailerUserId) {
-            
             alert("본인의 영상이 아닙니다");
-            console.log(Cookies.get('id'))
-            console.log(bookTrailerUserId)
-        }else{
-             await axios.post('/api/booktrailer/delete', { booktrailerId: booktrailerId }).then(result => {
-                if (result.data.success) {
-                    props.history.push('/mypage');
-                } else {
-                    alert("동영상 삭제 실패");
-                }
-            });
         }
-        
+        await axios.post('/api/booktrailer/delete', { booktrailerId: booktrailerId }).then(result => {
+            if (result.data.success) {
+                props.history.push('/mypage');
+            } else {
+                alert("동영상 삭제 실패");
+            }
+        });
     }
 
     const getIsFollowing = async function (bookTrailerUserId) {
         let target = document.querySelector('.follow');
+
         if (bookTrailerUserId == Cookies.get('id')) {
             target.style.backgroundColor = '#6C757D';
             setButtonColor('#6C757D');
@@ -104,16 +100,16 @@ function VideoDatailPage(props) {
             let target = document.querySelector('.follow');
 
             await axios.post('/api/users/follow', { bookTrailerUserId: bookTrailerUserId }).then(res => {
-                console.log(res.data.data);
+               // console.log(res.data.data);
                 if (res.data.data == '1') {
                     target.style.backgroundColor = '#6C757D';
                     setButtonColor('#6C757D');
-                    console.log("follow success");
+                   // console.log("follow success");
                     target.innerHTML = "팔로우 취소";
                 } else if (res.data.data == '0') {
                     target.style.backgroundColor = '#ff3232';
                     setButtonColor('#ff3232');
-                    console.log("follow delete success");
+                    //console.log("follow delete success");
                     target.innerHTML = "팔로우";
                 } else {
                     alert(res.data.message);
@@ -261,7 +257,7 @@ function VideoDatailPage(props) {
                 if (response.data.success) {
                     // console.log(response.data);
                     // setBooktrailer(response.data);
-                    console.log(response.data.hashtags[0]);//해쉬태그
+                    setHashTags(response.data.hashtags[0]);//해쉬태그
                     settingDisplay(response.data.booktrailerUser.id);
                     setBooktrailerUserId(response.data.booktrailerUser.id);
                     setBooktrailerTitle(response.data.booktrailerInfo.title);
@@ -277,11 +273,9 @@ function VideoDatailPage(props) {
                     getIsFollowing(response.data.booktrailerUser.id);
                     setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
                     axios.post('/api/booktrailer/countUp',{booktrailerId:booktrailerId});
-                    // console.log("check!!!!!!!, ", response.data.booktrailerUser.id)
                 } else {
                     alert('Failed to get booktrailer Info')
                 }
-                
             })
 
         //댓글 가져오기
@@ -366,7 +360,7 @@ function VideoDatailPage(props) {
                 }} defaultActiveKey={['1']}>
                     <Panel header={booktrailerTitle} key="1">
                         <BooktrailerTitle>{booktrailerTitle}</BooktrailerTitle>
-                        <BooktrailerHashtag booktrailerId={booktrailerId} />
+                        <BooktrailerHashtag hashtags={hashTags} />
                         <br />
                         <p>{booktrailerDesc}</p>
                         <hr />

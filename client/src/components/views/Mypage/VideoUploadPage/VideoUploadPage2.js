@@ -115,7 +115,7 @@ function VideoUploadPage2(props) {
             alert("해시태그를 입력해주세요");
         } else {
             props.history.push('/mypage/booktrailer/upload3', data);
-            console.log(data);
+            //console.log(data);
         }
     };
 

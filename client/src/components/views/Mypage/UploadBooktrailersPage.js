@@ -12,7 +12,7 @@ function UploadBooktrailersPage(props) {
 
     useEffect(() => {
         const info = props.history.location.state
-        console.log("given data", info)
+        //console.log("given data", info)
         setVideos(info)
 
     }, [])

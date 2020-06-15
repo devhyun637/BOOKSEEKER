@@ -54,4 +54,15 @@ router.get('/hashtags', async (req, res) => {
     );
 });
 
+// ========= 해시태그 포스트아이디로 가져오기 =========
+router.post('/hashtags', async (req, res) => {
+    let postId = req.body.postId;
+    await models.sequelize.query("SELECT id, hashtagName from hashtag WHERE postId = :postId").then(result =>{
+        return res.json({
+            success:true,
+            hashtags: result
+        })
+    });
+});
+
 module.exports = router;

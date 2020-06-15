@@ -46,19 +46,21 @@ router.get('/video', async (req, res) => {
                     await models.BookTrailer.findOne({
                         where:{id:posts[i].booktrailerId}
                     }).then(booktrailer => {
+                        if(booktrailer!=null){
                         postResults.push({
-                            id: booktrailer.id,
-                            postId: posts[i].id,
+                            id: booktrailer.dataValues.id,
+                            postId: posts[i].dataValues.id,
                             userName:user.name,
-                            title: booktrailer.title,
-                            thumbnail: booktrailer.thumbnail,
-                            content: posts[i].content,
-                            likeCount: posts[i].likeCount,
-                            URL: booktrailer.URL,
+                            title: booktrailer.dataValues.title,
+                            thumbnail: booktrailer.dataValues.thumbnail,
+                            content: posts[i].dataValues.content,
+                            likeCount: posts[i].dataValues.likeCount,
+                            URL: booktrailer.dataValues.URL,
                             comments: postComments,
                             hashtags: hashtags,
-                            created_at: posts[i].created_at
+                            created_at: posts[i].dataValues.createdAt
                         })
+                    }
                     });
                 });
             }
@@ -106,6 +108,7 @@ router.get('/followVideo', async (req, res) => {
                             await models.BookTrailer.findOne({
                                 where:{id:posts[i].dataValues.booktrailerId}
                             }).then(booktrailer => {
+                                if(booktrailer!=null){
                                 friendsResult.push({
                                     id: booktrailer.dataValues.id,
                                     postId: posts[i].dataValues.id,
@@ -117,8 +120,9 @@ router.get('/followVideo', async (req, res) => {
                                     URL: booktrailer.dataValues.URL,
                                     comments: postComments,
                                     hashtags: hashtags,
-                                    created_at: posts[i].dataValues.created_at
+                                    created_at: posts[i].dataValues.createdAt
                                 })
+                                }
                             });
                         });
                     }

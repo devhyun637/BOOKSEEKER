@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 const sampleImage1 = '/images/booktrailer2.jpeg'
 const sampleImage2 = '/images/booktrailer2.jpeg';
@@ -79,13 +81,45 @@ const Name = styled.p`
 function RecommendPage(props) {
 
     const trailer_id = 8;
+    const userId = Cookies.get('id');
     const [todayBookTrailer, setTodayBookTrailer] = useState("");
+    const [bestBookTrailer, setBestBookTrailer] = useState("");
+    const [popBookTrailer, setPopBookTrailer] = useState("");
+    const [categoryBookTrailer, setCategoryBookTrailer] = useState("");
+    const [recommendBookTrailer, setRecommendBookTrailer] = useState("");
+    const [hashtagBookTrailer, setHashtagBookTrailer] = useState("");
+    const [publishBookTrailer, setPublishBookTrailer] = useState("");
 
     useEffect(() => {
-        async function fetchData() {
-            await axios.get('/api/python/case1').then(res => {
-
+        function fetchData() {
+            
+            axios.get('/api/python/case2').then(res => {
                 setTodayBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.get('/api/python/case1').then(res => {
+                setBestBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
                             <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
@@ -103,9 +137,132 @@ function RecommendPage(props) {
                     )
 
                 ));
+
             }).catch(e => {
                 console.log(e);
             });
+
+            axios.post('/api/python/case3',{userId:userId}).then(res => {
+                setPopBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.post('/api/python/case4',{userId:userId}).then(res => {
+                setCategoryBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.post('/api/python/case5',{userId:userId}).then(res => {
+                setRecommendBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.post('/api/python/case6',{userId:userId}).then(res => {
+                setHashtagBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.post('/api/python/case7',{userId:userId}).then(res => {
+                setPublishBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+
         }
 
         fetchData();
@@ -135,59 +292,54 @@ function RecommendPage(props) {
             {/* 북트레일러 추천페이지 */}
             <div>
                 <RecommandCard>
-                    <RecommandName>오늘의 북트레일러</RecommandName>
+                    <RecommandName>급상승 북트레일러</RecommandName>
                     <RecommandList>
                         {todayBookTrailer}
                     </RecommandList>
                 </RecommandCard>
 
                 <RecommandCard>
-                    <RecommandName>00 관련 북트레일러1</RecommandName>
+                    <RecommandName>베스트 북트레일러</RecommandName>
                     <RecommandList>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image1 />
-                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image2 />
-                                <Name>홍남권 작가의 역사소설, 안시성</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to={`/booktrailer/${trailer_id}`}>
-                                <Image3 />
-                                <Name>몽실이 몽실이 몽실언니</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
+                        {bestBookTrailer}
                     </RecommandList>
                 </RecommandCard>
 
                 <RecommandCard>
-                    <RecommandName>00 관련 북트레일러2</RecommandName>
+                    <RecommandName>요즘의 북트레일러</RecommandName>
                     <RecommandList>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image1 />
-                                <Name>사소한 개인의 사소한 것에 대한 사소한 취향</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image2 />
-                                <Name>홍남권 작가의 역사소설, 안시성</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
-                        <RecommandListLi>
-                            <RecommandLink to="">
-                                <Image3 />
-                                <Name>몽실이 몽실이 몽실언니</Name>
-                            </RecommandLink>
-                        </RecommandListLi>
+                        {popBookTrailer}
                     </RecommandList>
                 </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>장르별 북트레일러</RecommandName>
+                    <RecommandList>
+                        {categoryBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>추천 북트레일러</RecommandName>
+                    <RecommandList>
+                        {recommendBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>해시태그별 북트레일러</RecommandName>
+                    <RecommandList>
+                        {hashtagBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>출판사, 작가별 북트레일러</RecommandName>
+                    <RecommandList>
+                        {publishBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
             </div>
         </div>
     )

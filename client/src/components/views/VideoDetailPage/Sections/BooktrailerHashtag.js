@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tag } from 'antd';
 
 function BooktrailerHashtag(props) {
+
+    const [hashtag, setHashtags] = useState("");
+
+    useEffect(() => {
+        setHashtags(props.hashtags.hashtag);
+    }, [])
 
     return (
         // <div style={{
@@ -18,7 +24,7 @@ function BooktrailerHashtag(props) {
                 fontSize: '15px',
                 marginRight: '5px',
             }}
-            href="">#blue</a>
+            href="">#{hashtag}</a>
         // </div>
     )
 }
