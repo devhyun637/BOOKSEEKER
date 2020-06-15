@@ -75,4 +75,17 @@ router.post('/addhashtags', async (req, res) => {
     });
 });
 
+// =========================== Post 정보 가져오기 ===========================
+router.post('/getPost', async (req, res) => {
+    const { postId } = req.body;
+
+    models.Post.findOne({ where: { id: postId } }).then(postInfo => {
+        return res.status(200).json({
+            success: true, postInfo
+        })
+    }).catch(err => {
+        return res.status(400).send(err)
+    })
+})
+
 module.exports = router;

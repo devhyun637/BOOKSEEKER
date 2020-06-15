@@ -41,7 +41,7 @@ router.get('/case2', (req, res) => {
 
 router.post('/case3', (req, res) => {
 
-    axios.get(`http://${host}:${port}/python/case3/`+req.body.userId).then(result => {
+    axios.get(`http://${host}:${port}/python/case3/`+589).then(result => {
         return res.json({
             data: result.data
         });
@@ -52,7 +52,7 @@ router.post('/case3', (req, res) => {
 
 router.post('/case4', (req, res) => {
 
-    axios.get(`http://${host}:${port}/python/case4/`+req.body.userId).then(result => {
+    axios.get(`http://${host}:${port}/python/case4/`+589).then(result => {
         return res.json({
             data: result.data
         });
@@ -63,7 +63,7 @@ router.post('/case4', (req, res) => {
 
 router.post('/case5', (req, res) => {
 
-    axios.get(`http://${host}:${port}/python/case5/`+req.body.userId).then(result => {
+    axios.get(`http://${host}:${port}/python/case5/`+589).then(result => {
         return res.json({
             data: result.data
         });
@@ -74,7 +74,7 @@ router.post('/case5', (req, res) => {
 
 router.post('/case6', (req, res) => {
 
-    axios.get(`http://${host}:${port}/python/case6/`+req.body.userId).then(result => {
+    axios.get(`http://${host}:${port}/python/case6/`+589).then(result => {
         return res.json({
             data: result.data
         });
@@ -85,7 +85,7 @@ router.post('/case6', (req, res) => {
 
 router.post('/case7', (req, res) => {
 
-    axios.get(`http://${host}:${port}/python/case7/`+req.body.userId).then(result => {
+    axios.get(`http://${host}:${port}/python/case7/`+589).then(result => {
         return res.json({
             data: result.data
         });

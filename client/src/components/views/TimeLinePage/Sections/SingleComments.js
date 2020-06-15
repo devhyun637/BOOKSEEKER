@@ -34,7 +34,7 @@ function SingleComments(props) {
             userId: props.users
         }
 
-        setReviewId(props.reivews.id);
+        setReviewId(props.reviews.id);
         serUserId(props.users);
 
         //User 정보 가져오기

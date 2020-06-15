@@ -47,7 +47,7 @@ function VideoDatailPage(props) {
     const [likeColor, setLikeColor] = useState("");
     const [menuBody, setMenuBody] = useState([]);
 
-    const [count,setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
     //모든 댓글 가져오기
     const [allReviews, setAllReviews] = useState([]);
@@ -60,9 +60,7 @@ function VideoDatailPage(props) {
     }
 
     const delMovie = async function () {
-        if (Cookies.get('id') != bookTrailerUserId) {
-            alert("본인의 영상이 아닙니다");
-        }
+
         await axios.post('/api/booktrailer/delete', { booktrailerId: booktrailerId }).then(result => {
             if (result.data.success) {
                 props.history.push('/mypage');
@@ -74,12 +72,11 @@ function VideoDatailPage(props) {
 
     const getIsFollowing = async function (bookTrailerUserId) {
         let target = document.querySelector('.follow');
-
         if (bookTrailerUserId == Cookies.get('id')) {
             target.style.backgroundColor = '#6C757D';
             setButtonColor('#6C757D');
         }
-        
+
         await axios.post('/api/users/isFollowing', { bookTrailerUserId: bookTrailerUserId }).then(res => {
             if (res.data.isFollowing) {
                 target.style.backgroundColor = '#6C757D';
@@ -146,8 +143,8 @@ function VideoDatailPage(props) {
         }
     }
 
-    const settingDisplay = function(userID){
-        if(userID==Cookies.get('id')){
+    const settingDisplay = function (userID) {
+        if (userID == Cookies.get('id')) {
             setMenuBody(<Dropdown>
                 <Dropdown.Toggle
                     variant="secondary"
@@ -190,7 +187,7 @@ function VideoDatailPage(props) {
                     <Dropdown.Item className="changeState" href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>);
-        }else{
+        } else {
             setMenuBody(<Dropdown>
                 <Dropdown.Toggle
                     variant="secondary"
@@ -249,7 +246,7 @@ function VideoDatailPage(props) {
             }
         }
     }
-    
+
     useEffect(() => {
         //북트레일러 정보 가져오기
         axios.post('/api/booktrailer/getVideo', booktraileVariable)
@@ -272,10 +269,12 @@ function VideoDatailPage(props) {
                     getIsLike(booktrailerId);
                     getIsFollowing(response.data.booktrailerUser.id);
                     setBookTrailerCategory(response.data.bookTrailerCategory.categoryName);
-                    axios.post('/api/booktrailer/countUp',{booktrailerId:booktrailerId});
+                    axios.post('/api/booktrailer/countUp', { booktrailerId: booktrailerId });
+                    // console.log("check!!!!!!!, ", response.data.booktrailerUser.id)
                 } else {
                     alert('Failed to get booktrailer Info')
                 }
+
             })
 
         //댓글 가져오기
@@ -360,7 +359,9 @@ function VideoDatailPage(props) {
                 }} defaultActiveKey={['1']}>
                     <Panel header={booktrailerTitle} key="1">
                         <BooktrailerTitle>{booktrailerTitle}</BooktrailerTitle>
-                        <BooktrailerHashtag hashtags={hashTags} />
+                        {hashTags.map((hashtag, index) => (
+                            <BooktrailerHashtag key={index} hashtags={hashtag} />
+                        ))}
                         <br />
                         <p>{booktrailerDesc}</p>
                         <hr />

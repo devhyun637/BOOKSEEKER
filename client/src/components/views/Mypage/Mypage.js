@@ -58,7 +58,7 @@ function Mypage(props) {
         e.preventDefault();
         axios.get('/api/users/getUploaded').then(res => {
             if(res.data.success){
-                //console.log(res.data.data);
+                // console.log(res.data.data);
                 props.history.push('/mypage/booktrailer/uploaded', res.data.data)
             }
         })

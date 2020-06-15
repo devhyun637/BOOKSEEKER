@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import {withRouter} from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -129,7 +130,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -153,7 +155,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -177,7 +180,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -201,7 +205,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -225,7 +230,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -249,7 +255,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -345,4 +352,4 @@ function RecommendPage(props) {
     )
 }
 
-export default RecommendPage
+export default withRouter(RecommendPage);

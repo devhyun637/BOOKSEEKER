@@ -20,9 +20,9 @@ models.sequelize.sync().then(() => {
 app.use(cors());
 
 //application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true, limit:"50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 //aplication/json
-app.use(bodyParser.json({limit:"50mb"}));
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 // =========================== 라우터 ===========================
@@ -42,6 +42,7 @@ app.use('/api/python', require('./routes/python'));
 app.use('/api/booktrailer', require('./routes/booktrailer'));
 // 상세페이지 댓글 
 app.use('/api/review', require('./routes/review'));
+app.use('/api/comment', require('./routes/comment'));
 // 포스트 관련
 app.use('/api/post', require('./routes/post'));
 
