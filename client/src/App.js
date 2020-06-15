@@ -22,6 +22,7 @@ import SearchedPage from './components/views/SearchPage/SearchedPage';
 
 //======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
+import RecommendPage2 from './components/views/RecommendPage/RecommendPage2';
 
 //======================== 상세페이지 ========================
 import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
@@ -66,6 +67,7 @@ function App(props) {
 
           {/* 추천관련 페이지 */}
           <Route exact path="/booktrailer/recommend" component={Auth(RecommendPage, null)} />
+          <Route exact path="/booktrailer/recommended" component={Auth(RecommendPage2, null)} />
 
           {/* 커뮤니티 페이지 */}
           <Route exact path="/community" component={Auth(CommunityPage, true)} />
@@ -73,6 +75,7 @@ function App(props) {
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
           <Route exact path="/timeline/comments/:postId" component={Auth(CommentsPage, true)} />
+          
 
           {/* 공유하기 페이지 */}
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
