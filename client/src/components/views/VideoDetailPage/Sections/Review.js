@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import SingleReview from './SingleReview';
 
 const { TextArea } = Input;
-
+ 
 function Review(props) {
 
     const booktrailerId = props.booktrailerId;
@@ -36,7 +36,7 @@ function Review(props) {
                         setReviewValue("");
                         props.refreshFunction(response.data.result)
                     } else {
-                        document.location.href = '/booktrailer/' + booktrailerId;
+                        document.location.href = '/booktrailer/details/' + booktrailerId;
                     }
                 })
         }

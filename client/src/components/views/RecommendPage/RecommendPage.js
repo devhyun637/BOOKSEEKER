@@ -278,7 +278,7 @@ function RecommendPage(props) {
 
     return (
         <div>
-            <form>
+            {/* <form>
                 <Button style={{
                     display: 'block',
                     border: "0px",
@@ -296,7 +296,6 @@ function RecommendPage(props) {
                     </Button>
             </form>
 
-            {/* 북트레일러 추천페이지 */}
             <div>
                 <RecommandCard>
                     <RecommandName>급상승 북트레일러</RecommandName>
@@ -347,7 +346,7 @@ function RecommendPage(props) {
                     </RecommandList>
                 </RecommandCard>
 
-            </div>
+            </div> */}
         </div>
     )
 }

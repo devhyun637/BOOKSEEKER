@@ -22,6 +22,7 @@ import SearchedPage from './components/views/SearchPage/SearchedPage';
 
 //======================== 추천페이지 ========================
 import RecommendPage from './components/views/RecommendPage/RecommendPage';
+import RecommendPage2 from './components/views/RecommendPage/RecommendPage2';
 
 //======================== 상세페이지 ========================
 import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
@@ -65,7 +66,8 @@ function App(props) {
           <Route exact path="/search/results" component={Auth(SearchedPage, null)} />
 
           {/* 추천관련 페이지 */}
-          <Route exact path="/booktrailer/recommend" component={Auth(RecommendPage, null)} />
+          <Route exact path="/booktrailer/recommend" component={Auth(RecommendPage, true)} />
+          <Route exact path="/booktrailer/recommended" component={Auth(RecommendPage2, false)} />
 
           {/* 커뮤니티 페이지 */}
           <Route exact path="/community" component={Auth(CommunityPage, true)} />
@@ -73,6 +75,7 @@ function App(props) {
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
           <Route exact path="/timeline/comments/:postId" component={Auth(CommentsPage, true)} />
+
 
           {/* 공유하기 페이지 */}
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
@@ -83,12 +86,12 @@ function App(props) {
           {/* 마이페이지 */}
           <Route exact path="/mypage" component={Auth(Mypage, true)} />
           <Route exact path="/mypage/booktrailer/upload" component={Auth(VideoUploadPage, true)} />
-          <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
-          <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
+          <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, true)} />
+          <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, true)} />
           <Route exact path="/mypage/booktrailer/uploaded" component={Auth(UploadBooktrailersPage, true)} />
 
           {/* 좋아요 페이지 */}
-          <Route exact path="/likepage" component={Auth(Likepage,true)} />
+          <Route exact path="/likepage" component={Auth(Likepage, true)} />
 
           {/* 파이썬 페이지 */}
           {/* <Route exact path="/python" component={pythonTest} /> */}

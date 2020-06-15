@@ -25,7 +25,7 @@ function Likepage(props) {
     }, []);
 
     const moveDetail = function (event) {
-        let url = '/booktrailer/' + event.target.id;
+        let url = '/booktrailer/details/' + event.target.id;
         props.history.push(url);
     }
 

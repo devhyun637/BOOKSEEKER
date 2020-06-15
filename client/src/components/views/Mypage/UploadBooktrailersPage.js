@@ -19,7 +19,7 @@ function UploadBooktrailersPage(props) {
 
     const moveDetail = function (e) {
         e.preventDefault();
-        let url = '/booktrailer/' + e.target.id;
+        let url = '/booktrailer/details/' + e.target.id;
         // console.log("이동");
         // console.log(url)
         props.history.push(url);

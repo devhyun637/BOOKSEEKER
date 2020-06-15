@@ -12,7 +12,7 @@ const UserName = styled.p`
     font-size: 16px;
     color: black;
 `;
-
+ 
 const UserContent = styled.p`
     margin: 0;
     padding: 0;
