@@ -75,6 +75,7 @@ function App(props) {
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
           <Route exact path="/timeline/comments/:postId" component={Auth(CommentsPage, true)} />
+          
 
 
           {/* 공유하기 페이지 */}
