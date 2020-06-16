@@ -48,6 +48,48 @@ function CommunityPage(props) {
       props.history.push(url);
     }
 
+    const likeColor = async function(e) {
+      console.log("?");
+      console.log(e);
+      let button = e.target.closest('.likeButton');
+      console.log(button);
+      await axios.post('/api/post/updateLike',{postId:button.id}).then(result =>{
+        let heart = button.querySelector('.HeartButton');
+
+        if(result.data.isLike){
+          button.style.color = '#ff3232';
+          heart.querySelectorAll('path')[1].setAttribute( 'fill', '#ff3232' );
+          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount+1;
+        }else{
+          button.style.color = '#6C757D';
+          heart.querySelectorAll('path')[1].setAttribute('fill','#6C757D');
+          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount-1;
+        }
+
+      });
+
+    }
+
+    const likeButtonClick = async function(e) {
+      e.preventDefault();
+      let button = e.target.closest('.likeButton');
+      await axios.post('/api/post/updateLike',{postId:button.id}).then(result =>{
+        let heart = button.querySelector('.HeartButton');
+
+        if(result.data.isLike){
+          button.style.color = '#ff3232';
+          heart.querySelectorAll('path')[1].setAttribute( 'fill', '#ff3232' );
+          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount+1;
+        }else{
+          button.style.color = '#6C757D';
+          heart.querySelectorAll('path')[1].setAttribute('fill','#6C757D');
+          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount-1;
+        }
+
+      });
+
+    }
+
     const resultContent = (content) => {
       if (content.length > 40) {
         let contents = content.slice(0, 35);
@@ -63,13 +105,16 @@ function CommunityPage(props) {
       }
     }
 
+    function setColors(){
+      
+    }
 
-    function fetchData() {
-      axios.get('/api/booktrailer/followVideo').then(res => {
-        setIsLoading(false);
-        console.log(res.data);
-        setCards(res.data.data.map(
+    async function fetchData() {
+      await axios.get('/api/booktrailer/followVideo').then(async res => {
+        await setIsLoading(false);
+        await setCards(res.data.data.map(
           (data, index) => {
+            console.log(data);
             return (
               <article className="Post" key={index} >
                 <header>
@@ -110,7 +155,10 @@ function CommunityPage(props) {
                 {/* 좋아요 버튼 */}
                 <div className="Like-button">
                   <Button
-                    // onClick
+                    className="likeButton"
+                    id = {data.postId}
+                    onClick={likeButtonClick}
+                    onLoad={likeColor.bind(this)}
                     style={{
                       color: 'black',
                       backgroundColor: "white",
@@ -118,12 +166,14 @@ function CommunityPage(props) {
                     }}
                     variant="secondary">
                     <HeartTwoTone
-                      // twoToneColor
+                      id = {data.postId}
+                      className="HeartButton"
                       style={{
+                        backgroundColor: 'white',
                         float: 'left',
                         fontSize: '25px',
                       }} />
-                    <div style={{ float: 'left', marginLeft: '5px', heigth: 'center', lineHeight: 'center' }}>
+                    <div className = "likeCounter" style={{ float: 'left', marginLeft: '5px', heigth: 'center', lineHeight: 'center' }}>
                       {data.likeCount}
                     </div>
                   </Button>
@@ -157,8 +207,13 @@ function CommunityPage(props) {
         console.log(e);
       });
     }
+    
+
 
     fetchData();
+
+    setColors();
+
   }, []);
 
   const readMoreComment = (e) => {

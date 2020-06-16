@@ -6,7 +6,6 @@ import Comments from './Comments';
 function CommentsPage(props) {
 
     const data = props.history.location.state;
-    console.log(data);
 
     //댓글
     const [comments, setComments] = useState([])

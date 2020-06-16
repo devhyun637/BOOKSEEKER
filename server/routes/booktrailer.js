@@ -54,7 +54,7 @@ router.get('/video', async (req, res) => {
                                 title: booktrailer.dataValues.title,
                                 thumbnail: booktrailer.dataValues.thumbnail,
                                 content: posts[i].dataValues.content,
-                                likeCount: posts[i].dataValues.like,
+                                likeCount: posts[i].dataValues.likeCount,
                                 URL: booktrailer.dataValues.URL,
                                 comments: postComments,
                                 hashtags: hashtags,
@@ -219,7 +219,6 @@ router.post('/delete', async (req, res) => {
                 await models.User_Like.destroy({
                     where: { booktrailerId: booktrailerId }
                 }).catch(e => {
-                    console.log(e)
                     return res.json({
                         success: false
                     });
@@ -345,6 +344,17 @@ router.post('/countUp', async (req, res) => {
     models.sequelize.query("UPDATE booktrailer SET watch=watch+1 WHERE id = :booktrailerId", {
         replacements: { booktrailerId: booktrailerId }
     });
+
+});
+
+// =========================== 퀴즈등록하기 ===========================
+router.post('/quizUpload', async (req, res)=> {
+    let userId = req.body.userId
+    let booktrailerId = req.body.booktrailerId
+    let question = req.body.question
+    let answer = req.body.answer
+    
+   
 
 });
 module.exports = router;

@@ -16,8 +16,8 @@ module.exports = function (sequelize, DataTypes) {
             field: "content",
             type: DataTypes.STRING,
         },
-        like:{
-            field: "like",
+        likeCount:{
+            field: "likeCount",
             type: DataTypes.INTEGER
         }
     }, {
