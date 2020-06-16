@@ -136,4 +136,4 @@ function Comments(props) {
     )
 }
 
-export default withRouter(Comments)
+export default Comments

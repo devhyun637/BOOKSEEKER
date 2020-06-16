@@ -90,7 +90,7 @@ function CommunityPage(props) {
         await setIsLoading(false);
         await setCards(res.data.data.map(
           (data, index) => {
-            console.log(data);
+            // console.log(data);
             return (
               <article className="Post" key={index} >
                 <header>
