@@ -49,7 +49,7 @@ function VideoDatailPage(props) {
 
     const [count, setCount] = useState(0);
 
-    //모든 댓글 가져오기
+    //모든 댓글 가져오기 
     const [allReviews, setAllReviews] = useState([]);
 
     //해시태그 가져오기
@@ -293,20 +293,21 @@ function VideoDatailPage(props) {
             .then(response => {
                 if (response.data.success) {
                     setAllReviews(response.data.result)
+                    // console.log(response.data.result)
                 } else {
                     alert('댓글 가져오기 실패')
                 }
             })
 
         //해시태그 가져오기
-        axios.post('/api/hashtags/trailer_hashtag', booktraileVariable)
-            .then(response => {
-                if (response.data.success) {
+        // axios.post('/api/hashtags/trailer_hashtag', booktraileVariable)
+        //     .then(response => {
+        //         if (response.data.success) {
 
-                } else {
-                    alert('댓글 가져오기 실패')
-                }
-            })
+        //         } else {
+        //             alert('댓글 가져오기 실패')
+        //         }
+        //     })
 
 
     }, [])

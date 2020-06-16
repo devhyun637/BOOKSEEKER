@@ -34,19 +34,20 @@ function Comments(props) {
     const userId = Cookies.get('id');
     // console.log(props.hashtags);
 
-    const variables = {
-        userId: userId,
-        postId: props.postId
-    }
-
     // const booktrailerId = props.booktrailerId;
-    const [reviewValue, setReviewValue] = useState("");
+    const [commentValue, setCommentValue] = useState("");
     const [userName, setUserName] = useState("");
     const [content, setContent] = useState("");
 
+    const variables = {
+        userId: userId,
+        postId: props.postId,
+        comment: commentValue,
+    }
+
     useEffect(() => {
         setContent(props.contents);
-
+        // console.log(variables);
         axios.post('/api/users/getUserName', variables)
             .then(response => {
                 if (response.data.success) {
@@ -60,31 +61,28 @@ function Comments(props) {
     }, [])
 
     const handleClick = (event) => {
-        setReviewValue(event.currentTarget.value);
+        setCommentValue(event.currentTarget.value);
     }
 
     const onSubmit = (event) => {
-        // event.preventDefault();
-        // if (!Cookies.get('user')) {
-        //     alert("로그인을 해주세요");
-        // } else {
-        //     const variables = {
-        //         review: reviewValue,
-        //         booktrailerId: booktrailerId
-        //     }
+        event.preventDefault();
+        if (!Cookies.get('user')) {
+            alert("로그인을 해주세요");
+        } else {
 
-        //     //댓글 저장
-        //     axios.post('/api/review/saveReview', variables)
-        //         .then(response => {
-        //             if (response.data.success) {
-        //                 // console.log(response.data)
-        //                 setReviewValue("");
-        //                 props.refreshFunction(response.data.result)
-        //             } else {
-        //                 document.location.href = '/booktrailer/' + booktrailerId;
-        //             }
-        //         })
-        // }
+            //댓글 저장
+            // console.log(variables);
+            axios.post('/api/comment/saveComment', variables)
+                .then(response => {
+                    if (response.data.success) {
+                        // console.log(response.data)
+                        setCommentValue("");
+                        props.refreshFunction(response.data.result)
+                    } else {
+                        document.location.href = '/timeline/comments/' + variables.postId;
+                    }
+                })
+        }
     }
 
     return (
@@ -99,12 +97,12 @@ function Comments(props) {
                 <TimeLineDesc>{props.contents}</TimeLineDesc>
             </TimeLineCommnetPage>
             <hr />
-            <div style={{ width: '90%', margin: '0 auto', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: '90%', margin: '0 auto', alignItems: 'center', justifyContent: 'center', display: 'block' }}>
                 <form style={{ display: 'flex' }} onSubmit={onSubmit}>
                     <TextArea
                         style={{ width: '80%', display: 'flex', borderRadius: '1px' }}
                         onChange={handleClick}
-                        value={reviewValue}
+                        value={commentValue}
                         placeholder="댓글을 작성해주세요"
                     />
                     <br />
@@ -119,17 +117,18 @@ function Comments(props) {
                         fontSize: '14px'
                     }}
                         onClick={onSubmit}>등록</Button>
-                    <br />
-                    {/* Comment List */}
-                    {/* {props.commentList && props.commentList.map((comment, index) => (
-                <SingleReview key={comment.id}
-                    comments={comment}
-                    users={comment.userId}
-                    date={review.createdAt} 
-                    />
-            ))} */}
                 </form>
             </div>
+            {/* Comment List */}
+            <div style={{ margin: '10px' }}>
+                {props.commentList && props.commentList.map((comment, index) => (
+                    // console.log(comment)
+                    <SingleComments key={comment.id} comments={comment} users={comment.userId} date={comment.createdAt} />
+                ))}
+            </div>
+            <br />
+            <br />
+            <br />
         </div>
     )
 }

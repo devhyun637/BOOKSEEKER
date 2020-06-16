@@ -261,13 +261,7 @@ router.post('/quizUpload', async (req, res)=> {
     let question = req.body.question
     let answer = req.body.answer
     
-    models.booktrailerQuiz.create({
-        userId: userId,
-        booktrailerId: booktrailerId,
-        question: question,
-        answer: answer
-    })
-    
+   
 
 })
 

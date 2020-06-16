@@ -28,19 +28,28 @@ const DeleteButton = styled.button`
 
 function SingleComments(props) {
 
+    const [userName, setUserName] = useState("");
+    const [userId, serUserId] = useState(-1);
+    const [commentId, setCommentId] = useState(-1);
+
     useEffect(() => {
 
         const userId = {
             userId: props.users
         }
 
+<<<<<<< HEAD
         setReviewId(props.reviews.id);
+=======
+        setCommentId(props.comments.id);
+>>>>>>> 5f893f123948ef99376561a2d29e5fb16578deb4
         serUserId(props.users);
 
         //User 정보 가져오기
         axios.post('/api/users/getUser', userId)
             .then(result => {
                 if (result.data.success) {
+                    // console.log(result.data)
                     setUserName(result.data.userInfo.name)
                 } else {
                     console.log('User정보 가져오기 실패')
@@ -50,12 +59,8 @@ function SingleComments(props) {
 
     }, [])
 
-    const [userName, setUserName] = useState("");
-    const [userId, serUserId] = useState(-1);
-    const [reviewId, setReviewId] = useState(-1);
-
-    const deleteReview = () => {
-        axios.post('/api/review/deleteReview', { reviewId: reviewId, userId: userId })
+    const deleteComment = () => {
+        axios.post('/api/comment/deleteComment', { commentId: commentId, userId: userId })
             .then(result => {
                 if (!result.data.success) {
                     alert("댓글 삭제 실패")
@@ -64,20 +69,20 @@ function SingleComments(props) {
     }
 
     return (
-        <form>
+        <div>
             <Comment
                 author={<UserName>{userName}</UserName>}
                 // avator={<Avatar alt src />}
-                content={<UserContent>{props.reivews.review}</UserContent>}
+                content={<UserContent>{props.comments.comment}</UserContent>}
                 datetime={<UserContent>{props.date.slice(0, 10)}</UserContent>}
             />
             <div style={{
                 textAlign: 'right'
             }}>
-                <DeleteButton onClick={deleteReview}>delete</DeleteButton>
+                <DeleteButton onClick={deleteComment}>delete</DeleteButton>
             </div>
             <hr />
-        </form>
+        </div>
     )
 }
 

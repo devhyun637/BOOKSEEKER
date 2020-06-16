@@ -45,12 +45,21 @@ function TimeLinePage(props) {
       })
 
     const moveDetail = function (event) {
-      let url = '/booktrailer/' + event.target.id;
+      let url = '/booktrailer/details/' + event.target.id;
       props.history.push(url);
     }
 
-    const deleting = function () {
-      axios.post("/api/users/deletePost", {})
+    const deleting = async function (e) {
+      e.preventDefault();
+      let item = e.target.closest('.Post');
+      await axios.post("/api/post/deletePost", {postId: e.target.id}).then(result =>{
+        if(result.data.success){
+          console.log("success");
+          item.remove();
+        }else{
+          console.log(result);
+        }
+      });
     }
 
     const resultContent = (content, id) => {
@@ -97,7 +106,7 @@ function TimeLinePage(props) {
                       <Dropdown.Menu>
                         <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
                         <Dropdown.Item href="#">수정하기</Dropdown.Item>
-                        <Dropdown.Item href="#" id={data.id} onClick={deleting}>삭제하기</Dropdown.Item>
+                        <Dropdown.Item href="#" id={data.postId} onClick={deleting}>삭제하기</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>

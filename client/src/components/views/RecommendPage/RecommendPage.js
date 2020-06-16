@@ -296,7 +296,6 @@ function RecommendPage(props) {
                     </Button>
             </form>
 
-            {/* 북트레일러 추천페이지 */}
             <div>
                 <RecommandCard>
                     <RecommandName>급상승 북트레일러</RecommandName>
@@ -352,4 +351,4 @@ function RecommendPage(props) {
     )
 }
 
-export default withRouter(RecommendPage);
+export default RecommendPage;

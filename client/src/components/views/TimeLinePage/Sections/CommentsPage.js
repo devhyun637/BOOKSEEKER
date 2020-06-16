@@ -16,9 +16,8 @@ function CommentsPage(props) {
     }
 
     //댓글
-    const [comments, setComments] = useState([]);
+    const [allComments, setAllComments] = useState([]);
     const [content, setContent] = useState("");
-    const [comment, setComment] = useState("");
     const [hashtags, setHashtags] = useState([]);
 
     useEffect(() => {
@@ -38,7 +37,7 @@ function CommentsPage(props) {
         axios.post('/api/comment/getComments', variables)
             .then(response => {
                 if (response.data.success) {
-                    setComment(response.data);
+                    setAllComments(response.data.result);
                 } else {
                     alert('댓글 가져오기 실패')
                 }
@@ -49,31 +48,22 @@ function CommentsPage(props) {
             .then(response => {
                 if (response.data.success) {
                     setHashtags(response.data.hashtags);
-                    console.log(response.data.hashtags);
+                    // console.log(response.data.hashtags);
                 } else {
                     alert('해시태그 가져오기 실패')
                 }
             })
 
-
-        //댓글 모두 가져오기
-        // axios.post('/api/post/getComments', booktraileVariable)
-        //     .then(response => {
-        //         if (response.data.success) {
-        //             setAllReviews(response.data.result)
-        //         } else {
-        //             alert('댓글 가져오기 실패')
-        //         }
-        //     })
+        // console.log(postId, userId)
     }, [])
 
     const refreshFunction = (newComments) => {
-        setComments(comments.concat(newComments));
+        setAllComments(allComments.concat(newComments));
     }
 
     return (
         <div>
-            <Comments refreshFunction={refreshFunction} commentList={comments} contents={content} hashtags={hashtags}/>
+            <Comments refreshFunction={refreshFunction} commentList={allComments} contents={content} hashtags={hashtags} postId={postId}/>
         </div>
     )
 }

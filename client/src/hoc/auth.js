@@ -18,9 +18,9 @@ export default function(SpecificComponent, option, adminRoute = null){
         //back에 req날리기
         useEffect(() => {
             async function fetchData() {
-                await dispatch(auth()).then(res => {
+                await dispatch(auth()).then(async res => {
                     //console.log("hoc에서 묻는다", res);
-                    setVerify(res.payload.verify);
+                    await setVerify(res.payload.verify);
                 });
             }
            
