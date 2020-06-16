@@ -15,6 +15,8 @@ const RecommandCard = styled.div`
 
 const RecommandName = styled.h3`
     margin: 10px 30px;
+    font-size: 24px;
+    font-weight: bold;
 `;
 
 const RecommandList = styled.ul`
@@ -85,7 +87,7 @@ function RecommendPage(props) {
 
     useEffect(() => {
         function fetchData() {
-            
+
             axios.get('/api/python/case2').then(res => {
                 setTodayBookTrailer(res.data.data.map(
                     (data, index) => (
@@ -97,7 +99,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>
@@ -121,7 +124,8 @@ function RecommendPage(props) {
                                     height: '130px',
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
-                                    border: '1px solid black'
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
                                 }}></div>
                                 <Name>{data.title}</Name>
                             </RecommandLink>

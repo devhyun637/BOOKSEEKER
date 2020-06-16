@@ -46,5 +46,7 @@ app.use('/api/review', require('./routes/review'));
 app.use('/api/comment', require('./routes/comment'));
 // 포스트 관련
 app.use('/api/post', require('./routes/post'));
+// 퀴즈 관련
+app.use('/api/quiz', require('./routes/quiz'));
 
 app.listen(port, () => console.log(`=========================== port on ${port} ==========================`));

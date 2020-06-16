@@ -50,6 +50,7 @@ function QuizPage(props) {
     const [booktrailerId, setbooktrailerId] = useState("")
     const [booktrailerQuestion, setBooktrailerQuestion] = useState("");
     const [booktrailerAnswer, setBooktrailerAnswer] = useState("");
+    const [checkButtonShow, setCheckButtonShow] = useState('');
     const [sendButtonShow, setSendButtonShow] = useState('none');
     const [inputable, setInputalbe] = useState(false);
 
@@ -60,21 +61,16 @@ function QuizPage(props) {
         // console.log('Success:', values);
         let question = values.booktrailer_question;
         let answer = values.booktrailer_answer;
-
-
-        console.log(userId)
-        console.log(booktrailerId)
-        console.log(question)
-        console.log(answer)
+        // console.log(userId)
+        // console.log(booktrailerId)
+        // console.log(question)
+        // console.log(answer)
 
         setBooktrailerQuestion(question);
         setBooktrailerAnswer(answer);
-
-        
-
         // alert(`북트레일러 제목 : ${title}`);
         setSendButtonShow('');
-        // setCheckButtonShow('none');
+        setCheckButtonShow('none');
         setInputalbe(true);
     };
 
@@ -87,8 +83,8 @@ function QuizPage(props) {
         // let data = componentDidMount();
         console.log("취소버튼 눌렁씀")
         // props.history.push('/mypage/booktrailer/upload2', data);
-        // setSendButtonShow('none');
-        // setCheckButtonShow('');
+        setSendButtonShow('none');
+        setCheckButtonShow('');
         setInputalbe(false);
         // form.resetFields();
     }
@@ -96,18 +92,24 @@ function QuizPage(props) {
     const realSend = (e) => {
         e.preventDefault();
         // let data = componentDidMount();
-        console.log("등록버튼눌러씀")
+        // console.log("등록버튼눌러씀")
         let data = {
             userId: userId,
             booktrailerId: booktrailerId,
             question: booktrailerQuestion,
             answer: booktrailerAnswer
         }
-        // console.log(data);
-            // props.history.push('/mypage/booktrailer/upload3', data);
-            //console.log(data);
+         //console.log(data); 
 
-            axios.post('/api/booktrailer/quizUpload', data)
+            axios.post('/api/quiz/quizUpload', data)
+            .then(res => {
+                if (res.data.success) {
+                    document.location.href = "/mypage";
+                } else {
+                    alert("퀴즈 실패");
+                }
+            });
+            
     
     };
 
@@ -163,7 +165,7 @@ function QuizPage(props) {
                         border: "0.5px solid #717171",
                         backgroundColor: "white",
                         color: "black",
-                        // display: `${checkButtonShow}`
+                        display: `${checkButtonShow}`
                     }}
                         type="primary"
                         htmlType="submit"

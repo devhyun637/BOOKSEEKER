@@ -181,7 +181,7 @@ function VideoDatailPage(props) {
                             })
                         }}>공유하기</Dropdown.Item>
                     <Dropdown.Item className="changeState" href="#" onClick={moveQuiz}>퀴즈만들기</Dropdown.Item>
-                    <Dropdown.Item
+                    {/* <Dropdown.Item
                         className="changeState"
                         onClick={
                             (e) => {
@@ -194,7 +194,7 @@ function VideoDatailPage(props) {
                                     }
                                 })
                             }}
-                    >수정하기</Dropdown.Item>
+                    >수정하기</Dropdown.Item> */}
                     <Dropdown.Item className="changeState" href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>);

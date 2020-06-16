@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -18,6 +18,8 @@ const RecommandCard = styled.div`
 
 const RecommandName = styled.h3`
     margin: 10px 30px;
+    font-size: 24px;
+    font-weight: bold;
 `;
 
 const RecommandList = styled.ul`
@@ -93,7 +95,7 @@ function RecommendPage(props) {
 
     useEffect(() => {
         function fetchData() {
-            
+
             axios.get('/api/python/case2').then(res => {
                 setTodayBookTrailer(res.data.data.map(
                     (data, index) => (
@@ -144,7 +146,7 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case3',{userId:userId}).then(res => {
+            axios.post('/api/python/case3', { userId: userId }).then(res => {
                 setPopBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
@@ -169,7 +171,7 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case4',{userId:userId}).then(res => {
+            axios.post('/api/python/case4', { userId: userId }).then(res => {
                 setCategoryBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
@@ -194,7 +196,7 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case5',{userId:userId}).then(res => {
+            axios.post('/api/python/case5', { userId: userId }).then(res => {
                 setRecommendBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
@@ -219,7 +221,7 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case6',{userId:userId}).then(res => {
+            axios.post('/api/python/case6', { userId: userId }).then(res => {
                 setHashtagBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
@@ -244,7 +246,7 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case7',{userId:userId}).then(res => {
+            axios.post('/api/python/case7', { userId: userId }).then(res => {
                 setPublishBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
