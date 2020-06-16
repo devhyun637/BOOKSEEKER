@@ -108,20 +108,42 @@ router.get('/followVideo', async (req, res) => {
                             }).then(async hashtags => {
                                 await models.BookTrailer.findOne({
                                     where: { id: posts[i].booktrailerId }
-                                }).then(booktrailer => {
+                                }).then(async booktrailer => {
                                     if (booktrailer != null) {
-                                        friendsResult.push({
-                                            id: booktrailer.id,
-                                            postId: posts[i].id,
-                                            userName: user.name,
-                                            title: booktrailer.title,
-                                            thumbnail: booktrailer.thumbnail,
-                                            content: posts[i].content,
-                                            likeCount: posts[i].likeCount,
-                                            URL: booktrailer.URL,
-                                            comments: postComments,
-                                            hashtags: hashtags,
-                                            created_at: posts[i].createdAt
+                                        await models.User_Post.findOne({
+                                            where:{userId:userId, postId:posts[i].id}
+                                        }).then(async isLike => {
+                                            if(isLike){
+                                            await friendsResult.push({
+                                                id: booktrailer.id,
+                                                postId: posts[i].id,
+                                                userName: user.name,
+                                                title: booktrailer.title,
+                                                thumbnail: booktrailer.thumbnail,
+                                                content: posts[i].content,
+                                                likeCount: posts[i].likeCount,
+                                                URL: booktrailer.URL,
+                                                comments: postComments,
+                                                hashtags: hashtags,
+                                                created_at: posts[i].createdAt,
+                                                color: '#ff3232'
+                                            });
+                                        }else{
+                                            await friendsResult.push({
+                                                id: booktrailer.id,
+                                                postId: posts[i].id,
+                                                userName: user.name,
+                                                title: booktrailer.title,
+                                                thumbnail: booktrailer.thumbnail,
+                                                content: posts[i].content,
+                                                likeCount: posts[i].likeCount,
+                                                URL: booktrailer.URL,
+                                                comments: postComments,
+                                                hashtags: hashtags,
+                                                created_at: posts[i].createdAt,
+                                                color: '#6C757D'
+                                            });
+                                        }
                                         })
                                     }
                                 });

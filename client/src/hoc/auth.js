@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {auth} from '../_actions/user_action';
 import LoginPage from '../components/views/LoginPage/LoginPage';
 // import LandingPage from '../components/views/LandingPage/LandingPage';
-import RecommendPage from '../components/views/RecommendPage/RecommendPage';
+import RecommendPage2 from '../components/views/RecommendPage/RecommendPage2';
 import { useState } from 'react';
 
 export default function(SpecificComponent, option, adminRoute = null){
@@ -27,7 +27,7 @@ export default function(SpecificComponent, option, adminRoute = null){
             fetchData();
         }, []);
 
-        return option==null? <SpecificComponent/> :option? verify? <SpecificComponent/> : <LoginPage/> : verify? <RecommendPage/> : <SpecificComponent/>
+        return option==null? <SpecificComponent/> :option? verify? <SpecificComponent/> : <LoginPage/> : verify? <RecommendPage2/> : <SpecificComponent/>
 
     }
 
