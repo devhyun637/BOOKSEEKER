@@ -131,6 +131,7 @@ function TimeLinePage(props) {
                       backgroundColor: "white",
                       border: 'none',
                     }}
+                    disabled
                     variant="secondary">
                     <HeartTwoTone
                       // twoToneColor

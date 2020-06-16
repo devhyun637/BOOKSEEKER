@@ -1,35 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 import Comments from './Comments';
 
 function CommentsPage(props) {
 
-    const data = props.history.location.state;
+    const postId = props.match.params.postId;
+    const userId = Cookies.get('id')
+
+    const variables = {
+        postId: postId,
+        userId: userId
+    }
 
     //댓글
-    const [comments, setComments] = useState([])
+    const [allComments, setAllComments] = useState([]);
+    const [content, setContent] = useState("");
+    const [hashtags, setHashtags] = useState([]);
 
     useEffect(() => {
-        //댓글 모두 가져오기
-        // axios.post('/api/post/getComments', booktraileVariable)
-        //   .then(response => {
-        //     if (response.data.success) {
-        //       setAllReviews(response.data.result)
-        //     } else {
-        //       alert('댓글 가져오기 실패')
-        //     }
-        //   })
+
+        //컨텐츠 가져오기
+        axios.post('/api/post/getPost', variables)
+            .then(response => {
+                if (response.data.success) {
+                    // console.log(response.data.data.content);
+                    setContent(response.data.data.content);
+                } else {
+                    alert('글 가져오기 실패')
+                }
+            })
+
+        //댓글 가져오기
+        axios.post('/api/comment/getComments', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setAllComments(response.data.result);
+                } else {
+                    alert('댓글 가져오기 실패')
+                }
+            })
+
+        //해시태그 가져오기
+        axios.post('/api/hashtags/getHashtags', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setHashtags(response.data.hashtags);
+                    // console.log(response.data.hashtags);
+                } else {
+                    alert('해시태그 가져오기 실패')
+                }
+            })
+
+        // console.log(postId, userId)
     }, [])
 
     const refreshFunction = (newComments) => {
-        setComments(comments.concat(newComments));
+        setAllComments(allComments.concat(newComments));
     }
 
     return (
         <div>
-            댓글페이지입니다.
-            <Comments refreshFunction={refreshFunction} commentList={comments} />
+            <Comments refreshFunction={refreshFunction} commentList={allComments} contents={content} hashtags={hashtags} postId={postId}/>
         </div>
     )
 }

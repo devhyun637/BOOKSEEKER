@@ -6,6 +6,7 @@ function CommunityHashtag(props) {
     const [hashtag, setHashtags] = useState("")
 
     useEffect(() => {
+        // console.log(props.hashtags)
         setHashtags(props.hashtags.hashtag);
     }, [])
 

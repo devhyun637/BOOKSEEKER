@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router';
 
-function TimeLineHashtag(props) {
+function CommentHashtag(props) {
 
-    // const [hashtag, setHashtags] = useState("")
+    const [hashtag, setHashtags] = useState("")
 
-    // useEffect(() => {
-    //     setHashtags(props.hashtags.slice(1,-1));
-    // }, [])
-
-    console.log(props);
+    useEffect(() => {
+        setHashtags(props.hashtags);
+    }, [])
 
     return (
         // <div style={{
@@ -26,9 +24,9 @@ function TimeLineHashtag(props) {
                 fontSize: '15px',
                 marginRight: '5px',
             }}
-            href="">#</a>
+            href="">#{hashtag}</a>
         // </div>
     )
 }
 
-export default withRouter(TimeLineHashtag)
+export default withRouter(CommentHashtag)

@@ -29,8 +29,9 @@ import VideoDatailPage from './components/views/VideoDetailPage/VideoDatailPage'
 
 //======================== 공유관련 페이지 ========================
 import CommunityPage from './components/views/CommunityPage/CommunityPage';
+import CommunityCommentsPage from './components/views/CommunityPage/Sections/CommentsPage';
 import TimeLinePage from './components/views/TimeLinePage/TimeLinePage';
-import CommentsPage from './components/views/TimeLinePage/Sections/CommentsPage';
+import TimeLineCommentsPage from './components/views/TimeLinePage/Sections/CommentsPage';
 import SharePostPage from './components/views/SharePostPage/SharePostPage';
 import UploadBooktrailersPage from './components/views/Mypage/UploadBooktrailersPage';
 
@@ -72,10 +73,11 @@ function App(props) {
 
           {/* 커뮤니티 페이지 */}
           <Route exact path="/community" component={Auth(CommunityPage, true)} />
+          <Route exact path="/community/comments/:postId" component={Auth(CommunityCommentsPage, true)} />
 
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
-          <Route exact path="/timeline/comments/:postId" component={Auth(CommentsPage, true)} />
+          <Route exact path="/timeline/comments/:postId" component={Auth(TimeLineCommentsPage, true)} />
           
 
 

@@ -44,7 +44,7 @@ function CommunityPage(props) {
       })
 
     const moveDetail = function (event) {
-      let url = '/booktrailer/' + event.target.id;
+      let url = '/booktrailer/details/' + event.target.id;
       props.history.push(url);
     }
 
@@ -90,13 +90,13 @@ function CommunityPage(props) {
 
     }
 
-    const resultContent = (content) => {
+    const resultContent = (content, id) => {
       if (content.length > 40) {
         let contents = content.slice(0, 35);
         return (
           <div className="postDesc">
             <span className="">{contents}...</span>
-            <button onClick={readMoreComment} className="readmore"> 더보기 </button>
+            <button id={id} onClick={readMoreComment} className="readmore"> 더보기 </button>
           </div>)
       } else {
         return (<div className="postDesc">
@@ -219,9 +219,8 @@ function CommunityPage(props) {
   const readMoreComment = (e) => {
     e.preventDefault();
     const postId = e.target.id;
-    props.history.push('/timeline/comments/' + postId);
+    props.history.push('/community/comments/' + postId);
   }
-
 
   return (
     <TimeLineSection className="container">
