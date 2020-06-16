@@ -61,12 +61,12 @@ function RegisterPage5(props) {
     const sendRegister = (e) => {
         e.preventDefault();
         let data = componentDidMount()
-        //console.log(data);
-
+        console.log(data);
+        
         axios.post('/api/users/register', data)
             .then((res) => {
                 if (res.data.isRegisterSuccess) {
-                   // console.log("회원가입 성공!")
+                    console.log("회원가입 성공!")
                     props.history.push('/login');
                 } else {
                     alert(res.data.message)
@@ -84,7 +84,6 @@ function RegisterPage5(props) {
         for (let i = 0; i < filter.length; i++) {
             newHashtag.push(filter[i]);
         }
-        
         setPublisher(filter[0]);
         setAuthors(filter.slice(1,));
         setHashtags(newHashtag);
@@ -100,7 +99,7 @@ function RegisterPage5(props) {
             <br />
             <APISearch handleHashtag={filter => handleHashtag(filter)} />
             <br />
-            <form onSubmit={sendOnNull}>
+            {/* <form onSubmit={sendOnNull}>
                 <Button style={{
                     margin: "10px",
                     border: "0.5px solid #717171",
@@ -110,7 +109,7 @@ function RegisterPage5(props) {
                 }}
                     type="submit"
                 >건너뛰기</Button>
-            </form>
+            </form> */}
 
             <form onSubmit={sendRegister}>
                 <Button style={{
@@ -123,7 +122,7 @@ function RegisterPage5(props) {
                     type="submit"
                 >회원가입</Button>
             </form>
-
+        
         </Box>
     )
 }
