@@ -40,6 +40,7 @@ import Likepage from './components/views/Mypage/Likepage';
 import VideoUploadPage from './components/views/Mypage/VideoUploadPage/VideoUploadPage';
 import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUploadPage2';
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
+import QuizPage from './components/views/Mypage/QuizPage/QuizPage';
 
 //======================== python test 페이지 ========================
 // import pythonTest from './components/views/pythonTest/testPage';
@@ -89,6 +90,7 @@ function App(props) {
           <Route exact path="/mypage/booktrailer/upload2" component={Auth(VideoUploadPage2, null)} />
           <Route exact path="/mypage/booktrailer/upload3" component={Auth(VideoUploadPage3, null)} />
           <Route exact path="/mypage/booktrailer/uploaded" component={Auth(UploadBooktrailersPage, true)} />
+          <Route exact path="/mypage/booktrailer/quiz" component={Auth(QuizPage, true)} />
 
           {/* 좋아요 페이지 */}
           <Route exact path="/likepage" component={Auth(Likepage,true)} />

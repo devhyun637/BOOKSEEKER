@@ -143,6 +143,17 @@ function VideoDatailPage(props) {
         }
     }
 
+    const moveQuiz = (e) => {
+        e.preventDefault();
+        let data = {
+            userId: Cookies.get('id'),
+            booktrailerId: booktrailerId
+        }
+        console.log(data)
+        props.history.push('/mypage/booktrailer/quiz', data)
+
+    }
+
     const settingDisplay = function (userID) {
         if (userID == Cookies.get('id')) {
             setMenuBody(<Dropdown>
@@ -169,7 +180,7 @@ function VideoDatailPage(props) {
                                 }
                             })
                         }}>공유하기</Dropdown.Item>
-                    <Dropdown.Item className="changeState" href="#">퀴즈만들기</Dropdown.Item>
+                    <Dropdown.Item className="changeState" href="#" onClick={moveQuiz}>퀴즈만들기</Dropdown.Item>
                     <Dropdown.Item
                         className="changeState"
                         onClick={

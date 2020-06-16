@@ -253,4 +253,22 @@ router.post('/countUp', async (req, res) => {
     });
 
 });
+
+// =========================== 퀴즈등록하기 ===========================
+router.post('/quizUpload', async (req, res)=> {
+    let userId = req.body.userId
+    let booktrailerId = req.body.booktrailerId
+    let question = req.body.question
+    let answer = req.body.answer
+    
+    models.booktrailerQuiz.create({
+        userId: userId,
+        booktrailerId: booktrailerId,
+        question: question,
+        answer: answer
+    })
+    
+
+})
+
 module.exports = router;
