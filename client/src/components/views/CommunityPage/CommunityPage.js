@@ -44,31 +44,10 @@ function CommunityPage(props) {
       })
 
     const moveDetail = function (event) {
-      let url = '/booktrailer/' + event.target.id;
+      let url = '/booktrailer/details/' + event.target.id;
       props.history.push(url);
     }
 
-    const likeColor = async function(e) {
-      console.log("?");
-      console.log(e);
-      let button = e.target.closest('.likeButton');
-      console.log(button);
-      await axios.post('/api/post/updateLike',{postId:button.id}).then(result =>{
-        let heart = button.querySelector('.HeartButton');
-
-        if(result.data.isLike){
-          button.style.color = '#ff3232';
-          heart.querySelectorAll('path')[1].setAttribute( 'fill', '#ff3232' );
-          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount+1;
-        }else{
-          button.style.color = '#6C757D';
-          heart.querySelectorAll('path')[1].setAttribute('fill','#6C757D');
-          button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount-1;
-        }
-
-      });
-
-    }
 
     const likeButtonClick = async function(e) {
       e.preventDefault();
@@ -77,12 +56,13 @@ function CommunityPage(props) {
         let heart = button.querySelector('.HeartButton');
 
         if(result.data.isLike){
-          button.style.color = '#ff3232';
-          heart.querySelectorAll('path')[1].setAttribute( 'fill', '#ff3232' );
+          heart.querySelectorAll('path')[0].setAttribute( 'fill', '#ff3232' );
+          heart.querySelectorAll('path')[1].setAttribute( 'fill', '#fff2f0' );
           button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount+1;
         }else{
           button.style.color = '#6C757D';
-          heart.querySelectorAll('path')[1].setAttribute('fill','#6C757D');
+          heart.querySelectorAll('path')[0].setAttribute('fill','#6C757D');
+          heart.querySelectorAll('path')[1].setAttribute('fill','#b1b9bd');
           button.querySelector('.likeCounter').innerHTML = result.data.data.likeCount-1;
         }
 
@@ -103,10 +83,6 @@ function CommunityPage(props) {
           <span className="content" style={{ marginBottom: '10px' }}>{content}</span>
         </div>)
       }
-    }
-
-    function setColors(){
-      
     }
 
     async function fetchData() {
@@ -158,7 +134,6 @@ function CommunityPage(props) {
                     className="likeButton"
                     id = {data.postId}
                     onClick={likeButtonClick}
-                    onLoad={likeColor.bind(this)}
                     style={{
                       color: 'black',
                       backgroundColor: "white",
@@ -168,6 +143,7 @@ function CommunityPage(props) {
                     <HeartTwoTone
                       id = {data.postId}
                       className="HeartButton"
+                      twoToneColor={data.color}
                       style={{
                         backgroundColor: 'white',
                         float: 'left',
@@ -212,14 +188,12 @@ function CommunityPage(props) {
 
     fetchData();
 
-    setColors();
-
   }, []);
 
   const readMoreComment = (e) => {
     e.preventDefault();
     const postId = e.target.id;
-    props.history.push('/timeline/comments/' + postId);
+    props.history.push('/community/comments/' + postId);
   }
 
 
