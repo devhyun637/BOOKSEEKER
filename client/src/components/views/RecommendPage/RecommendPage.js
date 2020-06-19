@@ -90,6 +90,7 @@ function RecommendPage(props) {
     const [recommendBookTrailer, setRecommendBookTrailer] = useState("");
     const [hashtagBookTrailer, setHashtagBookTrailer] = useState("");
     const [publishBookTrailer, setPublishBookTrailer] = useState("");
+    const [snipingBookTrailer, setSnipingBookTrailer] = useState("");
 
     useEffect(() => {
         function fetchData() {
@@ -194,8 +195,8 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case5',{userId:userId}).then(res => {
-                setRecommendBookTrailer(res.data.data.map(
+            axios.post('/api/python/case7',{userId:userId}).then(res => {
+                setPublishBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
                             <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
@@ -244,8 +245,34 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-            axios.post('/api/python/case7',{userId:userId}).then(res => {
-                setPublishBookTrailer(res.data.data.map(
+
+            axios.post('/api/python/case5',{userId:userId}).then(res => {
+                setRecommendBookTrailer(res.data.data.map(
+                    (data, index) => (
+                        <RecommandListLi key={data.trailer_id}>
+                            <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
+                                <div style={{
+                                    backgroundImage: `url(${data.thumbnail})`,
+                                    width: '214px',
+                                    height: '130px',
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '1px solid black',
+                                    borderRadius: '20px'
+                                }}></div>
+                                <Name>{data.title}</Name>
+                            </RecommandLink>
+                        </RecommandListLi>
+                    )
+
+                ));
+
+            }).catch(e => {
+                console.log(e);
+            });
+
+            axios.post('/api/python/case5_1',{userId:userId}).then(res => {
+                setSnipingBookTrailer(res.data.data.map(
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
                             <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
@@ -329,6 +356,13 @@ function RecommendPage(props) {
                     <RecommandName>추천 북트레일러</RecommandName>
                     <RecommandList>
                         {recommendBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>취향저격 북트레일러</RecommandName>
+                    <RecommandList>
+                        {snipingBookTrailer}
                     </RecommandList>
                 </RecommandCard>
 

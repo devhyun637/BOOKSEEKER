@@ -277,14 +277,37 @@ router.post('/countUp', async (req, res) => {
 });
 
 // =========================== 퀴즈등록하기 ===========================
+// =========================== 퀴즈등록하기 ===========================
 router.post('/quizUpload', async (req, res)=> {
     let userId = req.body.userId
     let booktrailerId = req.body.booktrailerId
     let question = req.body.question
     let answer = req.body.answer
     
-   
-
+    if (!req.cookies.id) {
+        return res.json({
+            isSuccess: false
+        })
+    } else {
+    await models.BooktrailerQuiz.create({
+        userId: userId,
+        booktrailerId: booktrailerId,
+        question: question,
+        answer: answer
+    }).then(async result => {
+        //User_Quiz에 userId와 quizId 넣어주기
+        console.log(result.userId)
+       
+    }).catch(e => {
+        return res.json({
+            isSuccess: false
+        })
+    })
+}
+return res.json({
+    isSucess: true,
+    message: "quiz uploaded"
 })
 
+})
 module.exports = router;

@@ -88,6 +88,14 @@ function CommunityPage(props) {
     async function fetchData() {
       await axios.get('/api/booktrailer/followVideo').then(async res => {
         await setIsLoading(false);
+        await res.data.data.sort(function(a, b) {
+          var keyA = new Date(a.created_at),
+            keyB = new Date(b.created_at);
+          // Compare the 2 dates
+          if (keyA > keyB) return -1;
+          if (keyA < keyB) return 1;
+          return 0;
+        });
         await setCards(res.data.data.map(
           (data, index) => {
             // console.log(data);

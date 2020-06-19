@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         content: {
             field: "content",
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT('long'),
         },
         likeCount:{
             field: "likeCount",
