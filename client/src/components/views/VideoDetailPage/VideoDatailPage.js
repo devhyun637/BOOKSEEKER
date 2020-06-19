@@ -97,11 +97,11 @@ function VideoDatailPage(props) {
             let target = document.querySelector('.follow');
 
             await axios.post('/api/users/follow', { bookTrailerUserId: bookTrailerUserId }).then(res => {
-               // console.log(res.data.data);
+                // console.log(res.data.data);
                 if (res.data.data == '1') {
                     target.style.backgroundColor = '#6C757D';
                     setButtonColor('#6C757D');
-                   // console.log("follow success");
+                    // console.log("follow success");
                     target.innerHTML = "팔로우 취소";
                 } else if (res.data.data == '0') {
                     target.style.backgroundColor = '#ff3232';
@@ -181,7 +181,7 @@ function VideoDatailPage(props) {
                             })
                         }}>공유하기</Dropdown.Item>
                     <Dropdown.Item className="changeState" href="#" onClick={moveQuiz}>퀴즈만들기</Dropdown.Item>
-                    <Dropdown.Item
+                    {/* <Dropdown.Item
                         className="changeState"
                         onClick={
                             (e) => {
@@ -194,7 +194,7 @@ function VideoDatailPage(props) {
                                     }
                                 })
                             }}
-                    >수정하기</Dropdown.Item>
+                    >수정하기</Dropdown.Item> */}
                     <Dropdown.Item className="changeState" href="#" onClick={delMovie}>삭제하기</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>);
@@ -309,11 +309,31 @@ function VideoDatailPage(props) {
         //         }
         //     })
 
+        // //quiz 가져오기
+        // axios.post('/api/quiz/getQuiz', )
+        // .then(response => {
+        //     if(response.data.success){
+
+        //     } else{
+
+        //     }
+        // })
+
 
     }, [])
 
     const refreshFunction = (newReview) => {
         setAllReviews(allReviews.concat(newReview));
+    }
+
+    const moveToQuizList = (e) => {
+        const data = {
+            userId: Cookies.get('id'),
+            booktrailerId: booktrailerId
+        }
+        console.log("버튼클릭이벤트 연결")
+        props.history.push('/booktrailer/quizlist', data)
+        console.log("id는", data)
     }
 
     return (
@@ -358,7 +378,7 @@ function VideoDatailPage(props) {
                     <EditOutlined
                         style={{
                             fontSize: '25px',
-                        }} />
+                        }} onClick={moveToQuizList} />
                 </Button>
 
                 {menuBody}
@@ -385,7 +405,8 @@ function VideoDatailPage(props) {
                     <Panel header="공유한 글" key="2" disabled>
                         <p>책정보</p>
                     </Panel>
-                    <Panel header="댓글" key="3">
+
+                    <Panel header="댓글" key="4">
                         <Reviews refreshFunction={refreshFunction} reviewList={allReviews} booktrailerId={booktrailerId} />
                     </Panel>
                 </Collapse>

@@ -43,6 +43,10 @@ import VideoUploadPage2 from './components/views/Mypage/VideoUploadPage/VideoUpl
 import VideoUploadPage3 from './components/views/Mypage/VideoUploadPage/VideoUploadPage3';
 import QuizPage from './components/views/Mypage/QuizPage/QuizPage';
 
+//======================== Quiz 관련 페이지 ========================
+import QuizListPage from './components/views/QuizListPage/QuizListPage';
+import QuizSolvingPage from './components/views/QuizListPage/QuizSolvingPage';
+
 //======================== python test 페이지 ========================
 // import pythonTest from './components/views/pythonTest/testPage';
 
@@ -54,7 +58,7 @@ function App(props) {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          {/* <Route exact path="/" component={LandingPage} /> */}
+          <Route exact path="/" component={LandingPage} />
 
           {/* 로그인/회원가입 관련 */}
           <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -78,8 +82,6 @@ function App(props) {
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
           <Route exact path="/timeline/comments/:postId" component={Auth(TimeLineCommentsPage, true)} />
-          
-
 
           {/* 공유하기 페이지 */}
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
@@ -99,10 +101,14 @@ function App(props) {
           {/* 좋아요 페이지 */}
           <Route exact path="/likepage" component={Auth(Likepage, true)} />
 
+          {/* Quiz 관련 페이지 */}
+          <Route exact path="/booktrailer/quizlist" component={Auth(QuizListPage, true)} />
+          <Route exact path="/booktrailer/quizlist/solving/:quizId" component={Auth(QuizSolvingPage, true)} />
+
           {/* 파이썬 페이지 */}
           {/* <Route exact path="/python" component={pythonTest} /> */}
           {/* 잘못된 주소가 있을 시에 전부 홈화면으로 보내기 */}
-          <Redirect from="*" to="/login" />
+          <Redirect from="*" to="/" />
         </Switch>
 
         <Navigation />

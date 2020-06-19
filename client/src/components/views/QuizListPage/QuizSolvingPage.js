@@ -32,13 +32,14 @@ const formItemLayout = {
     wrapperCol: { span: 8 },
 };
 
-function QuizPage(props) {
+function QuizSolvingPage(props) {
 
     useEffect(() => {
         if (props.history.location) {
             const userId = props.history.location.state.userId;
             const booktrailerId = props.history.location.state.booktrailerId;
 
+            //console.log("제대로받아라",userId)
             setuserId(userId);
             setbooktrailerId(booktrailerId);
             
@@ -48,8 +49,7 @@ function QuizPage(props) {
     const [tags, setTags] = useState([]);
     const [userId, setuserId] = useState("");
     const [booktrailerId, setbooktrailerId] = useState("")
-    const [booktrailerQuestion, setBooktrailerQuestion] = useState("");
-    const [booktrailerAnswer, setBooktrailerAnswer] = useState("");
+    const [answer, setanswer] = useState("");
     const [checkButtonShow, setCheckButtonShow] = useState('');
     const [sendButtonShow, setSendButtonShow] = useState('none');
     const [inputable, setInputalbe] = useState(false);
@@ -59,15 +59,16 @@ function QuizPage(props) {
     const onFinish = values => {
         // const values = await form.validateFields();
         // console.log('Success:', values);
-        let question = values.booktrailer_question;
+        
         let answer = values.booktrailer_answer;
+        console.log("정답은..........", answer)
+        setanswer(answer)
         // console.log(userId)
         // console.log(booktrailerId)
         // console.log(question)
         // console.log(answer)
 
-        setBooktrailerQuestion(question);
-        setBooktrailerAnswer(answer);
+
         // alert(`북트레일러 제목 : ${title}`);
         setSendButtonShow('');
         setCheckButtonShow('none');
@@ -78,40 +79,12 @@ function QuizPage(props) {
         // console.log('Failed:', errorInfo);
     };
 
-    const reset = (e) => {
+   
+    const submitAnswer = (e) => {
         e.preventDefault();
-        // let data = componentDidMount();
-        console.log("취소버튼 눌렁씀")
-        // props.history.push('/mypage/booktrailer/upload2', data);
-        setSendButtonShow('none');
-        setCheckButtonShow('');
-        setInputalbe(false);
-        // form.resetFields();
+        
+        //입력한 정답(answer), booktrailerId, userId를 서버로 보내야함
     }
-
-    const realSend = (e) => {
-        e.preventDefault();
-        // let data = componentDidMount();
-        // console.log("등록버튼눌러씀")
-        let data = {
-            userId: userId,
-            booktrailerId: booktrailerId,
-            question: booktrailerQuestion,
-            answer: booktrailerAnswer
-        }
-         //console.log(data); 
-
-            axios.post('/api/quiz/quizUpload', data)
-            .then(res => {
-                if (res.data.success) {
-                    document.location.href = "/mypage";
-                } else {
-                    alert("퀴즈 실패");
-                }
-            });
-            
-    
-    };
 
    
     return (
@@ -124,24 +97,7 @@ function QuizPage(props) {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}>
 
-                <Form.Item
-                    {...formItemLayout}
-                    name="booktrailer_question"
-                    label="문제"
-                    rules={[
-                        {
-                            required: true,
-                            message: '북트레일러에 관한 문제를 입력해주세요',
-                        },
-                    ]}
-                >
-                    <TextArea 
-                        placeholder="문제는 필수 입력입니다."
-                        disabled={inputable} 
-                        autoSize={{ minRows: 5, maxRows: 15 }}
-                        value={booktrailerQuestion} />
-                </Form.Item>
-                <hr />
+                
                 <Form.Item
                     {...formItemLayout}
                     name="booktrailer_answer"
@@ -170,7 +126,7 @@ function QuizPage(props) {
                         type="primary"
                         htmlType="submit"
                     >확인</Button>
-                    <Button style={{
+                    {/* <Button style={{
                         marginRight: "5px",
                         border: "0.5px solid #717171",
                         backgroundColor: "white",
@@ -178,7 +134,7 @@ function QuizPage(props) {
                         display: `${sendButtonShow}`
                     }}
                         onClick={reset}
-                    >취소</Button>
+                    >취소</Button> */}
                     <Button style={{
                         border: "0.5px solid #717171",
                         backgroundColor: "black",
@@ -186,12 +142,12 @@ function QuizPage(props) {
                         display: `${sendButtonShow}`
                     }}
                         type="submit"
-                        onClick={realSend}
-                    >등록</Button>
+                        onClick={submitAnswer}
+                    >정답확인</Button>
                 </Form.Item>
             </Form>
         </Box >
     )
 }
 
-export default withRouter(QuizPage)
+export default withRouter(QuizSolvingPage)

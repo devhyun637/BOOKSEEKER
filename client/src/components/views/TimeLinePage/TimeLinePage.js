@@ -105,7 +105,7 @@ function TimeLinePage(props) {
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
                         <Dropdown.Item href="#" id={data.id} onClick={moveDetail}>상세보기</Dropdown.Item>
-                        <Dropdown.Item href="#">수정하기</Dropdown.Item>
+                        {/* <Dropdown.Item href="#">수정하기</Dropdown.Item> */}
                         <Dropdown.Item href="#" id={data.postId} onClick={deleting}>삭제하기</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>

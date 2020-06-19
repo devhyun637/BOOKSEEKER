@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         answer: {
             field: "answer",
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: null
         }
     }, {
