@@ -197,13 +197,8 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-<<<<<<< HEAD
             axios.post('/api/python/case7',{userId:userId}).then(res => {
                 setPublishBookTrailer(res.data.data.map(
-=======
-            axios.post('/api/python/case5', { userId: userId }).then(res => {
-                setRecommendBookTrailer(res.data.data.map(
->>>>>>> 8fb84e360bca0370ddaefb16952c8531757e79e0
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
                             <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
@@ -252,8 +247,6 @@ function RecommendPage(props) {
                 console.log(e);
             });
 
-<<<<<<< HEAD
-
             axios.post('/api/python/case5',{userId:userId}).then(res => {
                 setRecommendBookTrailer(res.data.data.map(
                     (data, index) => (
@@ -281,10 +274,6 @@ function RecommendPage(props) {
 
             axios.post('/api/python/case5_1',{userId:userId}).then(res => {
                 setSnipingBookTrailer(res.data.data.map(
-=======
-            axios.post('/api/python/case7', { userId: userId }).then(res => {
-                setPublishBookTrailer(res.data.data.map(
->>>>>>> 8fb84e360bca0370ddaefb16952c8531757e79e0
                     (data, index) => (
                         <RecommandListLi key={data.trailer_id}>
                             <RecommandLink to={`/booktrailer/${data.trailer_id}`}>
@@ -365,6 +354,20 @@ function RecommendPage(props) {
                 </RecommandCard>
 
                 <RecommandCard>
+                    <RecommandName>출판사, 작가별 북트레일러</RecommandName>
+                    <RecommandList>
+                        {publishBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
+                    <RecommandName>해시태그별 북트레일러</RecommandName>
+                    <RecommandList>
+                        {hashtagBookTrailer}
+                    </RecommandList>
+                </RecommandCard>
+
+                <RecommandCard>
                     <RecommandName>추천 북트레일러</RecommandName>
                     <RecommandList>
                         {recommendBookTrailer}
@@ -378,19 +381,6 @@ function RecommendPage(props) {
                     </RecommandList>
                 </RecommandCard>
 
-                <RecommandCard>
-                    <RecommandName>해시태그별 북트레일러</RecommandName>
-                    <RecommandList>
-                        {hashtagBookTrailer}
-                    </RecommandList>
-                </RecommandCard>
-
-                <RecommandCard>
-                    <RecommandName>출판사, 작가별 북트레일러</RecommandName>
-                    <RecommandList>
-                        {publishBookTrailer}
-                    </RecommandList>
-                </RecommandCard>
 
             </div>
         </div>
