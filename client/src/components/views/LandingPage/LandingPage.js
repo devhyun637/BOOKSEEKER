@@ -1,9 +1,25 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {auth} from '../../../_actions/user_action';
-import {useEffect} from 'react';
+import { useDispatch } from 'react-redux';
+import { auth } from '../../../_actions/user_action';
+import { useEffect } from 'react';
+
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+const langdingImage = '/images/landing-Page.png';
+
+const Image = styled.img.attrs({
+    src: `${langdingImage}`
+})`
+    width: 300px;
+    height: 430px;
+    // border: 1px solid black;
+    background-size:cover;
+    background-position: center;
+`;
+
 
 function LandingPage() {
 
@@ -16,8 +32,8 @@ function LandingPage() {
         dispatch(auth()).then(res => {
             setVerify(res.payload.verify);
         })
-        
-     });
+
+    });
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')
@@ -30,37 +46,26 @@ function LandingPage() {
             });
     }
 
-    if(verify){
+    if (verify) {
         return (
             <div style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 textAlign: 'center',
-                padding: '40vh 0',
-                width: '100%',
-                height: '100vh'
+                padding: '10vh 0',
             }}>
-                <div>잘못된 페이지입니다.</div>
-                <img src='pengsu.jpg'></img>
-
-                <button onClick={onClickHandler}>
-                    로그아웃
-                </button>
+                <Image />
             </div>
         )
-    }else{
+    } else {
         return (
             <div style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 textAlign: 'center',
-                padding: '40vh 0',
-                width: '100%',
-                height: '100vh'
+                padding: '10vh 0',
             }}>
-                <h2>LandingPage</h2>
-
-                <div>로그인 안내와 함께 검색창이 제공될 예정</div>
+                <Image />
             </div>
         )
     }

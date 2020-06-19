@@ -58,7 +58,7 @@ function App(props) {
           화면사이즈 줄여주세요
         </div>
         <Switch>
-          {/* <Route exact path="/" component={LandingPage} /> */}
+          <Route exact path="/" component={LandingPage} />
 
           {/* 로그인/회원가입 관련 */}
           <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -82,8 +82,6 @@ function App(props) {
           {/* 타임라인 페이지 */}
           <Route exact path="/timeline" component={Auth(TimeLinePage, true)} />
           <Route exact path="/timeline/comments/:postId" component={Auth(TimeLineCommentsPage, true)} />
-
-
 
           {/* 공유하기 페이지 */}
           <Route exact path="/share" component={Auth(SharePostPage, true)} />
