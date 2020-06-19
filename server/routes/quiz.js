@@ -54,4 +54,20 @@ router.post('/getQuiz', async (req, res) => {
 
 })
 
+// =========================== 퀴즈 정답 가져오기 ===========================
+router.post('/getAnswer', async (req, res) => {
+    let quizId = req.body.quizId
+   
+
+    models.BooktrailerQuiz.findOne({ where: { id:quizId } }).then(result => {
+        return res.status(200).json({
+            success: true, result
+        })
+    }).catch(e => {
+        return res.status(400).send(err)
+    });
+
+
+})
+
 module.exports = router;

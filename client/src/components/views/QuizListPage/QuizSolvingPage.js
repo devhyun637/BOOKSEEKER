@@ -42,6 +42,7 @@ function QuizSolvingPage(props) {
     const [sendButtonShow, setSendButtonShow] = useState('none');
     const [inputable, setInputalbe] = useState(false);
     const [question, setQuestion] = useState("");
+    const [quizId, setQuizId] = useState("")
 
     useEffect(() => {
         if (props.history.location) {
@@ -52,6 +53,7 @@ function QuizSolvingPage(props) {
             setuserId(userId);
             setbooktrailerId(booktrailerId);
             setQuestion(props.history.location.state.quiz);
+            setQuizId(props.history.location.state.quizId)
             console.log(props.history.location.state);
             
         }
@@ -88,7 +90,29 @@ function QuizSolvingPage(props) {
     const submitAnswer = (e) => {
         e.preventDefault();
         
+        console.log(answer);
+
         //입력한 정답(answer), booktrailerId, userId를 서버로 보내야함
+        axios.post('/api/quiz/getAnswer', {quizId:quizId})
+        .then(res => {
+            if (res.data.success) {
+                const quizAnswer = res.data.result
+                //console.log("성공")
+                //setquizes(res.data.result)
+                console.log("불러온 정답", quizAnswer.answer)
+                
+                if(answer === quizAnswer.answer){
+                    alert("정답입니다.")
+                } else(
+                    alert("다시 생각해보세요.")
+                )
+               
+
+            } else {
+                alert(res.data.message)
+            }
+
+        })
     }
 
    

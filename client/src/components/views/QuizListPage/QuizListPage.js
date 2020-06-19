@@ -48,12 +48,13 @@ function QuizListPage(props) {
         
         let url = '/booktrailer/quizlist/solving/' + e.target.id;
 
-        let quiz = e.target.querySelector('.QuizTitle').innerHTML.split('.')[1];
+        let quiz = e.target.closest('li').querySelector('.QuizTitle').innerHTML.split('.')[1];
 
         let data = {
             userId: ids.userId,
             booktrailerId: ids.booktrailerId,
-            quiz: quiz
+            quiz: quiz,
+            quizId: e.target.id
         }
 
         console.log(data)
