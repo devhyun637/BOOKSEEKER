@@ -26,7 +26,7 @@ function CommentsPage(props) {
         axios.post('/api/post/getPost', variables)
             .then(response => {
                 if (response.data.success) {
-                    setContent(response.data.content);
+                    setContent(response.data.data.content);
                     // console.log(response.data.postInfo.content);
                 } else {
                     alert('글 가져오기 실패')
