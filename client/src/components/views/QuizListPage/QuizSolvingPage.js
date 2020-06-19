@@ -34,6 +34,15 @@ const formItemLayout = {
 
 function QuizSolvingPage(props) {
 
+    const [tags, setTags] = useState([]);
+    const [userId, setuserId] = useState("");
+    const [booktrailerId, setbooktrailerId] = useState("")
+    const [answer, setanswer] = useState("");
+    const [checkButtonShow, setCheckButtonShow] = useState('');
+    const [sendButtonShow, setSendButtonShow] = useState('none');
+    const [inputable, setInputalbe] = useState(false);
+    const [question, setQuestion] = useState("");
+
     useEffect(() => {
         if (props.history.location) {
             const userId = props.history.location.state.userId;
@@ -42,17 +51,13 @@ function QuizSolvingPage(props) {
             //console.log("제대로받아라",userId)
             setuserId(userId);
             setbooktrailerId(booktrailerId);
+            setQuestion(props.history.location.state.quiz);
+            console.log(props.history.location.state);
             
         }
     }, [])
 
-    const [tags, setTags] = useState([]);
-    const [userId, setuserId] = useState("");
-    const [booktrailerId, setbooktrailerId] = useState("")
-    const [answer, setanswer] = useState("");
-    const [checkButtonShow, setCheckButtonShow] = useState('');
-    const [sendButtonShow, setSendButtonShow] = useState('none');
-    const [inputable, setInputalbe] = useState(false);
+    
 
     const [form] = Form.useForm();
 
@@ -96,7 +101,10 @@ function QuizSolvingPage(props) {
                 name="dynamic_rule"
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}>
-
+                
+                <div style={{fontSize: '17px', fontWeight: 'bold'}}>
+                    {question}
+                </div>
                 
                 <Form.Item
                     {...formItemLayout}

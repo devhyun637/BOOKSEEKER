@@ -45,11 +45,21 @@ function QuizListPage(props) {
     }, [])
 
     const moveDetail = (e) => {
-        console.log(e.target.id)
+        
         let url = '/booktrailer/quizlist/solving/' + e.target.id;
 
+        let quiz = e.target.querySelector('.QuizTitle').innerHTML.split('.')[1];
+
+        let data = {
+            userId: ids.userId,
+            booktrailerId: ids.booktrailerId,
+            quiz: quiz
+        }
+
+        console.log(data)
+
         //userId, booktrailerId 보내주는 거 추가하기
-        props.history.push(url, ids);
+        props.history.push(url, data);
     }
 
     const renderCards = quizes.map((quiz, index) => {
@@ -57,7 +67,7 @@ function QuizListPage(props) {
         return (
             <div>
                 <ul style={{ padding: '0px' }}>
-                    <li key={index} id={quiz.id}
+                    <li key={index} id={quiz.id} className={index}
                         style={{
                             listStyle: 'none',
                             padding: '0px',
@@ -73,7 +83,7 @@ function QuizListPage(props) {
                         <div
                             className="QuizTitle"
                             id={quiz.id}
-                        >Quiz {index + 1}. {quiz.question}</div>
+                    >Quiz {index + 1}. {quiz.question} </div>
                     </li>
                 </ul>
             </div>
