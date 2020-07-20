@@ -15,5 +15,5 @@
 - 추천
 - 북트레일러 등록
 
-### 3. 시연영상
-<iframe width="723" height="605" src="https://www.youtube.com/embed/8Q1nprVenao" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+### 3. [시연영상](https://drive.google.com/file/d/1K5qtK5XUSeEvCTiP6xIfbTjFXCLfvpEv/view?usp=sharing)
+미리보기 영상은 화질이 떨어질 수 있습니다. 고화질을 보기 위해서는 다운로드가 필요합니다 (곧 gif파일 업로드 예정)
